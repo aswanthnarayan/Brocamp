@@ -97,9 +97,11 @@ h1 + p {
 
 **_General Sibling Selector_**: Selects all elements that are preceded by a specified element.
 
+```css
 h1 ~ p {
 color: gray;
 }
+```
 
 #### 9. Pseudo-class Selector
 
