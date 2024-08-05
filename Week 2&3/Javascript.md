@@ -1,6 +1,8 @@
 # JAVASCRIPT
 JavaScript is a Dynamic,Single-threaded ,Interpreted (code executed line by line by an interpreters) Programming language with First class Functions ,It is most well known scripting language for Web pages ,also many non-browser environment also use it like Node.js .
 
+**JavaScript is a dynamically typed Language** ie, variable types are determined at runtime so we dont want to specify data type 
+
 **First class Functions :** Functions that are treated like any other variables in a programming language called first class functions.
 
 ## JavaScript Engines
@@ -175,6 +177,29 @@ hoistedExpression = function() {
 };
 
 ```
+## LET VAR CONST
+In JS `let` , `var` , `const` used to declare variables. but they have diffrent behaviors and scopes 
+
+### VAR
+* var is is function-scoped, meaning it is accessible within the function it is declared in. If declared outside any function, it is globally scoped 
+* Variables declared with var are hoisted to the top of their scope and initialized with undefined
+*Variables declared with var can be re-declared within the same scope.
+
+### LET
+* let is block-scoped, meaning it is only accessible within the block it is declared in (e.g., within {}).
+* Variables declared with let are hoisted but not initialized, leading to a Temporal Dead Zone (TDZ) until the declaration is encountered
+*  Variables declared with let cannot be re-declared within the same scope.
+
+### CONST
+* const is block-scoped, similar to let.
+* Variables declared with const are hoisted but not initialized, leading to a Temporal Dead Zone (TDZ) until the declaration is encountered.
+* Variables declared with const cannot be re-declared within the same scope.
+* const requires an initial value at the time of declaration, and the variable reference cannot be reassigned. However, the contents of objects and arrays declared with const can be modified.
+
+
+## Temporal Dead Zone (TDZ)
+The Temporal Dead Zone (TDZ) in JavaScript is a behavior that occurs with variables declared using let and const before they are initialized. The TDZ refers to the period of time from entering a scope to the point where the variable is declared and initialized. During this period, accessing the variable results in a ReferenceError.
+
 
 ## DATA TYPES IN JS
 
@@ -227,6 +252,25 @@ try {
   console.log(e.message); // 'Something went wrong'
 }
 ```
+### UNDEFINED VS NOT DEFINED
+A variable is said to be `undefined` if it has been declared but not yet assigned a value. This means the variable exists in the current scope but does not have an initialized values
+
+`notdefined` means The variable has not been declared in the current scoped
+this leads into reference errors
+
+## Nan
+In JS Nan stands "for Not a Number" , and means by computational results cant be expressed as a meaningful Number
+
+**isNan function** -- this function convert the value to a number and checks if it is a `Nan` 
+
+```js
+console.log(isNaN(NaN)); // Output: true
+console.log(isNaN("hello")); // Output: true (because Number("hello") is NaN)
+console.log(isNaN(123)); // Output: false
+```
+
+## Strict mode
+Strict mode is introduced in es5 in JS it is a way to opt into a restricted varient of JS , which help you to catch common coding mistakes and "unsafe" actions such as defining a global variable unintentionally.
 
 ## OPERATORS
 
@@ -409,7 +453,7 @@ for (let key in person) {
 
 ```
 5. **FOR OF LOOP**
-The `for...of` loop is used to iterate over iterable objects like arrays, strings, and NodeLists.
+The `for...of` loop is used to iterate over iterable objects like arrays, strings, and Node Lists.
 
 ```js
 let numbers = [1, 2, 3, 4, 5];
@@ -418,6 +462,34 @@ for (let num of numbers) {
   console.log(num);
 }
 ```
+
+## ERRORS in JS
+In  errors are categorized into different types , each represent specific kind of problems occuring during the execution of the code
+The main Types are
+**Syntax Errors** - Occur when code does not conform to the syntax of the language
+**Reference Errors** - Occur when try to reference a variable that does not exist or initialized in the current scope
+**Type Error** -Occur when the value is not a expecd type 
+**Range Error** Occur when a value is not with in  the set or range of allowed values , ex: passing an invalid length to array like -1
+
+## CLOSURE in JS
+Closure is the combination of function bundled together with references to its lexical environment . in other words a closure gives you access to an outer function scope from inner function
+
+ex:
+```js
+function x(){
+var a =7
+function y(){
+console.log(a)
+return y;
+}
+var z = x();
+/////
+after severl lines we can still access a inside x by calling z funxtion
+
+console.log(z) ; //output will be 7
+}
+```
+
 
 ## FUNCTIONS IN JS
 A JavaScript function is a block of code designed to perform a particular task.It encapsulates a set of instructions that can be reused throughout a program. Functions can take parameters, execute statements, and return values, enabling code organization, modularity, and reusability in JavaScript programming.
@@ -468,13 +540,309 @@ function Person() {
 }
 
 const person = new Person();
+
+```
+
+### HIGHER ORDER FUNCTIONS
+Higher order functions are functions that operate on other functions by taking them as arguments , returning them or both
+* A Higher order function can take one or more function as arguments
+* A Higher order function can also return a function as a result
+* Higher-order functions are commonly used for callbacks in asynchronous programming
+
+examples    : `map` , `fiter` , `reduce`
+
+
+### Eval Functions
+The Eval function in JS is able to read strings which must be an expression or formula . It basically reads and evaluate if tng might be a calculation
+In strict mode, declaring a variable named eval or re-assigning eval is a SyntaxError
+example:
+
+```js
+console.log(eval('2 + 2'));
+// Expected output: 4
+```
+
+### Pure Functions
+Its is a function that does not have side effects and a function that return exact same thing every time that function invoked with same input
+
+```js
+const array = [1,2,3];
+
+function addElementToArray(a,element){
+return [...a,element]
+}
+```
+
+### IIFE (Immediately Infoked Function Expressions)
+IIFE is a JS function that run as soon as the function declared
+
+```js
+(function(){
+var a =3;
+console.log(3)
+})()
+```
+
+### Generator Functions 
+Regular function only return only once ,Generator function can return multiple values , one after another on demand
+To create generator function use special syntax `function*`
+
+```js
+function* generaterFunction(){
+    yeild 10;
+    yeild 20;
+    yeild 30;
+}
+//Calling generate Function
+
+let gen = generaterFunction();
+
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+
+```
+* The `yield` operator is used to pause and resume a generator function.
+* `next()` is the main method for generate function , the result of next() is always object with 2 properties
+1. `value` : the yeilded (returned) value
+2. `done` : if the function is completly completed it will be `true` else `false`
+
+
+### Factory Function
+Its just a function create an object and return that object , They offer a flexible way to create objects without using `class` or `new`.  They can encapsulate private variables and functions.
+
+```js
+function createPerson(name, age) {
+  return {
+    name: name,
+    age: age,
+    greet: function() {
+      console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+    }
+  };
+}
+
+const person1 = createPerson('Alice', 30);
+const person2 = createPerson('Bob', 25);
+
+person1.greet(); // Output: Hello, my name is Alice and I am 30 years old.
+person2.greet(); // Output: Hello, my name is Bob and I am 25 years old.
+```
+
+## OBJECTS
+Objects is one of the data types in JS , it used to store values in **key:value** pairs , Objects are mutable in JS 
+
+example:
+```js
+const person = {
+  firstName: "John",
+  lastName : "Doe",
+  id       : 5566,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+```
+Objects can also create using `new` keyword.
+We can access object properties in tow ways
+1. objectName.propertyName
+2. objectName["propertyName"]
+
+
+The `delete` keyword delete property from an object in above case 
+
+` delete person.id ; ` 
+
+### Object Methods
+Object methods are actions that can performed on objects
+
+There are several methods to convert an object into array, the main advantage of this , this process make an object iterable(ie we can loop through this)
+
+consider below object as examle
+
+```js
+const obj = {
+    cat : 'meow',
+    dog : 'bow bow',
+    cow : 'meh...'
+}
+```
+1. **Object.keys**
+Using `Object.keys` and passing object will return a array with that object keys
+
+example:
+
+```js
+console.log(Object.keys(obj));
+// returns ["cat","dog","cow"]
+```
+
+2. **Object.values** 
+Using `Object.values` and passing object will return a array with that object values
+
+
+example :
+
+```js
+console.log(Object.values(obj);
+//returns ["meow", "bow bow","meh.."] 
+)
+```
+3. **Object.entries**
+Using `Object.entries` and passing object will return an 2D Array with key and of that Object
+
+example:
+
+```js
+console.log(Object.entries(obj))
+//returns [["cat","meow"],
+           ["dog","bow bow"],
+           ["cow","meh..."]
+          ]
 ```
 
 
+## This Keyword
+In JS `this` keyword is reference to something like object. 
+but this keyword work diffrently in diffrent senarios , like check in case of an object with normal function
+
+```js
+let user ={
+name= 'Aswanth',
+age:26,
+function getName(){
+    console.log(this.name)
+}
+}
+user.getName() //print Aswanth in console
+```
+lets go into more complex object 
+
+```js
+let user ={
+name= 'Aswanth',
+age:26,
+childObj:{
+    nickname:"Ash"
+    function getName(){
+    console.log(this.name ,"and",this.nickname)
+}
+}
+}
+user.childObj.getName() //print 'undefined and Ash' in console
+
+```
+in this case the `this` in referenced only to childObj , ie incase of normal function `this` only referenced its direct parent
+
+Now Lets check the same with Arrow functions
+
+```js
+let user ={
+name= 'Aswanth',
+age:26,
+getName:()=>{
+    console.log(this.name)
+}  
+}
+user.getName() //print nothing
+
+```
+
+`this` keyword value in arrow function referenced its par parent function , in above case there is no parent function so it point to the window object 
+, to access name in this case need to use nested arrow function
+
+```js
+let user = {
+  name: "Aswanth",
+  age: 24,
+   getName(){
+        const nestedArrow = () => console.log(this.name); //Aswanth
+        nestedArrow();
+    }
+};
+```
+## CALL APPLY BIND
+These methods are powerful tools in JavaScript for function borrowing and ensuring that functions execute in the desired context.
+1. **CALL**
+Using `call` method, we can borrow a function from one object and use it for another object.
+
+Consider an object 
+
+```js
+let name = {
+    firstname: "Aswanth",
+    lastname: "Ck",
+    printFullname: function() {
+        console.log(this.firstname + " " + this.lastname);
+    }
+}
+```
+Now, if we need to create a similar object with the same properties (`firstname`, `lastname`) and `printFullname` function, instead of repeatedly writing the function in the new object, we can borrow the `printFullname` function directly from the name object.
+
+the syntax is 
+```js
+let name2 = {
+    firstname: "Yuvraj",
+    lastname: "Singh"
+}
+
+name.printFullname.call(name2);
+
+```
+
+Usually, we don't store these types of functions inside objects. Instead, we make them global and use them accordingly:
+
+```js
+ let printFullname=function(){
+    console.log(this.firstname+ " "+ this.lastName)
+    } 
+
+printFullname.call(name);
+
+```
+You can add more parameters to this function. When doing so, always pass arguments after the object:
+
+```js
+ let printFullname=function(hometown){
+    console.log(this.firstname+ " "+ this.lastName + "from "+ hometown)
+    } 
+
+printFullname.call(name,"Kannur");
+
+```
+
+2. **APPLY** 
+
+The `apply` method works similarly to `call`. The only difference is that instead of passing arguments individually in the `apply` method, you pass them as an array.
+
+```js
+
+let printFullname = function(hometown, state, country) {
+    console.log(this.firstname + " " + this.lastname + " from " + hometown + ", " + state + ", " + country);
+}
+
+printFullname.apply(name, ["Kannur", "Kerala", "India"]);
 
 
+```
+
+3. **BIND**
+The `bind` method creates a copy of the function and binds it with the object. It doesn't invoke the function directly; instead, it stores the function in a variable so you can call it later.
+
+```js
+let printFullname = function(hometown) {
+    console.log(this.firstname + " " + this.lastname + " from " + hometown);
+}
+
+let printName = printFullname.bind(name, "Kannur");
+
+printName(); // This will invoke the function
 
 
+```
+
+## CURRYING
+Currying is an function that take one argument at a time and return a new function that expecting the next argument
 
 
 
