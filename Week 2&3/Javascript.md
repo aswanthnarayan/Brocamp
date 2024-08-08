@@ -552,55 +552,70 @@ Closure is the combination of function bundled together with references to its l
 ex:
 
 ```js
-function x(){
-var a =7
-function y(){
-console.log(a)
-return y;
-}
-var z = x();
-/////after several lines we can still access a inside x by calling z function
+function x() {
+  var a = 7;
+  function y() {
+    console.log(a);
+    return y;
+  }
+  var z = x();
+  /////after several lines we can still access a inside x by calling z function
 
-console.log(z) ; //output will be 7
+  console.log(z); //output will be 7
 }
 ```
+
 ## SRRING
 
 ### STRING METHODS
+
 1. **charAt(index)**
-Returns the character at the specified index
+   Returns the character at the specified index
+
 ```js
 let str = "Hello, World!";
 console.log(str.charAt(0)); // "H"
 ```
+
 2. **includes(searchString, position)**
-Checks if a string contains another string.
+   Checks if a string contains another string.
+
 ```js
 console.log(str.includes("World")); // true
 ```
+
 3. **indexOf(searchValue, fromIndex)**
-Returns the index of the first occurrence of a specified value.
+   Returns the index of the first occurrence of a specified value.
+
 ```js
 console.log(str.indexOf("o")); // 4
 ```
+
 4. **replace(searchValue, newValue)**
-Replaces a specified value with another value in a string.
+   Replaces a specified value with another value in a string.
+
 ```js
 console.log(str.replace("World", "JavaScript")); // "Hello, JavaScript!"
 ```
+
 5.**trim()**
 Removes whitespace from both ends of a string.
+
 ```js
 let strWithSpaces = "   Hello, World!   ";
 console.log(strWithSpaces.trim()); // "Hello, World!"
 ```
+
 6. **toUpperCase()**
-Converts a string to uppercase.
+   Converts a string to uppercase.
+
 ```js
 console.log(str.toUpperCase()); // "HELLO, WORLD!"
 ```
+
 7. **toLowerCase()**
-Converts a string to lowercase.
+   Converts a string to lowercase.
+
 ```js
 console.log(str.toLowerCase()); // "hello, world!"
 ```
@@ -1363,11 +1378,11 @@ console.log(upperCaseFruits); // Output: ["APPLE", "BLUEBERRY", "CHERRY"]
 ```
 
 7. **join()**
-Joins all elements of an array into a string, separated by a specified separator.
+   Joins all elements of an array into a string, separated by a specified separator.
 
 ```js
 let fruitString = fruits.join(", ");
-console.log(fruitString); 
+console.log(fruitString);
 // Output: "Apple, Banana, Cherry"
 ```
 
@@ -1400,40 +1415,46 @@ let sum = numbers.reduce(function (total, num) {
   return total + num;
 }, 0);
 console.log(sum); // Output: 10
-
 ```
+
 11. **sort()**
-Sorts the elements of an array in place and returns the sorted array. By default, it sorts elements as strings.
+    Sorts the elements of an array in place and returns the sorted array. By default, it sorts elements as strings.
+
 ```js
 fruits.sort();
 console.log(fruits); // Output: ["Apple", "Banana", "Cherry"]
 ```
+
 12. **indexOf()**
-  Returns the first index at which a given element can be found in the array, or -1 if it is not present.
+    Returns the first index at which a given element can be found in the array, or -1 if it is not present.
+
 ```js
 let index = fruits.indexOf("Banana");
 console.log(index); // Output: 1
 ```
+
 13. **reverse()**
-Reverses the order of the elements in an array in place.
+    Reverses the order of the elements in an array in place.
 
 ```js
 fruits.reverse();
 console.log(fruits); // Output: ["Cherry", "Banana", "Apple"]
-
 ```
+
 14. **slice()**
-Returns a shallow copy of a portion of an array into a new array. It does not modify the original array
-`array.slice(start, end)`
+    Returns a shallow copy of a portion of an array into a new array. It does not modify the original array
+    `array.slice(start, end)`
+
 ```js
 let fruits = ["Apple", "Banana", "Cherry", "Date"];
 let slicedFruits = fruits.slice(1, 3);
 console.log(slicedFruits); // Output: ["Banana", "Cherry"]
 console.log(fruits); // Output: ["Apple", "Banana", "Cherry", "Date"]
 ```
+
 14. **splice()**
-Changes the contents of an array by removing, replacing, or adding elements. It modifies the original array
-`array.splice(start, deleteCount, item1, item2, ...)`
+    Changes the contents of an array by removing, replacing, or adding elements. It modifies the original array
+    `array.splice(start, deleteCount, item1, item2, ...)`
 
 ```js
 let fruits = ["Apple", "Banana", "Cherry", "Date"];
@@ -1992,16 +2013,16 @@ async function fetchData() {
 }
 
 fetchData();
-
 ```
 
 ## POLYFILLS
+
 A polyfill is a piece of code that provides a feature in older browsers or environments that do not natively support it.
 
 In simpler terms, it's like a patch or workaround that lets you use modern JavaScript features in older browsers.
 
-
 ## JSON
+
 JSON stands for JavaScript Object Notation. It's a lightweight data-interchange format that's easy for humans to read and write, and easy for machines to parse and generate
 JSON is based on two structures:
 
@@ -2039,73 +2060,76 @@ console.log(jsonString2); // Output: {"name":"Bob","age":30}
 ```
 
 ## DOM MANIPULATION
+
 The DOM is a hierarchical representation of a web page, where each element, such as headers, paragraphs, links, and images, is a node in this structure. By manipulating the DOM, you can dynamically change the content, structure, and style of a web page.
 
 1. **Accessing DOM Elements:**
 
-* `document.getElementById('id'):` Selects an element by its ID.
-* `document.getElementsByClassName('class')`: Selects elements by their class name.
-* `document.getElementsByTagName('tag'):` Selects elements by their tag name (e.g., div, p).
-* `document.querySelector('selector'):` Selects the first element that matches a CSS selector.
-* `document.querySelectorAll('selector'):` Selects all elements that match a CSS selector.
+- `document.getElementById('id'):` Selects an element by its ID.
+- `document.getElementsByClassName('class')`: Selects elements by their class name.
+- `document.getElementsByTagName('tag'):` Selects elements by their tag name (e.g., div, p).
+- `document.querySelector('selector'):` Selects the first element that matches a CSS selector.
+- `document.querySelectorAll('selector'):` Selects all elements that match a CSS selector.
 
 2. **Changing Content:**
 
-* `element.innerHTML:` Sets or returns the HTML content of an element.
-* `element.textContent:` Sets or returns the text content of an element, excluding HTML tags.
+- `element.innerHTML:` Sets or returns the HTML content of an element.
+- `element.textContent:` Sets or returns the text content of an element, excluding HTML tags.
 
 3. **Modifying Attributes:**
 
-* `element.setAttribute('attribute', 'value'):` Sets a new attribute or changes the value of an existing attribute.
-* `element.getAttribute('attribute'):` Gets the value of an attribute.
-* `element.removeAttribute('attribute'):` Removes an attribute from an element.
+- `element.setAttribute('attribute', 'value'):` Sets a new attribute or changes the value of an existing attribute.
+- `element.getAttribute('attribute'):` Gets the value of an attribute.
+- `element.removeAttribute('attribute'):` Removes an attribute from an element.
 
 4. **Changing Styles:**
 
-* `element.style.property = 'value':` Directly modifies the inline CSS style of an element.
-* `element.classList.add('class'):` Adds a class to an element.
-* `element.classList.remove('class'):` Removes a class from an element.
-* `element.classList.toggle('class'):` Toggles a class on or off.
+- `element.style.property = 'value':` Directly modifies the inline CSS style of an element.
+- `element.classList.add('class'):` Adds a class to an element.
+- `element.classList.remove('class'):` Removes a class from an element.
+- `element.classList.toggle('class'):` Toggles a class on or off.
 
 5. **Creating and Inserting Elements:**
 
-* `document.createElement('tag'):` Creates a new element node.
-* `element.appendChild(childElement):` Appends a child element to the end of a parent element.
-* `element.insertBefore(newElement, referenceElement):` Inserts a new element before a specified child of the parent element.
+- `document.createElement('tag'):` Creates a new element node.
+- `element.appendChild(childElement):` Appends a child element to the end of a parent element.
+- `element.insertBefore(newElement, referenceElement):` Inserts a new element before a specified child of the parent element.
 
 6. **Removing Elements:**
 
-* `element.removeChild(childElement):` Removes a child element from a parent element.
-* `element.remove():` Removes the element itself from the DOM.
+- `element.removeChild(childElement):` Removes a child element from a parent element.
+- `element.remove():` Removes the element itself from the DOM.
 
 ## EVENTS
+
 Events in JavaScript are actions or occurrences that happen in the browser, such as clicking a button, pressing a key, or loading a page. These events can trigger specific functions, allowing you to create interactive web experiences
 
 ### EVENT PROPAGATION
+
 Event propagation is how events travel through the DOM tree. When an event is triggered on a particular element, it doesn't just stay on that element; it can move up or down the DOM tree. There are two main phases of event propagation:
 
 1. **Capturing Phase (Event Capture):**
-The event starts from the root of the DOM tree and travels down to the target element. This phase is less commonly used but can be useful for intercepting events before they reach their target.
+   The event starts from the root of the DOM tree and travels down to the target element. This phase is less commonly used but can be useful for intercepting events before they reach their target.
 
 2. **Bubbling Phase (Event Bubble):**
-After the event reaches the target element, it starts bubbling back up to the root, triggering the same event on each ancestor element. Event bubbling is the more common phase in JavaScript event handling.
+   After the event reaches the target element, it starts bubbling back up to the root, triggering the same event on each ancestor element. Event bubbling is the more common phase in JavaScript event handling.
 
 ### Stopping Event Propagation
+
 Sometimes, you may want to prevent an event from propagating up or down the DOM tree
 
-* **event.stopPropagation():** Stops the event from bubbling up or capturing down the DOM tree.
+- **event.stopPropagation():** Stops the event from bubbling up or capturing down the DOM tree.
 
 ```js
-document.getElementById('child').addEventListener('click', function(event) {
-    console.log('Button clicked');
-    event.stopPropagation();  // Prevents the event from bubbling up to the parent
+document.getElementById("child").addEventListener("click", function (event) {
+  console.log("Button clicked");
+  event.stopPropagation(); // Prevents the event from bubbling up to the parent
 });
 ```
 
 ### Event Delegation
+
 Event delegation is a technique where you attach a single event listener to a parent element instead of multiple listeners to each child element. This is useful when you have many elements, like a list of items, and want to handle events for all of them.
-
-
 
 //Toics to cover
 ##MEMOIZATION
@@ -2113,4 +2137,3 @@ Event delegation is a technique where you attach a single event listener to a pa
 ##THROTLING
 ##Lazy loading
 ##PWA (Progressive Web Apps)
-
