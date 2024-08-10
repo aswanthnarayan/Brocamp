@@ -565,7 +565,7 @@ function x() {
 }
 ```
 
-## SRRING
+## STRINGS
 
 ### STRING METHODS
 
