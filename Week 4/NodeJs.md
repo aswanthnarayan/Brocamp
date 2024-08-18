@@ -21,6 +21,43 @@ A JavaScript runtime is an environment that provides all the necessary component
 
 In the browser, most of the time, we interact with the DOM or other Web Platform APIs like Cookies. In contrast, Node.js provides APIs through its modules, such as filesystem access, which are not available in the browser.
 
+**EVENT - DRIVEN - ARCHITECTURE**
+Event-Driven Architecture (EDA) is a software design pattern where applications react to events rather than following a predefined flow. 
+### How it Works:
+* **Event Occurs**: A system generates an event, such as a product purchase or a sensor reading change.   
+* **Event Published**: The event producer sends the event to an event broker.   
+* **Event Distributed**: The event broker routes the event to interested consumers based on predefined subscriptions.
+* **Event Consumed**: Consumers process the event and perform actions accordingly.
+
+**Benefits of EDA**
+* **Decoupling**: Systems become independent, improving scalability and resilience.
+* **Real-time Processing**: Events can be processed immediately, enabling faster responses.   
+* **Scalability**: EDA can handle high volumes of events efficiently.   
+* **Flexibility**: New systems can be easily added or removed without affecting existing ones.
+* ***Improved Efficiency**: By focusing on events, systems can optimize resource utilization.
+
+## MODULE VIEW CONTROLLER (MVC)
+MVC is a software design pattern commonly used for developing user interfaces.
+It divides the related program logic into three interconnected parts:
+
+**Model**
+* Represents the data and business logic.
+* Handles data access, validation, and business rules.   
+* Independent of the user interface.   
+
+**View**
+* Responsible for presenting the data to the user.   
+* Defines the visual representation of the data.   
+* Updates the display based on changes in the model.
+
+**Controller**
+* Handles user interactions and updates the model accordingly.   
+* Acts as an intermediary between the model and the view.   
+* Manages user input and directs it to the appropriate model or view component.   
+
+![mvc](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/mvc.png)
+
+
 ## MODULES
 
 A module is a encapsulated and reusable chunk of code that has its own context.
@@ -104,7 +141,7 @@ module.exports = add;
 ```js
 //index.js
 
-const add = require(""./add")
+const add = require("./add")
 
 console.log("Hello world")
 
@@ -328,9 +365,9 @@ example:
 
 //app.js
 
-module.export = function(){
+module.exports = function(){
    return{
-    number:10;
+    number:10
 }
 }
 
@@ -339,15 +376,18 @@ module.export = function(){
 ```js
 //index.js
 
-const exportedObj = require("./app");
+const exportedObj = require("./app")(); // Call the function to get the object
 
-console.log(exportedObj.number); // output 10
+console.log(exportedObj.number); // Output: 10
 
 exportedObj.number += 1;
 
-const exportedObj2 = require("./app");
+const exportedObj2 = require("./app")(); // Call the function again to get a new object
 
-console.log(exportedObj2.number); // output 10
+console.log(exportedObj2.number); // Output: 10
+
+
+
 ```
 
 In this case, each instance has separate memory, so changes to `exportedObj` do not affect `exportedObj2`.
@@ -356,20 +396,23 @@ In this case, each instance has separate memory, so changes to `exportedObj` do 
 
 ES modules (ECMAScript modules) in Node.js represent a modern and standardized way to organize and manage code in JavaScript. They are designed to work seamlessly across browsers and server environments like Node.js
 
+To use ES6 Module in your Node.js code you must set `"type":"module"` in your `package.json` or use `mjs` as your file extension 
+
+
 1. **import and export:**
 
 ES modules use `import` to bring in dependencies and `export` to expose functions, objects, or values from a module.
 
 example:
 
-```js
-// math.js
+```mjs
+// math.mjs
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;
 ```
 
 ```js
-// main.js
+// main.mjs
 import { add, subtract } from "./math.js";
 
 console.log(add(2, 3)); // Output: 5
@@ -380,8 +423,8 @@ console.log(subtract(5, 3)); // Output: 2
 
 You can have one default export per module, which can be imported without using curly braces.
 
-```js
-// calculator.js
+```mjs
+// calculator.mjs
 const calculator = {
   add: (a, b) => a + b,
   subtract: (a, b) => a - b,
@@ -391,7 +434,7 @@ export default calculator;
 ```
 
 ```js
-// main.js
+// main.mjs
 import calculator from "./calculator.js";
 
 console.log(calculator.add(2, 3)); // Output: 5
@@ -402,8 +445,8 @@ console.log(calculator.subtract(5, 3)); // Output: 2
 
 ES modules allow you to export multiple values from a module, which can be selectively imported. but the same name as export
 
-```js
-// utils.js
+```mjs
+// utils.mjs
 export const PI = 3.14159;
 export function circleArea(radius) {
   return PI * radius * radius;
@@ -411,7 +454,7 @@ export function circleArea(radius) {
 ```
 
 ```js
-// main.js
+// main.mjs
 import { PI, circleArea } from "./utils.js";
 
 console.log(PI); // Output: 3.14159
@@ -1549,7 +1592,7 @@ npm run start
 
 ```
 
-## CLUSTER MODULE
+### CLUSTERING
 
 - Node.js operates on a single thread, meaning it executes code on one thread regardless of how many CPU cores are available.
 - By default, Node.js only utilizes one core of the CPU, which is generally efficient for I/O operations but can become a limitation for tasks requiring heavy computations.
@@ -1566,33 +1609,66 @@ To overcome this limitation, Node.js introduced the **CLUSTER MODULE**
 example for scaling Node app using Cluster module:
 
 ```js
-const cluster = require("node:cluster");
-const http = require("node:http");
+const cluster = require('cluster');
+const http = require('http');
+const numCPUs = require('os').cpus().length;
 
 if (cluster.isMaster) {
-  console.log(`Master process ${process.pid} is running`);
+  console.log(`Master   
+ cluster setting up ${numCPUs} workers`);
 
-  // Fork two worker processes
-  cluster.fork();
-  cluster.fork();
-} else {
-  console.log(`Worker ${process.pid} started`);
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-  const server = http.createServer((req, res) => {
-    if (req.url === "/") {
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end("Home page");
-    } else if (req.url === "/slow-page") {
-      // Simulate CPU-intensive work
-      for (let i = 0; i < 6000000000; i++) {}
-
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end("Slow Page");
-    }
+  cluster.on('exit',   
+ (worker, code, signal) => {
+    console.error(`worker ${worker.process.pid} died`);
   });
-
-  server.listen(8000, () => {
-    console.log(`Server started by worker ${process.pid} on port 8000`);
-  });
+} else   
+ {
+  // Workers can share any TCP port
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end('Hello from worker ' + cluster.worker.id);
+  }).listen(8000);
 }
 ```
+
+### fork() vs. spawn()
+Both fork() and spawn() are methods in Node.js used to create child processes, but they have different use cases:
+
+#### fork() Method:
+* fork() is a special case of spawn() used specifically for creating new Node.js processes.
+* It creates a new instance of the V8 engine and a separate Node.js process that runs a given script.
+* fork() also sets up an IPC (Inter-Process Communication) channel between the parent and child processes, which allows the parent and child to send messages to each other using child.send() and child.on('message').
+* This is particularly useful for cases where you need to share data between the master and worker  processes, as is common in the cluster module.
+
+##### spawn() Method:
+
+* spawn() is a more general-purpose method for creating child processes. It can be used to run any command, not just Node.js scripts.
+* spawn() does not create an IPC channel by default, and the communication between parent and child processes happens through standard input/output streams.
+* This method is more suitable for running shell commands or other non-Node.js processes from within a Node.js application.
+
+
+## Concurrency & Parallelism
+
+* **Concurrency:** The ability to handle multiple tasks at once by interleaving their execution. It's about managing multiple tasks over time.   
+* **Parallelism:** The ability to execute multiple tasks simultaneously on different processors or cores. It's about executing multiple tasks at the same time.   
+
+**Node.js and Concurrency**
+Node.js is primarily a single-threaded environment. This means it can only execute one piece of code at a time. However, it achieves concurrency through an event-driven, non-blocking I/O model.   
+
+**How it Works:**
+
+* **Event Loop:** The core of Node.js's concurrency model. It continuously checks for new events and processes them.   
+* **Non-blocking I/O**: When a Node.js application performs an I/O operation (like reading a file or making a network request), it doesn't block the main thread. Instead, it registers a callback function and continues executing other code.   
+* **Callback Queue:** When the I/O operation completes, the callback is added to a callback queue.
+Event Loop and Callback Queue: The event loop continuously checks the callback queue. Once the call stack is empty, it takes the first callback from the queue and executes it.   
+
+**Benefits of Node.js's Concurrency Model:**
+
+* **High Performance:** Efficiently handles a large number of concurrent connections.   
+* **Scalability:** Can handle increasing loads without requiring additional threads.
+* **Simplicity:** Easier to reason about and debug compared to multi-threaded systems.   
+

@@ -113,7 +113,7 @@ app.patch('/users/:id', (req, res) => {
 
 ```
 
-##HTTP STATUS CODES
+## HTTP STATUS CODES
 
 HTTP status codes are standard responses sent by a server to indicate the result of a client's request. They are categorized into five classes, each representing a different type of response:
 
@@ -185,113 +185,139 @@ Middleware functions are the backbone of an Express.js application. They are fun
 
 In an Express app, middleware functions are executed sequentially, forming a middleware stack. This stack allows you to organize and handle different aspects of a request, from parsing data to logging and error handling.
 
-###Built-in Middleware
-Express comes with several built-in middleware functions to handle common tasks:
+### Types of Middleware in Express.js
 
-* **`express.json()`:**
-This middleware parses incoming requests with JSON payloads and is based on the body-parser library. It allows you to handle JSON data in the request body.
+#### Application-Level Middleware
+**Definition:** Middleware that is bound to an instance of the Express app object. It can be used across all routes or limited to specific routes.
+**Usage:**
+It can be used to perform operations like logging, authentication, or any other processing that needs to be applied to all or specific routes.
+
+Example:
 
 ```js
 
 const express = require('express');
 const app = express();
 
-app.use(express.json());
+// Application-level middleware
+app.use((req, res, next) => {
+  console.log('Request URL:', req.originalUrl);
+  next();
+});
 
-app.post('/data', (req, res) => {
-    console.log(req.body); // Access parsed JSON data
-    res.send('Data received');
+app.get('/home', (req, res) => {
+  res.send('Home Page');
 });
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+  console.log('Server running on port 3000');
+});
+```
+In this example, the middleware logs the request URL for every incoming request.
+
+
+#### Router-Level Middleware
+
+**Definition:** Middleware that is bound to an instance of the Express router object. It is used in the same way as application-level middleware, except that it is applied only to the routes within that router.
+**Usage:**
+Useful for grouping routes together with specific middleware that should only apply to those routes.
+Example:
+```js
+const express = require('express');
+const router = express.Router();
+
+// Router-level middleware
+router.use((req, res, next) => {
+  console.log('Router Middleware:', req.originalUrl);
+  next();
 });
 
-```
+router.get('/about', (req, res) => {
+  res.send('About Page');
+});
 
-* **`express.urlencoded():`**
-This middleware parses incoming requests with URL-encoded payloads. It is also based on the body-parser library and is typically used for form submissions.
+const app = express();
+app.use('/info', router);
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+```
+This middleware applies only to routes that start with /info.
+
+#### Error-Handling Middleware
+
+**Definition:** Middleware that handles errors that occur during the processing of requests. Error-handling middleware is defined with four arguments: err, req, res, and next.
+**Usage:**
+To catch and handle errors that occur during request processing. It can send error responses to the client or log the error details.
+
+Example:
 
 ```js
+const express = require('express');
+const app = express();
 
-app.use(express.urlencoded({ extended: true }));
+app.get('/error', (req, res) => {
+  throw new Error('Something went wrong!');
+});
 
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
 ```
-The `extended: true`option allows for parsing complex objects, while `extended: false` supports simpler structures.
+Here, if an error occurs, it is caught by the error-handling middleware, which sends a 500 status response.
 
-### Third-Party Middleware
+#### Built-in Middleware
+**Definition:** Express provides some built-in middleware functions that can be used directly without needing to write custom middleware.
+**Common Built-in Middleware:**
+1. **express.static:** Serves static files, such as HTML, CSS, and JavaScript.
+2. **express.json:** Parses incoming JSON requests and makes the payload available on req.body.
+3. **express.urlencoded:** Parses incoming requests with URL-encoded payloads (from HTML forms) and makes the data available on req.body.
 
-Express also supports third-party middleware, which provides additional functionality that you can integrate into your application. Some popular third-party middleware includes:
-
-* **`body-parser:`**
-Even though `express.json()` and `express.urlencoded()` are built-in, body-parser was traditionally used for parsing incoming request bodies. It's still useful for more specialized parsing needs.
-
+Example:
 ```js
- 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+const express = require('express');
+const app = express();
 
+// Built-in middleware for serving static files
+app.use(express.static('public'));
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
 ```
+This serves static files from the public directory.
 
-* **`cookie-parser:`**
-This middleware parses cookies attached to the client request object, making it easier to manage and use cookies.
+#### Third-Party Middleware
 
-```js 
+**Definition:** Middleware provided by third-party libraries that can be installed via npm. These middlewares offer additional functionality like handling cookies, sessions, authentication, etc.
 
-cookie-parser:
-This middleware parses cookies attached to the client request object, making it easier to manage and use cookies.
+**Popular Examples:**
 
-```
+1. **morgan:** HTTP request logger middleware.
+2. **cookie-parser:** Parses Cookie header and populates req.cookies with an object.
+body-parser: Parses incoming request bodies (replaced by express.json and express.urlencoded in Express 4.16+).
 
-* **`morgan:`**
-Morgan is a popular middleware for logging HTTP requests and responses. It provides various predefined formats or can be customized.
-
-```js 
-
+Example:
+```js
+const express = require('express');
 const morgan = require('morgan');
-app.use(morgan('dev'));
-
-```
-
-* **`cors:`**
-This middleware enables Cross-Origin Resource Sharing (CORS) in your Express app, allowing your API to handle requests from different origins.
-
-```js 
-
-const cors = require('cors');
-app.use(cors());
-
-```
-
-### Custom Middleware
-You can create your own middleware to perform specific tasks in your application. A custom middleware function is defined similarly to a route handler, but it includes a third argument, next, which is used to pass control to the next middleware function.
-
-Example of a simple custom middleware:
-
-```js 
-
-const express = require('express');
 const app = express();
 
-// Custom middleware to log request details
-const requestLogger = (req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next(); // Pass control to the next middleware
-};
-
-app.use(requestLogger);
-
-app.get('/', (req, res) => {
-    res.send('Home Page');
-});
+// Third-party middleware for logging HTTP requests
+app.use(morgan('combined'));
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+  console.log('Server running on port 3000');
 });
-
-
 ```
-n this example, the `requestLogger` middleware logs the HTTP method and URL for each request before passing control to the next middleware or route handler.
+This logs detailed information about each request.
 
 ## Static Files handling
 
@@ -410,7 +436,78 @@ npm install express-session
 
 ```
 
+## Node.js process.exitCode Property
+There are two ways that are generally used to terminate a Node.js program which is using process.exit() or process.exitCode variable 
+process.exit code variable is an integer that represents the code passed to the process.exit() function or when the process exits on its own. It allows the Node.js program to exit naturally and avoids the Node program to do additional work around event loop scheduling, and it is much safer than passing exit code to process.exit().
 
+```js
+const express = require('express')
+const app = express()
+ 
+let a = 10;
+let b = 20;
+ 
+if (a == 10) {
+    console.log(a)
+    process.exitCode(1);
+}
+ 
+console.log(b);
+ 
+app.listen(3000, () => console.log('Server ready'))
+
+
+// output 10
+
+```
+
+
+## Cross-Origin Resource Sharing (CORS)
+CORS is a security feature implemented in web browsers to control how resources (like images, scripts, or APIs) from one origin (domain) can be shared or accessed by another origin. It plays a crucial role in web security by preventing malicious websites from making unauthorized requests to your web server
+
+```js
+
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors()); // Enable CORS for all routes and origins
+
+// You can also configure CORS options
+app.use(cors({
+  origin: 'http://frontend.example.com', // Allow only this origin
+  methods: 'GET,POST', // Allow only these methods
+  credentials: true // Allow credentials (cookies, etc.)
+}));
+
+app.get('/data', (req, res) => {
+  res.json({ message: 'This is a CORS-enabled response' });
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+
+```
 
 ## REST API
- 
+ A REST API (Representational State Transfer Application Programming Interface) is a software architectural style for creating web services. It defines a set of constraints for how the architecture of a distributed, internet-scale hypermedia system, such as the web, should behave.
+
+### Key Characteristics of REST APIs:
+
+* **Stateless:** Each request from a client contains all the information needed to understand and process the request. The server doesn't maintain session state between requests.   
+* **Client-Server Architecture:** Clear separation of concerns between the client and server.
+* **Cacheable:** Responses can be cached to improve performance.
+* **Uniform Interface:** Uses standard HTTP methods (GET, POST, PUT, DELETE) and standard HTTP status codes.
+* **Layered System:** Multiple layers of servers can be used to improve scalability and security.
+* **Code on Demand (Optional):** Clients can download executable code to extend functionality.
+
+#### Core HTTP Methods in REST APIs
+
+**GET:** Retrieves data from a specified resource.
+**POST:** Creates a new resource.
+**PUT:** Updates an existing resource.
+**DELETE:** Deletes a resource.
+**OPTIONS:** Used to determine the supported HTTP methods for a resource.
+
+
