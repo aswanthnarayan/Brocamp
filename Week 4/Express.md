@@ -112,6 +112,26 @@ app.patch('/users/:id', (req, res) => {
 });
 
 ```
+## Idempotency
+Idempotency in HTTP methods refers to the property of certain HTTP methods where making multiple identical requests has the same effect as making a single request. In other words, an idempotent operation can be performed multiple times without changing the result beyond the initial application
+
+### Idempotent Methods:
+
+**GET:** The GET method is used to retrieve data from the server. No matter how many times you send the same GET request, the server's state remains unchanged. For example, fetching a user’s profile via a GET request won’t alter the profile itself.
+
+**PUT:** The PUT method is used to update or create a resource. Sending the same PUT request multiple times will result in the same outcome as sending it once. For example, if you update a user's information using a PUT request, doing so multiple times with the same data won’t change the outcome after the first request.
+
+**DELETE:** The DELETE method is used to delete a resource. If you delete the same resource multiple times, the first request deletes it, and subsequent requests have no effect since the resource no longer exists.
+
+**HEAD:** Similar to GET, but it only retrieves the headers and not the body. Like GET, it's idempotent.
+
+**OPTIONS:** This method is used to describe the communication options for the target resource. It does not change the state of the resource, making it idempotent.
+
+### Non-Idempotent Methods:
+
+**POST:** The POST method is used to create a new resource. Sending the same POST request multiple times may create multiple resources (e.g., creating multiple user accounts with the same data), so it is not idempotent.
+
+**PATCH:** The PATCH method is used to make partial updates to a resource. Depending on how it's implemented, it may or may not be idempotent. For example, if you PATCH a user's balance by adding $10, multiple PATCH requests will result in an increased balance each time, making it non-idempotent.
 
 ## HTTP STATUS CODES
 

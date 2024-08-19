@@ -1093,6 +1093,54 @@ writableStream.on("error", (err) => {
 
 In this example using we can create chunks of data inside the output.txt using writable stream
 
+
+3. **Duplex Streams**
+A Duplex stream is a stream that is both readable and writable. This means it can be used for both reading and writing data. A common example of a duplex stream is a network socket, which allows data to be both sent and received
+
+```js 
+const { Duplex } = require('stream');
+
+const duplexStream = new Duplex({
+    write(chunk, encoding, callback) {
+        console.log(`Writing: ${chunk.toString()}`);
+        callback();
+    },
+    read(size) {
+        this.push('Some data');
+        this.push(null); // No more data
+    }
+});
+
+duplexStream.write('Hello, World!');
+duplexStream.on('data', chunk => {
+    console.log(`Reading: ${chunk.toString()}`);
+});
+```
+4. **Transform Streams**
+A Transform stream is a type of duplex stream where the output is computed based on the input. It is both readable and writable, but the data is modified or transformed as it passes through the stream. An example is a zlib stream for compressing data, where input data is compressed before being output.
+
+```js
+
+const { Transform } = require('stream');
+
+const transformStream = new Transform({
+    transform(chunk, encoding, callback) {
+        const transformedChunk = chunk.toString().toUpperCase();
+        this.push(transformedChunk);
+        callback();
+    }
+});
+
+transformStream.write('hello');
+transformStream.write(' world');
+transformStream.end();
+
+transformStream.on('data', chunk => {
+    console.log(chunk.toString()); // Outputs: 'HELLO WORLD'
+});
+
+```
+
 ## PIPES
 
 In Node.js, pipes are a mechanism that allows you to connect the output of one stream (usually a readable stream) to the input of another stream (usually a writable stream). This process of connecting streams is called "piping.
@@ -1281,7 +1329,48 @@ server.listen(3000, () => {
 });
 ```
 
-**`req.method:`** Contains the HTTP method used for the request, such as GET, POST, PUT, PATCH, or DELETE. This allows the server to respond differently based on the method.
+**req.method** 
+Contains the HTTP method used for the request, such as GET, POST, PUT, PATCH, or DELETE. This allows the server to respond differently based on the method.
+
+```js 
+
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    const url = req.url;
+    const method = req.method;
+
+    // Log the HTTP method and URL
+    console.log(`HTTP Method: ${method}, URL: ${url}`);
+
+    // Routing logic based on URL and method
+    if (url === '/example' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Handling GET request for /example');
+    } else if (url === '/example' && method === 'POST') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Handling POST request for /example');
+    } else if (url === '/example' && method === 'PUT') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Handling PUT request for /example');
+    } else if (url === '/example' && method === 'DELETE') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Handling DELETE request for /example');
+    } else if (url === '/' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Welcome to the homepage');
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+    }
+});
+
+// Server listens on port 3000
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
+});
+
+```
 
 ## LIBUV
 
