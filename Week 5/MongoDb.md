@@ -72,7 +72,9 @@ _For this documentation, we’ll use a bookstore database as our example. Each b
 - **`show dbs`** - Lists all databases.
 - **`use <database_name>`** - Creates a new database or switches to an existing one.
 - **`db`** - Prints the name of the current database.
-  show collections - Lists all collections in the current database.
+- **`show collections`** - Lists all collections in the current database.
+- **`db.dropDatabase()`** - Delete the Data Base (After switching to that DB)
+- **`db.collection_name.drop()`** Delete a Collection from a DB
 - **`cls`** - Clears the screen.
 - **`help`** - Lists all available commands.
 - **`exit`** - Exits the MongoDB shell.
@@ -181,8 +183,49 @@ db.books.findOne({ auther: "auther 1" });
 
 // return only one document
 ```
+5. **Find Only one Field from Document**
 
-### Sorting and Limiting
+```js
+db.books.find({}, { _id: 0, author: 1 });
+
+// return all authors
+
+```
+
+### Using the distinct Method:
+The distinct method in MongoDB is used to find unique values for a specified field in a collection
+
+Syntax:
+```js
+
+db.collection.distinct(field, query)
+
+```
+
+* field: The name of the field for which you want to find distinct values.
+* query: An optional filter to limit the documents considered.
+
+example :
+1. 
+```js
+
+db.books.distinct("genre")
+
+// returns all values included in genre key 
+
+```
+2. 
+```js 
+
+db.books.distinct("genre", { rating: 9 })
+
+// return all genere that has comes under rating 9 
+
+```
+
+
+
+### Sorting and Limiting and Skipping
 
 1. **Count Documents:**
 
@@ -199,8 +242,16 @@ db.books.find().limit(2);
 
 // only returns 2 documents because the limit == 2
 ```
+3. **Skip Documents**
 
-3. **Sort Results:**
+```js
+db.books.find().skip(4);
+
+// Skip first 4 documents and return from 5 th document
+
+```
+
+4. **Sort Results:**
 
 ```js
 db.books.find().sort({ rating: -1 });
