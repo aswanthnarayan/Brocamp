@@ -347,6 +347,7 @@ db.books.find({
 // Returns documents where the genre field does not include "genre1" or "genre2"
 ```
 
+
 ### Querying Nested Documents
 
 You can query nested documents by specifying the path to the field within the nested structure.
@@ -401,7 +402,7 @@ db.books.replaceOne(
 
 ### Array Update Operations
 
-1. **Add an Element to an Array:**
+1. **`$push` - Add an Element to an Array:**
    This operation adds a new element to an array within a document.
 
 ```js
@@ -415,7 +416,7 @@ db.books.updateOne(
 // Adds a new review to the reviews array for the book titled "Book1"
 ```
 
-2. **Remove an Element from an Array:**
+2. **`$pull` - Remove an Element from an Array:**
    This operation removes an element from an array within a document.
 
 ```js
@@ -425,6 +426,127 @@ db.books.updateOne(
 );
 
 // Removes the review by "User1" from the reviews array for the book titled "Book1"
+```
+
+3. **`$addToSet` - Add an Element to an Array if it Doesn't Exist**
+The `$addToSet` operator adds a value to an array only if it does not already exist
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $addToSet: { genre: "genre4" } });
+// Adds "genre4" to the genre array of "Book1" if it's not already present
+
+```
+4. **`$pop` - Remove the First or Last Element from an Array**
+
+The `$pop` operator removes either the first or last element from an array, depending on the value passed (1 for the last element, -1 for the first).
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $pop: { reviews: 1 } });
+// Removes the last review from the reviews array of "Book1"
+
+```
+5. **`$pullAll` - Remove Multiple Elements from an Array**
+The $pullAll operator removes all instances of the specified values from an array.
+
+```js 
+
+db.books.updateOne({ title: "Book1" }, { $pullAll: { genre: ["genre1", "genre3"] } });
+// Removes "genre1" and "genre3" from the genre array of "Book1"
+
+```
+
+**Field Update Operators:**
+Field update operators allow you to modify specific fields in documents. These operators are often used with update methods like `updateOne()` and `updateMany()`.
+
+1. **`$inc` - Increment the Value of a Field**
+
+The `$inc` operator increases the value of a field by a specified amount. If the field does not exist, it will be created.
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $inc: { rating: 1 } });
+// Increases the rating of "Book1" by 1
+
+```
+2. **`$mul` - Multiply the Value of a Field**
+
+The $mul operator multiplies the value of a field by a specified amount.
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $mul: { rating: 2 } });
+// Doubles the rating of "Book1"
+
+```
+3. **`$rename` - Rename a Field**
+
+The $rename operator changes the name of a field in a document.
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $rename: { "author": "writer" } });
+// Renames the "author" field to "writer" in the "Book1" document
+
+```
+4. **`$unset` - Remove a Field**
+
+The $unset operator deletes a specified field from a document.
+
+```js
+
+db.books.updateOne({ title: "Book1" }, { $unset: { rating: "" } });
+// Removes the "rating" field from the "Book1" document
+
+```
+### Geospatial Queries
+
+MongoDB supports geospatial queries, allowing you to perform location-based queries on geospatial data.
+
+1. **`$geoWithin` - Find Documents within a Geographic Area**
+
+The $geoWithin operator finds documents located within a specified geographic area.
+```js
+
+db.places.find({
+  location: {
+    $geoWithin: {
+      $geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [longitude1, latitude1],
+          [longitude2, latitude2],
+          [longitude3, latitude3],
+          [longitude1, latitude1]
+        ]]
+      }
+    }
+  }
+});
+// Returns all places within the defined polygon area
+
+```
+
+2. **`$near` - Find Documents near a Specific Location**
+
+The $near operator finds documents that are close to a specified point. It can be used with both 2D and 2DSphere indexes.
+
+```js
+
+db.places.find({
+  location: {
+    $near: {
+      $geometry: {
+        type: "Point",
+        coordinates: [longitude, latitude]
+      },
+      $maxDistance: 1000
+    }
+  }
+});
+// Returns all places within 1000 meters of the specified location
+
 ```
 
 ### Deleting Documents
