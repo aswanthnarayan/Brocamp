@@ -554,15 +554,17 @@ ex:
 ```js
 function x() {
   var a = 7;
+  
   function y() {
     console.log(a);
-    return y;
   }
-  var z = x();
-  /////after several lines we can still access a inside x by calling z function
-
-  console.log(z); //output will be 7
+  
+  return y;
 }
+
+var z = x();
+z(); // This will output 7
+
 ```
 
 ## STRINGS
