@@ -18,7 +18,7 @@ In MongoDB Atlas, you can run aggregation pipelines directly in the Aggregation 
 
 In the MongoDB Shell `(mongosh)`, you can run the aggregation pipeline using the db.collection.aggregate() method. Here's an example:
 
-```json
+```
 
 db.users.aggregate([
   { $match: { isActive: true } },
