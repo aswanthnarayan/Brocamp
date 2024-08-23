@@ -36,7 +36,7 @@ For a better understanding, watch Hitesh Chaudary's MongoDB Aggregation Playlist
 
 ### 1. How Many Users are Active?
 
-```json
+```
 [
   {
     $match: {
@@ -50,7 +50,7 @@ For a better understanding, watch Hitesh Chaudary's MongoDB Aggregation Playlist
 ```
 **Output:**
 
-```json
+```
 {
   "ActiveUser": 516
 }
@@ -62,7 +62,7 @@ This query counts the number of users who are active by matching documents where
 
 * Average age of total collection:
 
-```json
+```
 [
   {
     $group: {
@@ -77,7 +77,7 @@ This query counts the number of users who are active by matching documents where
 
 **Output:**
 
-```json
+```
 {
   "_id": null,
   "AverageAge": 29.835
@@ -88,7 +88,7 @@ his query calculates the average age of all users by grouping all documents toge
 
 * Average age based on gender:
 
-```json
+```
 [
   {
     $group: {
@@ -102,7 +102,7 @@ his query calculates the average age of all users by grouping all documents toge
 ```
 **Output:**
 
-```json
+```
 {
   "_id": "male",
   "AverageAge": 29.851926977687626
@@ -115,7 +115,7 @@ his query calculates the average age of all users by grouping all documents toge
 This query calculates the average age for each gender by grouping users by their `gender` and then taking the average age within each group.
 
 ### 3. List the Most Common Favorite Fruit Among the Users
-```json
+```
 [
   {
     $group: {
@@ -138,7 +138,7 @@ This query calculates the average age for each gender by grouping users by their
 
 **Output:**
 
-```json
+```
 {
   "count": 339,
   "_id": "banana"
@@ -148,7 +148,7 @@ This query finds the most common favorite fruit by grouping users by their favor
 
 ### 4. Find the Number of Males and Females in the Collection
 
-```json
+```
 [
   {
     $group: {
@@ -162,7 +162,7 @@ This query finds the most common favorite fruit by grouping users by their favor
 ```
 **Output:**
 
-```json
+```
 {
   "_id": "male",
   "GenderCount": 493
@@ -176,7 +176,7 @@ This query groups users by their gender and counts the number of users in each g
 
 ### 5. Find the User Count Per Country
 
-```json
+```
 [
   {
     $group: {
@@ -195,7 +195,7 @@ This query groups users by their gender and counts the number of users in each g
 ```
 **Output:**
 
-```json
+```
 {
   "_id": "Germany",
   "perUser": 261
@@ -219,7 +219,7 @@ This query groups users by their gender and counts the number of users in each g
 
 ### 6. List All the Unique Eye Colors Present in the Collection
 
-```json
+```
 
 [
   {
@@ -231,7 +231,7 @@ This query groups users by their gender and counts the number of users in each g
 ```
 **Output:**
 
-```json
+```
 
 {
   "_id": "blue"
@@ -253,7 +253,7 @@ This query lists all unique eye colors by grouping users by their `eyeColor`.
 
 *Whenever you deal with an array in MongoDB aggregation pipeline, use the $unwind operator to deconstruct the array. This operator creates duplicates of the documents, with each duplicate containing one element from the array, but all with the same _id as the original document.*
 
-```json
+```
 [
   {
     $unwind: "$tags"
@@ -279,7 +279,7 @@ This query lists all unique eye colors by grouping users by their `eyeColor`.
 
 **Output:**
 
-```json
+```
 {
   "_id": null,
   "AverageTagsPerUser": 3.556
@@ -296,7 +296,7 @@ This query lists all unique eye colors by grouping users by their `eyeColor`.
 
 This approach adds a new field to the document using $addFields and then calculates the size of the tags array.
 
-```json
+```
 [
   {
     $addFields: {
@@ -319,7 +319,7 @@ This approach adds a new field to the document using $addFields and then calcula
 ```
 **Output:**
 
-```json
+```
 {
   "_id": null,
   "AverageTagsPerUser": 3.556
@@ -331,7 +331,7 @@ This method also returns the same output. Here, we add a new field to the docume
 
 ### 8. How many users have 'enim' as one of their tags 
 
-```json
+```
 [
   {
     $match: {
@@ -345,7 +345,7 @@ This method also returns the same output. Here, we add a new field to the docume
 ```
 **Output:**
 
-```json
+```
 {
   "Total No of enim Tags": 62
 }
@@ -354,7 +354,7 @@ This query filters users who have "enim" in their tags array and then counts the
 
 ### 9. What are the names and age of the users who are inactive and a tag "valit" in their document
 
-```json
+```
 [
   {
     $match: {
@@ -375,7 +375,7 @@ In here we filter the document based on tags and isActive status , then further 
 
 ### 10. Find the last three registered users name and favorite fruit
 
-```json
+```
 
 [
   {
@@ -400,7 +400,7 @@ In here we filter the document based on tags and isActive status , then further 
 ```
 **Output:**
 
-```json
+```
 
 {
   "_id": {
@@ -431,7 +431,7 @@ This query sorts users by their registration date in descending order, limits th
 
 
 ### 11. Categorize the user by their favorite fruit
-```json
+```
 [
   {
     $group: {
@@ -444,7 +444,7 @@ This query sorts users by their registration date in descending order, limits th
 ]
 ```
 **Output:**
-```json
+```
 {_id:"strawberry",
 users:Array (323) // array with users name with Fav fruit as strawberry
 }
@@ -461,7 +461,7 @@ This query groups users by their favoriteFruit and creates an array of user name
 
 ### 12. Find the users count with "ad" as second property in the tags array
 
-  ```json
+  ```
   [
   {
     $match: {
@@ -475,7 +475,7 @@ This query groups users by their favoriteFruit and creates an array of user name
 ```
 **Output:**
 
-```json
+```
 {
   "Users with ad as Second Tag": 12
 }
@@ -486,7 +486,7 @@ This query filters users whose second tag in the tags array is "ad" and counts t
 ### 13. find users who have both 'enim and 'id' in tags
 
 
-```json
+```
 [
   {
   $match:{
@@ -500,7 +500,7 @@ This query filters users whose second tag in the tags array is "ad" and counts t
 
 **Output:**
 
-```json
+```
 User Documents with tag name 'enim' and 'id
 
 ```
@@ -508,7 +508,7 @@ This query filters users who have both "enim" and "id" in their tags array.
 
 ### 14. List all companies located in Usa with their corresponding user count
 
-```json
+```
 
 [
   {
@@ -528,7 +528,7 @@ This query filters users who have both "enim" and "id" in their tags array.
 ```
 **Output:**
 
-```json
+```
 {
   "_id": "BESTO",
   "userCount": 1
