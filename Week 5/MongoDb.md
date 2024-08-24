@@ -183,47 +183,45 @@ db.books.findOne({ auther: "auther 1" });
 
 // return only one document
 ```
+
 5. **Find Only one Field from Document**
 
 ```js
 db.books.find({}, { _id: 0, author: 1 });
 
 // return all authors
-
 ```
 
 ### Using the distinct Method:
+
 The distinct method in MongoDB is used to find unique values for a specified field in a collection
 
 Syntax:
+
 ```js
-
-db.collection.distinct(field, query)
-
+db.collection.distinct(field, query);
 ```
 
-* field: The name of the field for which you want to find distinct values.
-* query: An optional filter to limit the documents considered.
+- field: The name of the field for which you want to find distinct values.
+- query: An optional filter to limit the documents considered.
 
 example :
-1. 
+
+1.
+
 ```js
+db.books.distinct("genre");
 
-db.books.distinct("genre")
-
-// returns all values included in genre key 
-
-```
-2. 
-```js 
-
-db.books.distinct("genre", { rating: 9 })
-
-// return all genere that has comes under rating 9 
-
+// returns all values included in genre key
 ```
 
+2.
 
+```js
+db.books.distinct("genre", { rating: 9 });
+
+// return all genere that has comes under rating 9
+```
 
 ### Sorting and Limiting and Skipping
 
@@ -242,13 +240,13 @@ db.books.find().limit(2);
 
 // only returns 2 documents because the limit == 2
 ```
+
 3. **Skip Documents**
 
 ```js
 db.books.find().skip(4);
 
 // Skip first 4 documents and return from 5 th document
-
 ```
 
 4. **Sort Results:**
@@ -325,7 +323,6 @@ db.books.find({
 // Returns documents where the rating is greater than or equal to 8 and the genre includes "genre1"
 ```
 
-
 ### Querying Nested Documents
 
 You can query nested documents by specifying the path to the field within the nested structure.
@@ -335,7 +332,6 @@ db.books.find({ "reviews.user": "User1" });
 
 // Returns documents where there is a review with the user "User1"
 ```
-
 
 ## Updating Documents
 
@@ -367,7 +363,6 @@ db.books.replaceOne(
 );
 
 // Replaces the entire document with a new one having the specified title, author, and rating
-
 ```
 
 ### Querying by Array Values
@@ -392,6 +387,7 @@ db.books.find({
 ```
 
 2. **`$nin`**
+
    The $nin operator matches documents where the value of a field does not equal any value in the specified array.
 
 ```js
@@ -403,6 +399,7 @@ db.books.find({
 ```
 
 3. **`$all`**
+
 The `$all` operator matches arrays that contain all the specified elements. Unlike `$in`, which matches any of the specified elements, `$all` requires all specified elements to be present in the array.
 
 ```js
@@ -412,6 +409,7 @@ db.books.find({ genre: { $all: ["genre1", "genre2"] } });
 ```
 
 4. **`$push` - Add an Element to an Array:**
+
    This operation adds a new element to an array within a document.
 
 ```js
@@ -426,6 +424,7 @@ db.books.updateOne(
 ```
 
 5. **`$pull` - Remove an Element from an Array:**
+
    This operation removes an element from an array within a document.
 
 ```js
@@ -438,42 +437,49 @@ db.books.updateOne(
 ```
 
 6. **`$addToSet` - Add an Element to an Array if it Doesn't Exist**
+
 The `$addToSet` operator adds a value to an array only if it does not already exist
 
 ```js
-
 db.books.updateOne({ title: "Book1" }, { $addToSet: { genre: "genre4" } });
 // Adds "genre4" to the genre array of "Book1" if it's not already present
-
 ```
+
 7. **`$pop` - Remove the First or Last Element from an Array**
 
 The `$pop` operator removes either the first or last element from an array, depending on the value passed (1 for the last element, -1 for the first).
 
 ```js
-
 db.books.updateOne({ title: "Book1" }, { $pop: { reviews: 1 } });
 // Removes the last review from the reviews array of "Book1"
-
 ```
+
 8. **`$pullAll` - Remove Multiple Elements from an Array**
+
 The $pullAll operator removes all instances of the specified values from an array.
 
-```js 
-
-db.books.updateOne({ title: "Book1" }, { $pullAll: { genre: ["genre1", "genre3"] } });
+```js
+db.books.updateOne(
+  { title: "Book1" },
+  { $pullAll: { genre: ["genre1", "genre3"] } }
+);
 // Removes "genre1" and "genre3" from the genre array of "Book1"
-
 ```
+
 9. **`$elemMatch`**
+
 The `$elemMatch` operator matches documents where at least one element in the array matches all the specified criteria. This is particularly useful for arrays of sub documents.
 
 ```js
-db.books.find({ reviews: { $elemMatch: { rating: { $gte: 8 }, reviewText: /excellent/i } } });
+db.books.find({
+  reviews: { $elemMatch: { rating: { $gte: 8 }, reviewText: /excellent/i } },
+});
 
 // Returns documents where at least one review in the reviews array has a rating of 8 or higher and contains the word "excellent"
 ```
+
 10. **`$slice`**
+
 The `$slice` operator is used in projections to return a subset of the array
 
 ```js
@@ -481,7 +487,9 @@ db.books.find({}, { reviews: { $slice: 3 } });
 
 // Returns only the first 3 reviews from the reviews array in each document
 ```
+
 11. **`$each`**
+
 The `$each` modifier is used in conjunction with $push or `$addToSet` to add multiple elements to an array in a single operation.
 
 ```js
@@ -492,7 +500,9 @@ db.books.updateOne(
 
 // Adds "genre4" and "genre5" to the genre array in the document with title "Book1"
 ```
+
 12. **`$position`**
+
 The `$position` modifier is used with $push to insert elements at a specified position within an array.
 
 ```js
@@ -502,9 +512,10 @@ db.books.updateOne(
 );
 
 // Inserts "genre0" at the beginning of the genre array in the document with title "Book1"
-
 ```
+
 13. **`$sort`**
+
 The $sort modifier is used with $push to sort the array after modifying it.
 
 ```js
@@ -514,7 +525,6 @@ db.books.updateOne(
 );
 
 // Adds "genre4" to the genre array and sorts the array in ascending order
-
 ```
 
 **Field Update Operators:**
@@ -525,41 +535,37 @@ Field update operators allow you to modify specific fields in documents. These o
 The `$inc` operator increases the value of a field by a specified amount. If the field does not exist, it will be created.
 
 ```js
-
 db.books.updateOne({ title: "Book1" }, { $inc: { rating: 1 } });
 // Increases the rating of "Book1" by 1
-
 ```
+
 2. **`$mul` - Multiply the Value of a Field**
 
 The $mul operator multiplies the value of a field by a specified amount.
 
 ```js
-
 db.books.updateOne({ title: "Book1" }, { $mul: { rating: 2 } });
 // Doubles the rating of "Book1"
-
 ```
+
 3. **`$rename` - Rename a Field**
 
 The $rename operator changes the name of a field in a document.
 
 ```js
-
-db.books.updateOne({ title: "Book1" }, { $rename: { "author": "writer" } });
+db.books.updateOne({ title: "Book1" }, { $rename: { author: "writer" } });
 // Renames the "author" field to "writer" in the "Book1" document
-
 ```
+
 4. **`$unset` - Remove a Field**
 
 The $unset operator deletes a specified field from a document.
 
 ```js
-
 db.books.updateOne({ title: "Book1" }, { $unset: { rating: "" } });
 // Removes the "rating" field from the "Book1" document
-
 ```
+
 ### Geospatial Queries
 
 MongoDB supports geospatial queries, allowing you to perform location-based queries on geospatial data.
@@ -567,25 +573,26 @@ MongoDB supports geospatial queries, allowing you to perform location-based quer
 1. **`$geoWithin` - Find Documents within a Geographic Area**
 
 The $geoWithin operator finds documents located within a specified geographic area.
-```js
 
+```js
 db.places.find({
   location: {
     $geoWithin: {
       $geometry: {
         type: "Polygon",
-        coordinates: [[
-          [longitude1, latitude1],
-          [longitude2, latitude2],
-          [longitude3, latitude3],
-          [longitude1, latitude1]
-        ]]
-      }
-    }
-  }
+        coordinates: [
+          [
+            [longitude1, latitude1],
+            [longitude2, latitude2],
+            [longitude3, latitude3],
+            [longitude1, latitude1],
+          ],
+        ],
+      },
+    },
+  },
 });
 // Returns all places within the defined polygon area
-
 ```
 
 2. **`$near` - Find Documents near a Specific Location**
@@ -593,20 +600,18 @@ db.places.find({
 The $near operator finds documents that are close to a specified point. It can be used with both 2D and 2DSphere indexes.
 
 ```js
-
 db.places.find({
   location: {
     $near: {
       $geometry: {
         type: "Point",
-        coordinates: [longitude, latitude]
+        coordinates: [longitude, latitude],
       },
-      $maxDistance: 1000
-    }
-  }
+      $maxDistance: 1000,
+    },
+  },
 });
 // Returns all places within 1000 meters of the specified location
-
 ```
 
 ### Deleting Documents
