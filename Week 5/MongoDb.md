@@ -375,7 +375,7 @@ db.books.find({ genre: "genre1" });
 // Returns documents where the genre array includes "genre1"
 ```
 
-1. **`$in`**
+1. **$in**
    Matches documents where the value of a field equals any value in the specified array
 
 ```js
@@ -386,7 +386,7 @@ db.books.find({
 // Returns documents where the genre field includes either "genre1" or "genre2"
 ```
 
-2. **`$nin`**
+2. **$nin**
 
    The $nin operator matches documents where the value of a field does not equal any value in the specified array.
 
@@ -398,7 +398,7 @@ db.books.find({
 // Returns documents where the genre field does not include "genre1" or "genre2"
 ```
 
-3. **`$all`**
+3. **$all**
 
 The `$all` operator matches arrays that contain all the specified elements. Unlike `$in`, which matches any of the specified elements, `$all` requires all specified elements to be present in the array.
 
@@ -408,7 +408,7 @@ db.books.find({ genre: { $all: ["genre1", "genre2"] } });
 // Returns documents where the genre array includes both "genre1" and "genre2"
 ```
 
-4. **`$push` - Add an Element to an Array:**
+4. **$push - Add an Element to an Array:**
 
    This operation adds a new element to an array within a document.
 
@@ -423,7 +423,7 @@ db.books.updateOne(
 // Adds a new review to the reviews array for the book titled "Book1"
 ```
 
-5. **`$pull` - Remove an Element from an Array:**
+5. **$pull - Remove an Element from an Array:**
 
    This operation removes an element from an array within a document.
 
@@ -436,7 +436,7 @@ db.books.updateOne(
 // Removes the review by "User1" from the reviews array for the book titled "Book1"
 ```
 
-6. **`$addToSet` - Add an Element to an Array if it Doesn't Exist**
+6. **$addToSet - Add an Element to an Array if it Doesn't Exist**
 
 The `$addToSet` operator adds a value to an array only if it does not already exist
 
@@ -445,7 +445,7 @@ db.books.updateOne({ title: "Book1" }, { $addToSet: { genre: "genre4" } });
 // Adds "genre4" to the genre array of "Book1" if it's not already present
 ```
 
-7. **`$pop` - Remove the First or Last Element from an Array**
+7. **$pop - Remove the First or Last Element from an Array**
 
 The `$pop` operator removes either the first or last element from an array, depending on the value passed (1 for the last element, -1 for the first).
 
@@ -454,7 +454,7 @@ db.books.updateOne({ title: "Book1" }, { $pop: { reviews: 1 } });
 // Removes the last review from the reviews array of "Book1"
 ```
 
-8. **`$pullAll` - Remove Multiple Elements from an Array**
+8. **$pullAll - Remove Multiple Elements from an Array**
 
 The $pullAll operator removes all instances of the specified values from an array.
 
@@ -466,7 +466,7 @@ db.books.updateOne(
 // Removes "genre1" and "genre3" from the genre array of "Book1"
 ```
 
-9. **`$elemMatch`**
+9. **$elemMatch**
 
 The `$elemMatch` operator matches documents where at least one element in the array matches all the specified criteria. This is particularly useful for arrays of sub documents.
 
@@ -478,7 +478,7 @@ db.books.find({
 // Returns documents where at least one review in the reviews array has a rating of 8 or higher and contains the word "excellent"
 ```
 
-10. **`$slice`**
+10. **$slice**
 
 The `$slice` operator is used in projections to return a subset of the array
 
@@ -488,7 +488,7 @@ db.books.find({}, { reviews: { $slice: 3 } });
 // Returns only the first 3 reviews from the reviews array in each document
 ```
 
-11. **`$each`**
+11. **$each**
 
 The `$each` modifier is used in conjunction with $push or `$addToSet` to add multiple elements to an array in a single operation.
 
@@ -501,7 +501,7 @@ db.books.updateOne(
 // Adds "genre4" and "genre5" to the genre array in the document with title "Book1"
 ```
 
-12. **`$position`**
+12. **$position**
 
 The `$position` modifier is used with $push to insert elements at a specified position within an array.
 
@@ -514,7 +514,7 @@ db.books.updateOne(
 // Inserts "genre0" at the beginning of the genre array in the document with title "Book1"
 ```
 
-13. **`$sort`**
+13. **$sort**
 
 The $sort modifier is used with $push to sort the array after modifying it.
 
