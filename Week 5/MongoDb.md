@@ -750,11 +750,11 @@ Output :
 "Index drop successful: title_1"
 ```
 
-## TTL (Time to Live) index
+### TTL (Time to Live) index
 
 A TTL (Time to Live) index in MongoDB is a special type of index that automatically removes documents from a collection after a certain period of time. This is particularly useful for managing collections that store temporary or time-sensitive data, such as session information, logs, or cached data.
 
-### How TTL Index Works
+#### How TTL Index Works
 
 - **Expiration Time:** You define a TTL index on a date field in your documents. The index will automatically remove documents from the collection once the specified amount of time has passed since the value in that date field.
 
@@ -775,13 +775,190 @@ db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
 - **Single Field Index:** TTL indexes can only be created on a single field, not on compound fields.
 - **Background Deletion:** The deletion of expired documents happens in the background and may not be immediate (typically checked every 60 seconds).
 
-### Use Cases for TTL Index:
+#### Use Cases for TTL Index:
 
 - **Session Management:** Automatically expire user sessions after a set period of inactivity.
 
 - **Log Retention:** Remove old log entries after a certain period.
 
 - **Temporary Data:** Clean up temporary or cache data that is no longer needed.
+
+
+### Geospatial Index
+MongoDB provides robust support for geospatial data and queries, allowing you to store and query data that represents locations on the Earth. This is particularly useful for applications involving location-based services, mapping, and geographical data analysis
+
+#### Types of Geospatial Indexes
+
+MongoDB offers two types of geospatial indexes:
+
+##### 1. **2dsphere Index:**
+
+**Purpose:** Supports queries that calculate geometries on an Earth-like sphere, such as points, lines, and polygons. It's the most commonly used geospatial index and is suitable for data represented in GeoJSON format.
+
+**Data Types:** Supports GeoJSON objects (Point, LineString, Polygon, etc.) and legacy coordinate pairs (latitude, longitude).
+
+**Use Cases:** Queries involving proximity (e.g., finding nearby locations), intersections, and containment within geometries.
+
+**Creating a 2dsphere Index**
+
+Suppose you have a collection named places that stores location data with GeoJSON format:
+
+```js
+{
+  "_id": 1,
+  "name": "Central Park",
+  "location": { 
+    "type": "Point", 
+    "coordinates": [-73.9712, 40.7831] 
+  }
+}
+```
+
+You can create a 2dsphere index on the location field:
+
+```js
+db.places.createIndex({ location: "2dsphere" })
+```
+
+###### 2dsphere Index Queries:
+Once a geospatial index is in place, you can perform various geospatial queries, such as:
+
+1. **$near:**
+
+Finds documents near a specified point.
+
+```js
+db.places.find({
+  location: {
+    $near: {
+      $geometry: {
+        type: "Point",
+        coordinates: [-73.9712, 40.7831]
+      },
+      $maxDistance: 5000 // meters
+    }
+  }
+})
+```
+
+2. **$geoWithin:**
+
+Finds documents within a specified geometry (e.g., a polygon).
+
+```js
+db.places.find({
+  location: {
+    $geoWithin: {
+      $geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-73.981, 40.768],
+          [-73.981, 40.776],
+          [-73.958, 40.776],
+          [-73.958, 40.768],
+          [-73.981, 40.768]
+        ]]
+      }
+    }
+  }
+})
+```
+
+3. **$geoIntersects:**
+
+Finds documents where the geometry intersects with a specified shape.
+
+```js
+db.places.find({
+  location: {
+    $geoIntersects: {
+      $geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-73.982, 40.774],
+          [-73.982, 40.778],
+          [-73.958, 40.778],
+          [-73.958, 40.774],
+          [-73.982, 40.774]
+        ]]
+      }
+    }
+  }
+})
+```
+
+##### 2. **2d Index:**
+
+**Purpose:** Supports queries on flat, Cartesian planes, which is less common but useful for certain types of two-dimensional geospatial data.
+
+**Data Types:** Works with coordinate pairs [x, y].
+
+**Use Cases:** Primarily used for flat, non-spherical data, such as gaming coordinates or 2D data representations.
+
+**Creating a 2d Index**
+
+Suppose you have a collection called locations, where each document contains a field named coords storing an [x, y] pair:
+
+```js
+{
+  "_id": 1,
+  "name": "Location A",
+  "coords": [50, 30]
+}
+```
+You can create a 2D index on the coords field as follows:
+
+```js
+db.locations.createIndex({ coords: "2d" })
+```
+
+###### 2d Index Queries:
+
+After creating a 2D index, you can perform various geospatial queries on the coords field.
+
+1. **$near:**
+
+Finds documents near a specific point in the 2D plane.
+
+```js
+db.locations.find({
+  coords: {
+    $near: [50, 30],
+    $maxDistance: 10
+  }
+})
+```
+This query finds all locations near the point [50, 30] within a maximum distance of 10 units.
+
+2. **$within:**
+
+Finds documents within a specific shape, such as a box or circle.
+
+```js
+db.locations.find({
+  coords: {
+    $within: {
+      $box: [[40, 20], [60, 40]]
+    }
+  }
+})
+```
+This query finds all locations within the box defined by the lower-left corner [40, 20] and the upper-right corner [60, 40].
+
+3. **$center:**
+
+Finds documents within a circular area.
+
+```js
+db.locations.find({
+  coords: {
+    $within: {
+      $center: [[50, 30], 10]
+    }
+  }
+})
+```
+This query finds all locations within a circle centered at [50, 30] with a radius of 10 units.
 
 ## Grid FS
 
