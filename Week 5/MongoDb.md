@@ -26,7 +26,7 @@ SQL (Structured Query Language) and NoSQL (Not Only SQL) databases are two major
 
 - NoSQL databases can be document-based, key-value stores, column-family stores, or graph databases, allowing for a more flexible data model.
 - NoSQL databases are typically schema-less or have a dynamic schema, meaning they can store unstructured or semi-structured data. This flexibility allows for easier modifications and varied data structures
-- NoSQL databases often store data in a denormalized form, with related data embedded within the same document or object, reducing the need for complex joins.
+- NoSQL databases often store data in a demoralized form, with related data embedded within the same document or object, reducing the need for complex joins.
 
 ### Ideal For:
 
@@ -87,6 +87,18 @@ A document in MongoDB is a record in a collection. Documents are stored in a for
 
 ```
 
+## MongoD
+
+`mongod` is the primary process that runs the MongoDB server. It stands for "Mongo Daemon." When you run mongod, it starts the MongoDB server, allowing it to listen for connections, handle database operations, and manage data storage.
+
+- **Starting the Server:** To start the MongoDB server, you typically run the mongod command in your terminal
+
+```js
+mongod;
+```
+
+By default, it starts the server on port `27017` and uses the default data directory (`/data/db` on Linux/macOS or `C:\data\db` on Windows).
+
 ## BSON
 
 BSON is a binary encoding of JSON-like documents. Unlike JSON, which is text-based, BSON is designed to be efficient in both storage and retrieval, making it more suitable for high-performance applications.
@@ -129,11 +141,27 @@ In this model, you can have (embed) all the related data in a single document, i
 
 **For example:** assume we are getting the details of employees in three different documents namely, Personal_details, Contact and, Address, you can embed all the three documents in a single one
 
+**Advantages:**
+
+- **Faster Read Operations:** Since all related data is stored together, accessing the document is quick and efficient.
+
+**Atomicity:** Updates to a single document are atomic, which means that changes are either fully completed or not applied at all.
+
+**Simpler Queries:** Fewer joins or lookups are required, simplifying your query logic.
+
 ### Normalized Data Model
 
-In this model, you can refer the sub documents in the original document, using references.
+In a Normalized Data Model, related data is stored in separate documents, and the original document contains references (usually by ObjectId) to these related documents. This model is more akin to traditional relational database design, where data is normalized across multiple tables.
 
 **For example:** assume details of employees namely, Personal_details, Contact and, Address, you can store this in 3 document with separate ID
+
+**Advantages:**
+
+- **Data Integrity:** Data is stored once and referenced as needed, reducing redundancy and the risk of inconsistencies.
+
+- **Flexibility:** You can easily update or extend the related data without affecting the original document.
+
+- **Efficient Storage:** If related data is large or frequently reused across multiple documents, a normalized model reduces duplication.
 
 ## MongoDB Shell Commands
 
@@ -158,7 +186,7 @@ _For this documentation, we’ll use a bookstore database as our example. Each b
 ```js
 db.books.insertOne({
   title: "Book1",
-  auther: "auther 1",
+  author: "author 1",
   genre: ["genre1", "genre2", "genre3"],
   rating: 9,
   reviews: [
@@ -181,7 +209,7 @@ db.createCollection("books");
 ```js
 db.books.insertOne({
   title: "Book1",
-  auther: "auther 1",
+  author: "author 1",
   genre: ["genre1", "genre2", "genre3"],
   rating: 9,
   reviews: [
@@ -197,14 +225,14 @@ db.books.insertOne({
 db.books.insertMany([
   {
     title: "Book2",
-    auther: "auther 2",
+    author: "author 2",
     genre: ["genre1", "genre4"],
     rating: 8,
     reviews: [{ user: "User3", comment: "Good read", rating: 4 }],
   },
   {
     title: "Book3",
-    auther: "auther 3",
+    author: "author 3",
     genre: ["genre2", "genre5"],
     rating: 7,
     reviews: [],
@@ -251,7 +279,7 @@ db.books.find({ author: "Author 1" }, { title: 1, author: 1 });
 4. **Find One Document:**
 
 ```js
-db.books.findOne({ auther: "auther 1" });
+db.books.findOne({ author: "author 1" });
 
 // return only one document
 ```
@@ -292,7 +320,7 @@ db.books.distinct("genre");
 ```js
 db.books.distinct("genre", { rating: 9 });
 
-// return all genere that has comes under rating 9
+// return all genre that has comes under rating 9
 ```
 
 ### Sorting and Limiting and Skipping
@@ -760,18 +788,18 @@ A TTL (Time to Live) index in MongoDB is a special type of index that automatica
 
 - **Background Process:** MongoDB runs a background process that checks for expired documents regularly (usually every 60 seconds) and removes them.
 
-To create a TTL index, you use the expireAfterSeconds option when creating an index on a date field.
+To create a TTL index, you use the `expireAfterSeconds` option when creating an index on a `date` field.
 
 **Example:**
 
-Suppose you have a collection called sessions that stores user session information. Each session has a createdAt field that stores the date and time when the session was created. If you want to automatically delete sessions after 1 hour (3600 seconds), you would create a TTL index like this:
+Suppose you have a collection called sessions that stores user session information. Each session has a createdAt field that stores the `date` and time when the session was created. If you want to automatically delete sessions after 1 hour (3600 seconds), you would create a TTL index like this:
 
 ```js
 db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
 ```
 
-- **Only Date Fields:** TTL indexes only work on fields that store Date or ISODate values.
-- **Automatic Expiration:** Once a document's date field value is older than the specified expireAfterSeconds value, MongoDB will automatically delete that document.
+- **Only Date Fields:** TTL indexes only work on fields that store `Date` or `ISODate` values.
+- **Automatic Expiration:** Once a document's `date` field value is older than the specified expireAfterSeconds value, MongoDB will automatically delete that document.
 - **Single Field Index:** TTL indexes can only be created on a single field, not on compound fields.
 - **Background Deletion:** The deletion of expired documents happens in the background and may not be immediate (typically checked every 60 seconds).
 
@@ -783,17 +811,17 @@ db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
 
 - **Temporary Data:** Clean up temporary or cache data that is no longer needed.
 
-
 ### Geospatial Index
+
 MongoDB provides robust support for geospatial data and queries, allowing you to store and query data that represents locations on the Earth. This is particularly useful for applications involving location-based services, mapping, and geographical data analysis
 
 #### Types of Geospatial Indexes
 
 MongoDB offers two types of geospatial indexes:
 
-##### 1. **2dsphere Index:**
+1. **2dsphere Index:**
 
-**Purpose:** Supports queries that calculate geometries on an Earth-like sphere, such as points, lines, and polygons. It's the most commonly used geospatial index and is suitable for data represented in GeoJSON format.
+**Purpose:** Supports queries that calculate geometries on an Earth-like sphere, such as points, lines, and polygons. It's the most commonly used geospatial index and is suitable for data represented in `GeoJSON` format.
 
 **Data Types:** Supports GeoJSON objects (Point, LineString, Polygon, etc.) and legacy coordinate pairs (latitude, longitude).
 
@@ -807,9 +835,9 @@ Suppose you have a collection named places that stores location data with GeoJSO
 {
   "_id": 1,
   "name": "Central Park",
-  "location": { 
-    "type": "Point", 
-    "coordinates": [-73.9712, 40.7831] 
+  "location": {
+    "type": "Point",
+    "coordinates": [-73.9712, 40.7831]
   }
 }
 ```
@@ -817,10 +845,11 @@ Suppose you have a collection named places that stores location data with GeoJSO
 You can create a 2dsphere index on the location field:
 
 ```js
-db.places.createIndex({ location: "2dsphere" })
+db.places.createIndex({ location: "2dsphere" });
 ```
 
-###### 2dsphere Index Queries:
+#### 2dsphere Index Queries:
+
 Once a geospatial index is in place, you can perform various geospatial queries, such as:
 
 1. **$near:**
@@ -833,12 +862,12 @@ db.places.find({
     $near: {
       $geometry: {
         type: "Point",
-        coordinates: [-73.9712, 40.7831]
+        coordinates: [-73.9712, 40.7831],
       },
-      $maxDistance: 5000 // meters
-    }
-  }
-})
+      $maxDistance: 5000, // meters
+    },
+  },
+});
 ```
 
 2. **$geoWithin:**
@@ -851,17 +880,19 @@ db.places.find({
     $geoWithin: {
       $geometry: {
         type: "Polygon",
-        coordinates: [[
-          [-73.981, 40.768],
-          [-73.981, 40.776],
-          [-73.958, 40.776],
-          [-73.958, 40.768],
-          [-73.981, 40.768]
-        ]]
-      }
-    }
-  }
-})
+        coordinates: [
+          [
+            [-73.981, 40.768],
+            [-73.981, 40.776],
+            [-73.958, 40.776],
+            [-73.958, 40.768],
+            [-73.981, 40.768],
+          ],
+        ],
+      },
+    },
+  },
+});
 ```
 
 3. **$geoIntersects:**
@@ -874,20 +905,22 @@ db.places.find({
     $geoIntersects: {
       $geometry: {
         type: "Polygon",
-        coordinates: [[
-          [-73.982, 40.774],
-          [-73.982, 40.778],
-          [-73.958, 40.778],
-          [-73.958, 40.774],
-          [-73.982, 40.774]
-        ]]
-      }
-    }
-  }
-})
+        coordinates: [
+          [
+            [-73.982, 40.774],
+            [-73.982, 40.778],
+            [-73.958, 40.778],
+            [-73.958, 40.774],
+            [-73.982, 40.774],
+          ],
+        ],
+      },
+    },
+  },
+});
 ```
 
-##### 2. **2d Index:**
+2. **2d Index:**
 
 **Purpose:** Supports queries on flat, Cartesian planes, which is less common but useful for certain types of two-dimensional geospatial data.
 
@@ -906,13 +939,14 @@ Suppose you have a collection called locations, where each document contains a f
   "coords": [50, 30]
 }
 ```
+
 You can create a 2D index on the coords field as follows:
 
 ```js
-db.locations.createIndex({ coords: "2d" })
+db.locations.createIndex({ coords: "2d" });
 ```
 
-###### 2d Index Queries:
+#### 2d Index Queries:
 
 After creating a 2D index, you can perform various geospatial queries on the coords field.
 
@@ -924,10 +958,11 @@ Finds documents near a specific point in the 2D plane.
 db.locations.find({
   coords: {
     $near: [50, 30],
-    $maxDistance: 10
-  }
-})
+    $maxDistance: 10,
+  },
+});
 ```
+
 This query finds all locations near the point [50, 30] within a maximum distance of 10 units.
 
 2. **$within:**
@@ -938,11 +973,15 @@ Finds documents within a specific shape, such as a box or circle.
 db.locations.find({
   coords: {
     $within: {
-      $box: [[40, 20], [60, 40]]
-    }
-  }
-})
+      $box: [
+        [40, 20],
+        [60, 40],
+      ],
+    },
+  },
+});
 ```
+
 This query finds all locations within the box defined by the lower-left corner [40, 20] and the upper-right corner [60, 40].
 
 3. **$center:**
@@ -953,11 +992,12 @@ Finds documents within a circular area.
 db.locations.find({
   coords: {
     $within: {
-      $center: [[50, 30], 10]
-    }
-  }
-})
+      $center: [[50, 30], 10],
+    },
+  },
+});
 ```
+
 This query finds all locations within a circle centered at [50, 30] with a radius of 10 units.
 
 ## Grid FS
@@ -969,8 +1009,10 @@ GridFS is a feature in MongoDB used for storing and retrieving large files (like
 **File Division:** When you store a large file using GridFS, it divides the file into smaller chunks. Each chunk is no larger than 255kB.
 
 **Two Collections:**
-fs.files: This collection stores metadata about the file, like its name, size, and upload date.
-fs.chunks: This collection stores the actual chunks of data. Each chunk is linked to its file using a unique ID (files_id).
+
+**fs.files:** This collection stores metadata about the file, like its name, size, and upload date.
+
+**fs.chunks:** This collection stores the actual chunks of data. Each chunk is linked to its file using a unique ID (files_id).
 
 **Example :**
 
@@ -1105,7 +1147,7 @@ Collections where documents are stored according to a clustered index, which is 
 
 Backing up and restoring data is crucial for maintaining data integrity and ensuring that you can recover from data loss, system failures, or other issues. MongoDB provides several methods for backing up and restoring data, each suitable for different use cases.
 
-1. mongodump and mongorestore
+1. **mongodump and mongorestore**
 
 **mongodump:** This utility creates a backup by dumping the data from your MongoDB database into BSON (Binary JSON) format files. It’s often used for creating logical backups.
 
@@ -1122,7 +1164,7 @@ mongodump --db myDatabase --out /path/to/backup/
 mongorestore --db myDatabase /path/to/backup/myDatabase/
 ```
 
-2. Filesystem Snapshots
+2. **Filesystem Snapshots**
 
 This method involves taking a snapshot of the file system where MongoDB’s data files reside. It’s often used for physical backups and is typically faster for large datasets.
 
@@ -1132,7 +1174,7 @@ This method involves taking a snapshot of the file system where MongoDB’s data
 
 On a Linux system, you might use LVM (Logical Volume Manager) to create a snapshot of the volume where MongoDB data is stored.
 
-3. MongoDB Atlas Backups
+3. **MongoDB Atlas Backups**
 
 MongoDB Atlas, the managed cloud database service, provides automated backups as part of its service. It handles backup scheduling, retention, and restoration automatically.
 
@@ -1142,7 +1184,7 @@ MongoDB Atlas, the managed cloud database service, provides automated backups as
 
 In MongoDB Atlas, you can configure backup policies via the Atlas UI, and restore your data to any point in time by selecting a snapshot or using point-in-time recovery.
 
-4. Custom Scripts
+4. **Custom Scripts**
 
 For specific needs, custom scripts can be created to handle backups, such as using mongodump with custom scheduling via cron jobs on Linux or Task Scheduler on Windows.
 
@@ -1150,9 +1192,9 @@ For specific needs, custom scripts can be created to handle backups, such as usi
 
 ## MongoDB Restore Methods
 
-1. Using mongorestore
+1. **Using mongorestore**
 
-mongorestore is the primary tool for restoring data from a backup created by mongodump.
+`mongorestore` is the primary tool for restoring data from a backup created by mongodump.
 
 **Example:**
 
@@ -1162,19 +1204,19 @@ If you have a backup of myDatabase and want to restore it:
 mongorestore --db myDatabase /path/to/backup/myDatabase/
 ```
 
-2. To restore a specific collection:
+2. **To restore a specific collection:**
 
 ```js
 mongorestore --collection myCollection --db myDatabase /path/to/backup/myDatabase/myCollection.bson
 ```
 
-3. Restoring from Filesystem Snapshots
+3. **Restoring from Filesystem Snapshots**
 
 If you took a filesystem snapshot as your backup, you would restore by copying the snapshot back to the original location and ensuring MongoDB’s data files are in place.
 
 **Best Use:** This is useful for large-scale systems where mongodump and mongorestore might be too slow.
 
-4. MongoDB Atlas Restore
+4. **MongoDB Atlas Restore**
 
 In MongoDB Atlas, you can restore data by selecting a backup snapshot or using point-in-time recovery.
 Best Use: This method is ideal for MongoDB Atlas users who need a quick and reliable restore process.
@@ -1261,7 +1303,7 @@ Suppose you have a large collection of user data that you want to shard based on
 
 Replication is the process of synchronizing data across multiple servers.
 
-Think about a senario if your main process or Primary instance of your mongo db fails in production, then the Db swiched to the secondary process
+Think about a scenario if your main process or Primary instance of your mongo db fails in production, then the Db switched to the secondary process
 
 Replication provides redundancy and increases data availability with multiple copies of data on different database servers. Replication protects a database from the loss of a single server.
 
@@ -1324,7 +1366,7 @@ In typical MongoDB operations, when data is written to a collection, it is first
 
 - MongoDB commits the journal to disk every 100 milliseconds by default, which significantly reduces the risk of data loss compared to the 60-second flush interval of the shared view.
 
-## CAP THEOROM
+## CAP THEOREM
 
 The CAP theorem states that in a distributed system, it is impossible to guarantee all three of the following properties simultaneously: **Consistency**, **Availability**, and **Partition Tolerance**. Instead, a system can only achieve at most two of these properties at the same time.
 
