@@ -1,11 +1,56 @@
+# SQL vs NoSQL: A Comparison
+
+SQL (Structured Query Language) and NoSQL (Not Only SQL) databases are two major types of database management systems, each with its own set of strengths, weaknesses, and ideal use cases. Understanding the differences between them can help in selecting the right database for a given application
+
+## 1. SQL DATABASES
+
+- SQL databases are relational, meaning they store data in structured tables with rows and columns
+- SQL databases enforce a fixed schema, meaning the structure of data (tables, columns, data types) must be defined before data can be inserted. This schema is usually strict and requires changes to be planned and executed carefully.
+- Data in SQL databases is often normalized to reduce redundancy, and relationships between tables are established using foreign keys.
+
+### Ideal For:
+
+- Complex queries and transactions
+- Applications requiring strong consistency
+- Structured data with defined relationships
+- Enterprise applications (e.g., ERP, CRM)
+
+**Examples**
+
+- MySQL
+- PostgreSQL
+- Oracle Database
+- Microsoft SQL Server
+
+## 1. NoSQL DATABASES
+
+- NoSQL databases can be document-based, key-value stores, column-family stores, or graph databases, allowing for a more flexible data model.
+- NoSQL databases are typically schema-less or have a dynamic schema, meaning they can store unstructured or semi-structured data. This flexibility allows for easier modifications and varied data structures
+- NoSQL databases often store data in a denormalized form, with related data embedded within the same document or object, reducing the need for complex joins.
+
+### Ideal For:
+
+- Large-scale distributed systems
+- Applications requiring high availability and scalability
+- Unstructured or semi-structured data (e.g., JSON, XML)
+- Real-time analytics, content management, IoT, big data applications
+
+**NoSQL Databases:**
+
+- MongoDB (Document-based)
+- Redis (Key-value store)
+- Cassandra (Column-family store)
+- Neo4j (Graph database)
+
 # MongoDB
 
 MongoDB is a NoSQL, document-oriented database that stores data in flexible, JSON-like documents..
 
 In MongoDB, **collections** and **documents** are fundamental concepts used to store and manage data.
 
-1. **Collection**
-   A collection in MongoDB is a grouping of MongoDB documents. It's similar to a table in a relational database.
+## Collection
+
+A collection in MongoDB is a grouping of MongoDB documents. It's similar to a table in a relational database.
 
 - **Schema-less:** Collections do not enforce a schema, meaning that documents within the same collection can have different fields or data types.
 
@@ -15,8 +60,9 @@ In MongoDB, **collections** and **documents** are fundamental concepts used to s
 
 **Example:** In a bookstore database, you might have collections such as books, authors, and genres.
 
-2. **Document**
-   A document in MongoDB is a record in a collection. Documents are stored in a format called BSON (Binary JSON) but are typically represented as JSON-like structures.
+## Document
+
+A document in MongoDB is a record in a collection. Documents are stored in a format called BSON (Binary JSON) but are typically represented as JSON-like structures.
 
 - **Flexibility:** Documents can have nested fields, arrays, and even other documents as values.
 
@@ -63,9 +109,35 @@ BSON supports additional data types that are not available in JSON. Some of thes
 
 Each document has a unique identifier (\_id), which is automatically generated as a 12-byte ObjectId.
 
-_For this documentation, we’ll use a bookstore database as our example. Each book is represented as a document containing information like title, author, genre, rating, and user reviews._
+## Namespace
+
+The concatenation of the collection name and database name is called a namespace
+
+It providing a unique identifier for each collection. It plays a crucial role in organizing, managing, and interacting with data within the MongoDB system
+
+```js
+<database>.<collection>
+```
+
+## Data Model Design
+
+MongoDB provides two types of data models: — Embedded data model and Normalized data model. Based on the requirement, you can use either of the models while preparing your document.
+
+### Embedded Data Model (de-normalized)
+
+In this model, you can have (embed) all the related data in a single document, it is also known as de-normalized data model.
+
+**For example:** assume we are getting the details of employees in three different documents namely, Personal_details, Contact and, Address, you can embed all the three documents in a single one
+
+### Normalized Data Model
+
+In this model, you can refer the sub documents in the original document, using references.
+
+**For example:** assume details of employees namely, Personal_details, Contact and, Address, you can store this in 3 document with separate ID
 
 ## MongoDB Shell Commands
+
+_For this documentation, we’ll use a bookstore database as our example. Each book is represented as a document containing information like title, author, genre, rating, and user reviews._
 
 ### Database Management
 
@@ -119,7 +191,7 @@ db.books.insertOne({
 });
 ```
 
-- **Multiple Documents:**+
+- **Multiple Documents:**
 
 ```js
 db.books.insertMany([
@@ -333,7 +405,7 @@ db.books.find({ "reviews.user": "User1" });
 // Returns documents where there is a review with the user "User1"
 ```
 
-## Updating Documents
+### Updating Documents
 
 1. **Update a Single Document:**
    This operation updates the first document that matches the filter criteria.
@@ -527,10 +599,11 @@ db.books.updateOne(
 // Adds "genre4" to the genre array and sorts the array in ascending order
 ```
 
-**Field Update Operators:**
+### Field Update Operators
+
 Field update operators allow you to modify specific fields in documents. These operators are often used with update methods like `updateOne()` and `updateMany()`.
 
-1. **`$inc` - Increment the Value of a Field**
+1. **$inc**
 
 The `$inc` operator increases the value of a field by a specified amount. If the field does not exist, it will be created.
 
@@ -539,25 +612,25 @@ db.books.updateOne({ title: "Book1" }, { $inc: { rating: 1 } });
 // Increases the rating of "Book1" by 1
 ```
 
-2. **`$mul` - Multiply the Value of a Field**
+2. **$mul**
 
-The $mul operator multiplies the value of a field by a specified amount.
+The `$mul` operator multiplies the value of a field by a specified amount.
 
 ```js
 db.books.updateOne({ title: "Book1" }, { $mul: { rating: 2 } });
 // Doubles the rating of "Book1"
 ```
 
-3. **`$rename` - Rename a Field**
+3. **$rename**
 
-The $rename operator changes the name of a field in a document.
+The `$rename` operator changes the name of a field in a document.
 
 ```js
 db.books.updateOne({ title: "Book1" }, { $rename: { author: "writer" } });
 // Renames the "author" field to "writer" in the "Book1" document
 ```
 
-4. **`$unset` - Remove a Field**
+4. **$unset**
 
 The $unset operator deletes a specified field from a document.
 
@@ -570,7 +643,7 @@ db.books.updateOne({ title: "Book1" }, { $unset: { rating: "" } });
 
 MongoDB supports geospatial queries, allowing you to perform location-based queries on geospatial data.
 
-1. **`$geoWithin` - Find Documents within a Geographic Area**
+1. **$geoWithin**
 
 The $geoWithin operator finds documents located within a specified geographic area.
 
@@ -595,7 +668,7 @@ db.places.find({
 // Returns all places within the defined polygon area
 ```
 
-2. **`$near` - Find Documents near a Specific Location**
+2. **$near**
 
 The $near operator finds documents that are close to a specified point. It can be used with both 2D and 2DSphere indexes.
 
@@ -634,7 +707,7 @@ db.books.deleteMany({ author: "Author 1" });
 // Deletes all documents where the author is "Author 1"
 ```
 
-### Indexing
+## Indexing
 
 Indexes improve the performance of read operations by allowing the database to quickly locate data.
 
@@ -676,3 +749,454 @@ Output :
 ```json
 "Index drop successful: title_1"
 ```
+
+## TTL (Time to Live) index
+
+A TTL (Time to Live) index in MongoDB is a special type of index that automatically removes documents from a collection after a certain period of time. This is particularly useful for managing collections that store temporary or time-sensitive data, such as session information, logs, or cached data.
+
+### How TTL Index Works
+
+- **Expiration Time:** You define a TTL index on a date field in your documents. The index will automatically remove documents from the collection once the specified amount of time has passed since the value in that date field.
+
+- **Background Process:** MongoDB runs a background process that checks for expired documents regularly (usually every 60 seconds) and removes them.
+
+To create a TTL index, you use the expireAfterSeconds option when creating an index on a date field.
+
+**Example:**
+
+Suppose you have a collection called sessions that stores user session information. Each session has a createdAt field that stores the date and time when the session was created. If you want to automatically delete sessions after 1 hour (3600 seconds), you would create a TTL index like this:
+
+```js
+db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
+```
+
+- **Only Date Fields:** TTL indexes only work on fields that store Date or ISODate values.
+- **Automatic Expiration:** Once a document's date field value is older than the specified expireAfterSeconds value, MongoDB will automatically delete that document.
+- **Single Field Index:** TTL indexes can only be created on a single field, not on compound fields.
+- **Background Deletion:** The deletion of expired documents happens in the background and may not be immediate (typically checked every 60 seconds).
+
+### Use Cases for TTL Index:
+
+- **Session Management:** Automatically expire user sessions after a set period of inactivity.
+
+- **Log Retention:** Remove old log entries after a certain period.
+
+- **Temporary Data:** Clean up temporary or cache data that is no longer needed.
+
+## Grid FS
+
+GridFS is a feature in MongoDB used for storing and retrieving large files (like images, videos, and audio files). It works like a file system within MongoDB, breaking down large files into smaller pieces called "chunks" and storing them in a database.
+
+### How Does GridFS Work?
+
+**File Division:** When you store a large file using GridFS, it divides the file into smaller chunks. Each chunk is no larger than 255kB.
+
+**Two Collections:**
+fs.files: This collection stores metadata about the file, like its name, size, and upload date.
+fs.chunks: This collection stores the actual chunks of data. Each chunk is linked to its file using a unique ID (files_id).
+
+**Example :**
+
+1. `fs.files` Collection Document:
+
+Contains metadata about the file.
+
+```js
+{
+   "filename": "test.txt",
+   "chunkSize": 261120,
+   "uploadDate": "2014-04-13T11:32:33.557Z",
+   "md5": "7b762939321e146569b07f72c62cca4f",
+   "length": 646
+}
+
+
+```
+
+2. `fs.chunks` Collection Document:
+
+Stores a chunk of the file data.
+
+```js
+{
+   "files_id": "534a75d19f54bfec8a2fe44b",
+   "n": 0,
+   "data": "Mongo Binary Data"
+}
+
+```
+
+### Why Use GridFS?
+
+- **Large File Storage:** GridFS allows you to store files larger than the standard MongoDB document size limit (16MB).
+
+- **Efficient Retrieval:** Since files are stored in chunks, you can retrieve and process them efficiently, especially useful for streaming large media files.
+
+## Types of Collection In MongoDB
+
+### Regular Collection
+
+The most common type of collection, where documents are stored without any specific constraints or special configurations.
+
+- Supports all basic operations like insert, update, delete, and query.
+- No predefined schema, allowing flexibility in document structure.
+- Indexes can be created to improve query performance.
+
+**Use Case:** General-purpose storage for a wide variety of applications, from simple CRUD operations to complex queries and indexing.
+
+### Capped Collections
+
+Fixed-size collections that maintain insertion order and automatically remove the oldest documents when the size limit is reached.
+
+- **Size-Limited:** Configured with a maximum size in bytes and an optional document count limit.
+- **Insertion Order:** Documents are stored in the order they are inserted, and once the limit is reached, older documents are overwritten (FIFO).
+- **No Document Deletion:** Documents cannot be deleted; they are automatically removed when the limit is reached.
+- **High-Performance:** Provides fast insertion and retrieval, ideal for scenarios where the latest data is of primary importance.
+
+**Use Case:** Logging, caching, real-time data streams, and other scenarios where only the most recent data is relevant.
+
+### Time Series Collections
+
+Collections optimized for storing and querying time-series data, which is data that includes a timestamp and typically arrives in time order.
+
+- **Time-Optimized Storage:** Organizes data efficiently for time-based access patterns.
+- **Automatic Bucketing:** Groups data into buckets based on time intervals, improving storage efficiency and query performance.
+- **TTL Support:** Documents can have a time-to-live (TTL) index, allowing automatic deletion of old data after a certain period.
+
+**Use Case:** Monitoring, IoT data, financial data, and other scenarios involving large volumes of time-stamped data.
+
+### Views
+
+Virtual collections that are based on the results of an aggregation pipeline. Views do not store data but present data from other collections based on a specific query or transformation.
+
+- **Read-Only:** Views are read-only; you cannot insert, update, or delete documents in a view.
+- **Dynamic:** The data presented in a view is always up-to-date with the underlying collections.
+- **Aggregation-Based:** Views are defined using the MongoDB aggregation framework, allowing complex transformations.
+
+**Use Case:** Creating custom data representations, security layers (e.g., limiting fields or documents visible to certain users), and simplifying complex queries.
+
+To create a view in MongoDB, you use the db.createView() method. This method requires the name of the view, the source collection, and the aggregation pipeline that defines the view.
+
+**Example:**
+
+Suppose you have a collection named orders, and you want to create a view that shows only the orders with a total value greater than $100:
+
+```js
+db.createView(
+  "highValueOrders", // Name of the view
+  "orders", // Source collection
+  [
+    // Aggregation pipeline
+    { $match: { total: { $gt: 100 } } }, // Only include orders with total > 100
+    { $project: { _id: 0, customerName: 1, total: 1 } }, // Include only specific fields
+  ]
+);
+```
+
+In this example, the view highValueOrders will always present a list of orders with a total value greater than $100, showing only the customerName and total fields. The data in this view is dynamically updated as the orders collection changes.
+
+### Sharded Collections
+
+Collections that are distributed across multiple shards in a MongoDB cluster. Sharding allows MongoDB to scale horizontally by distributing data across multiple servers.
+
+- **Automatic Distribution:** MongoDB automatically distributes data across shards based on a shard key
+- **High Availability:** Each shard is typically part of a replica set, ensuring data redundancy (storing the same data in multiple places) and high availability
+- **Scalable:** Supports the horizontal scaling of data and queries.
+
+  **Use Case:** Large-scale applications requiring horizontal scaling, such as those with massive datasets or high-throughput operations.
+
+### TTL (Time to Live) Collections
+
+Collections with documents that automatically expire after a specified period, defined by a TTL index on a date field.
+
+- **Automatic Expiration:** Documents are automatically removed once they exceed the TTL value.
+- **No Manual Deletion Required:** MongoDB handles the deletion process, which helps manage data retention policies.
+
+**Use Case:** Applications where data has a natural expiration, such as session management, temporary logs, or cached data.
+
+### Clustered Collections
+
+Collections where documents are stored according to a clustered index, which is an index that dictates the physical order of data storage on disk.
+
+- **Clustered Index:** A single clustered index per collection that determines the physical order of data.
+- **Efficient Queries:** Queries that align with the clustered index can be more efficient since data is stored in the index order.
+- **Mandatory Index:** Every clustered collection must have a clustered index, and you cannot drop this index.
+
+**Use Case:** Scenarios where query performance is critical and aligned with the clustered index, such as queries on unique identifiers like \_id
+
+## MongoDB Backup Methods
+
+Backing up and restoring data is crucial for maintaining data integrity and ensuring that you can recover from data loss, system failures, or other issues. MongoDB provides several methods for backing up and restoring data, each suitable for different use cases.
+
+1. mongodump and mongorestore
+
+**mongodump:** This utility creates a backup by dumping the data from your MongoDB database into BSON (Binary JSON) format files. It’s often used for creating logical backups.
+
+**mongorestore:** This utility restores the data from the BSON files created by mongodump into a MongoDB database.
+Example:
+
+To back up a database named myDatabase:
+
+```js
+mongodump --db myDatabase --out /path/to/backup/
+```
+
+```js
+mongorestore --db myDatabase /path/to/backup/myDatabase/
+```
+
+2. Filesystem Snapshots
+
+This method involves taking a snapshot of the file system where MongoDB’s data files reside. It’s often used for physical backups and is typically faster for large datasets.
+
+**Best Use:** When using this method, you should stop writes to the database to ensure data consistency or use MongoDB’s journaling to capture changes.
+
+**Example:**
+
+On a Linux system, you might use LVM (Logical Volume Manager) to create a snapshot of the volume where MongoDB data is stored.
+
+3. MongoDB Atlas Backups
+
+MongoDB Atlas, the managed cloud database service, provides automated backups as part of its service. It handles backup scheduling, retention, and restoration automatically.
+
+**Best Use:** This is ideal for users who are using MongoDB Atlas and want a hassle-free backup solution.
+
+**Example:**
+
+In MongoDB Atlas, you can configure backup policies via the Atlas UI, and restore your data to any point in time by selecting a snapshot or using point-in-time recovery.
+
+4. Custom Scripts
+
+For specific needs, custom scripts can be created to handle backups, such as using mongodump with custom scheduling via cron jobs on Linux or Task Scheduler on Windows.
+
+**Best Use:** When you need a highly tailored backup solution, including features like offsite storage or integration with other systems.
+
+## MongoDB Restore Methods
+
+1. Using mongorestore
+
+mongorestore is the primary tool for restoring data from a backup created by mongodump.
+
+**Example:**
+
+If you have a backup of myDatabase and want to restore it:
+
+```js
+mongorestore --db myDatabase /path/to/backup/myDatabase/
+```
+
+2. To restore a specific collection:
+
+```js
+mongorestore --collection myCollection --db myDatabase /path/to/backup/myDatabase/myCollection.bson
+```
+
+3. Restoring from Filesystem Snapshots
+
+If you took a filesystem snapshot as your backup, you would restore by copying the snapshot back to the original location and ensuring MongoDB’s data files are in place.
+
+**Best Use:** This is useful for large-scale systems where mongodump and mongorestore might be too slow.
+
+4. MongoDB Atlas Restore
+
+In MongoDB Atlas, you can restore data by selecting a backup snapshot or using point-in-time recovery.
+Best Use: This method is ideal for MongoDB Atlas users who need a quick and reliable restore process.
+
+**Example:**
+
+In the MongoDB Atlas UI, you can choose a backup snapshot to restore your cluster to a previous state.
+
+### Important Considerations
+
+**Backup Frequency:** Regular backups are important. The frequency depends on how critical the data is and how often it changes.
+
+**Consistency:** Ensure that the backup process captures a consistent state of the database, especially if your database is active during the backup.
+
+**Security:** Backups should be stored securely, with access controls and encryption, especially if they contain sensitive data.
+
+**Testing:** Periodically test your restore process to ensure that your backups are valid and can be restored when needed.
+
+## SCALING IN DATABASES
+
+Scaling in databases can be broadly categorized into vertical scaling and horizontal scaling
+MongoDB support **Horizontal Scaling**
+
+First Understand the Key difference Between vertical scaling and horizontal scaling
+
+### 1. Vertical Scaling (Scaling Up)
+
+Vertical scaling involves increasing the capacity of a single server or instance to handle more load. This can be achieved by upgrading the server's hardware, such as adding more CPU, RAM, or storage.
+
+**Advantages:**
+
+- **Simplicity:** Easier to implement since it involves upgrading existing hardware.
+- **Consistency:** Data remains in a single location, reducing the complexity of data distribution and consistency.
+- **Ease of Management:** No need to deal with the complexities of data sharding or distribution.
+
+**Disadvantages:**
+
+- **Limits:** There are physical and cost limits to how much you can upgrade a single machine. Eventually, you'll hit a ceiling.
+- **Single Point of Failure:** The server can become a single point of failure, making it critical to have robust backup and failover strategies.
+- **Cost:** High-performance hardware can be very expensive.
+
+**When to Use:**
+
+When dealing with relatively small datasets or applications that don’t require extensive scaling.
+When needing a quick and straightforward solution without redesigning the application architecture.
+
+### 2. Horizontal Scaling (Scaling Out)
+
+Horizontal scaling involves adding more servers or instances to distribute the load. This approach scales the database by partitioning data and distributing it across multiple nodes or instances.
+
+**Advantages:**
+
+- **Scalability:** Can handle large amounts of data and high traffic by adding more nodes as needed.
+- **Redundancy and Fault Tolerance:** Provides better fault tolerance and redundancy since the system can continue to operate even if some nodes fail.
+- **Cost Efficiency:** Often more cost-effective for handling large-scale data compared to continuously upgrading hardware.
+
+**Disadvantages:**
+
+- **Complexity:** Involves more complex management, including data partitioning (sharding), consistency, and coordination across multiple nodes.
+- **Consistency:** Maintaining consistency across distributed nodes can be challenging, often requiring additional mechanisms like distributed transactions or eventual consistency models.
+- **Data Distribution:** Requires careful design of data distribution and routing mechanisms to ensure optimal performance.
+
+**When to Use:**
+
+When dealing with large datasets, high traffic volumes, or applications that need to scale dynamically.
+When designing systems that must be resilient to hardware failures and require high availability.
+
+## Implementing Horizontal Scaling in MongoDB
+
+### Sharding
+
+Sharding is the process of distributing data across multiple servers, known as shards. Each shard holds a subset of the data, allowing MongoDB to handle large datasets and high throughput more efficiently.
+
+- **Shard:** A single MongoDB instance (or a replica set) that holds a portion of the data.
+- **Shard Key:** A field in the documents used to distribute the data across shards. The choice of shard key is crucial for balancing the load and ensuring efficient querying.
+- **Config Servers:** Store metadata about the sharded cluster and keep track of the location of data across shards. They are used to manage the cluster and provide routing information.
+- **Mongos:**A routing service that directs client requests to the appropriate shard(s) based on the shard key and metadata from the config servers.
+
+**Example:**
+
+Suppose you have a large collection of user data that you want to shard based on user IDs. MongoDB would distribute the data across multiple shards, each responsible for a subset of user IDs. This allows for parallel processing of queries and reduces the load on any single shard.
+
+### Replication in MongoDB
+
+Replication is the process of synchronizing data across multiple servers.
+
+Think about a senario if your main process or Primary instance of your mongo db fails in production, then the Db swiched to the secondary process
+
+Replication provides redundancy and increases data availability with multiple copies of data on different database servers. Replication protects a database from the loss of a single server.
+
+Replication also allows you to recover from hardware failure and service interruptions. With additional copies of the data, you can dedicate one to disaster recovery, reporting, or backup.
+
+MongoDB achieves replication by the use of `Replica Set`.
+
+#### Replica Set
+
+A `replica set` is a group of mongod instances that host the same data set.
+
+In a replica, one node is primary node that receives all write operations. All other instances, such as secondaries, apply operations from the primary so that they have the same data set.
+
+Replica set can have only one primary node.
+
+#### Oplog (operations log)
+
+`oplog` (operations log) to ensure that all nodes in a replica set maintain consistent data. The `oplog` is a key component in the replication process, allowing secondary nodes to replicate the operations that occur on the primary node.
+
+- The oplog records all write operations on the primary node in a replica set.
+- Secondary nodes replicate these operations by continuously reading and applying entries from the oplog.
+- The oplog ensures that all nodes in the replica set have an identical copy of the data, supporting automatic failover and data redundancy.
+- The size of the oplog and its proper management are crucial for the efficient operation of the replica set, especially in maintaining synchronization and handling failover scenarios.
+
+### Combining Sharding and Replica Sets
+
+In a typical production setup, MongoDB clusters combine both sharding and replica sets to achieve high scalability, availability, and reliability:
+
+- **Sharded Cluster:** Manages the distribution of data across multiple shards. Each shard may be a replica set to ensure high availability and fault tolerance.
+
+- **Replica Sets within Shards:** Provides redundancy and failover support for each shard. This means that even if a shard fails, other replicas can continue to provide data and services.
+
+### Journaling in MongoDB
+
+Journaling is a crucial feature in MongoDB that helps ensure data durability and recoverability in the event of a server crash or unexpected shutdown.
+
+#### The Problem Without Journaling
+
+In typical MongoDB operations, when data is written to a collection, it is first mapped to an in-memory view known as the `shared view`. MongoDB periodically flushes this in-memory data to the disk, typically every 60 seconds. However, this creates a window of vulnerability. If the server crashes within this 60-second period, any data that was in the shared view but not yet written to disk would be lost.
+
+1. **Shared View vs. Private View:**
+
+- The shared view is the in-memory view that reflects the current state of the data, visible to operations.
+
+- The private view is a snapshot of the shared view taken before any modifications are made. Changes are first applied to this private view before being committed to the shared view.
+
+2. **Journal File:**
+
+- The journal file is where MongoDB logs the intent of every operation before it modifies the data. This file doesn’t store the actual data but rather a record of all operations (like inserts, updates, deletes) that have been performed.
+
+- Each write operation is first recorded in the journal file and then applied to the private view. Once the data is safely written to the journal, MongoDB can proceed with applying changes to the shared view.
+
+3. **Data Recovery Using the Journal:**
+
+- If the server crashes, MongoDB can use the journal file to recover the data that was in the process of being written but not yet flushed to disk.
+
+- Upon restart, MongoDB reads the journal file, replays the recorded operations, and applies them to the shared view. This allows MongoDB to "replay" the operations that would have otherwise been lost due to the crash.
+
+4. **Journal Commit Interval:**
+
+- MongoDB commits the journal to disk every 100 milliseconds by default, which significantly reduces the risk of data loss compared to the 60-second flush interval of the shared view.
+
+## CAP THEOROM
+
+The CAP theorem states that in a distributed system, it is impossible to guarantee all three of the following properties simultaneously: **Consistency**, **Availability**, and **Partition Tolerance**. Instead, a system can only achieve at most two of these properties at the same time.
+
+### 1. Consistency
+
+Consistency means that every read operation in the distributed system returns the most recent write. In other words, all nodes in the system see the same data at the same time. If a system is consistent, then after a write operation is completed, all subsequent reads will reflect that write.
+
+**Example:** Imagine a distributed database with three nodes. When a write operation (like updating a value) is performed, consistency ensures that all three nodes immediately reflect this change. If you query any of these nodes, you will get the same, up-to-date result.
+
+**Trade-off:** Achieving consistency may require communication between nodes to synchronize data, which can introduce latency. In some scenarios, to maintain consistency, the system might reject a request if not all nodes can be synchronized, thereby impacting availability.
+
+### 2. Availability
+
+Availability ensures that every request (read or write) to the system receives a response, even if some nodes in the system are down. The system remains operational and provides a response to every query, though the response might not always reflect the latest data.
+
+**Example:** In the same distributed database with three nodes, even if one node fails, the system continues to serve read and write requests from the other two nodes. The system prioritizes providing a response over ensuring that all nodes have the most up-to-date data.
+
+**Trade-off:** To maintain high availability, a system might allow for stale data to be served, meaning that not all nodes are guaranteed to be consistent at any given moment. This can result in eventual consistency, where nodes become consistent over time.
+
+### Partition Tolerance
+
+Partition tolerance means that the system continues to operate even if there is a network partition separating different nodes in the distributed system. A network partition can occur due to various reasons, such as network failures, where communication between nodes is disrupted.
+
+**Example:** If a network partition occurs and two nodes in the distributed database cannot communicate with each other, the system can still function. Each partitioned node can continue to process requests independently.
+
+**Trade-off:** To maintain partition tolerance, a system may have to sacrifice either consistency or availability. For example, during a network partition, a system might prioritize availability by continuing to accept writes on both partitions, leading to temporary inconsistency between them.
+
+## MongoDB ACID Transactions
+
+In MongoDB, a transaction is like a package of actions that you want to do all together. Think of it as a to-do list where everything must be completed. If something goes wrong, MongoDB will undo all the changes so that your data remains safe and consistent.
+
+### What Are ACID Transactions?
+
+A transaction is a set of operations that are executed as a single, atomic unit. Transactions provide data consistency by ensuring that either all the operations within the transaction are committed to the database or none of them are.
+
+ACID Properties ensures the integrity and reliability of the database. The term ACID stands for **Atomicity**, **Consistency**, **Isolation**, and **Durability**. Let’s understand each of these ACID transaction properties with their examples.
+
+1. **Atomicity**
+
+Atomicity ensures that all the operations within a transaction are completed successfully as a single unit. If any operation within the transaction fails, the entire transaction is rolled back, leaving the database in its original state.
+
+2. **Consistency**
+
+Consistency ensures that a transaction brings the database from one valid state to another valid state, maintaining all defined rules, such as constraints and triggers. If a transaction violates any integrity constraints, it is rolled back, and the database remains consistent.
+
+3. **Isolation**
+
+Isolation ensures that the operations within a transaction are invisible to other operations until the transaction is committed. This means that other operations cannot see the intermediate states of a transaction, preventing issues such as dirty reads or non-repeatable reads.
+
+4. **Durability**
+
+Durability ensures that once a transaction is committed, its changes are permanently stored in the database, even in the event of a system failure. This means that the data is safe and will survive crashes or power outages.
