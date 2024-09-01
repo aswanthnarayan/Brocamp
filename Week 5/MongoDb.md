@@ -119,7 +119,35 @@ BSON supports additional data types that are not available in JSON. Some of thes
 
 ## ObjectId
 
-Each document has a unique identifier (\_id), which is automatically generated as a 12-byte ObjectId.
+In MongoDB, an ObjectId is a unique identifier that is automatically generated for each document in a collection if no `_id` field is provided when the document is created. An ObjectId is a `12-byte` (96-bit) value consisting of different parts that together ensure uniqueness.
+
+An ObjectId consists of the following parts:
+
+1. **Timestamp (4 bytes):** 
+
+The first 4 bytes (32 bits) represent the Unix timestamp in seconds when the ObjectId was generated. This allows you to determine the creation time of a document by extracting the timestamp from the ObjectId.
+
+2. **Machine Identifier (3 bytes):**
+
+ The next 3 bytes (24 bits) represent a unique identifier of the machine (host) where the ObjectId was generated. This is usually derived from the hostname or IP address.
+
+3. **Process Identifier (2 bytes):** 
+
+The following 2 bytes (16 bits) are used to identify the specific process on the machine where the ObjectId was generated. This ensures uniqueness among different processes running on the same machine.
+
+4. **Counter (3 bytes):** 
+
+The final 3 bytes (24 bits) are a randomly incremented counter initialized to a random value. This counter ensures that ObjectIds generated in the same second on the same machine are unique.
+
+```js
+ObjectId("64b5f30e27f54d54af6b1c24")
+```
+Breaking this down into its parts:
+
+* **64b5f30e:** The first 4 bytes (64b5f30e) represent the timestamp when this ObjectId was generated.
+* **27f54d:** The next 3 bytes (27f54d) are the machine identifier.
+* **54af:** The following 2 bytes (54af) are the process identifier.
+* **6b1c24:** The last 3 bytes (6b1c24) are the incrementing counter.
 
 ## Namespace
 
@@ -399,6 +427,33 @@ db.books.find({ rating: { $lte: 8 } });
 // Returns documents where the rating is less than or equal to 8
 ```
 
+**Regex Operator**
+In MongoDB, you can use regular expressions (regex) to perform pattern matching in queries. Regex can be very useful for searching text fields based on patterns rather than exact matches
+
+Syntax:
+
+```js
+db.collection.find({ "field": { $regex: /pattern/, $options: "options" } })
+```
+
+1. To find the documents with Author name start with A
+
+```js
+db.books.find({ "author": { $regex: /^A/ } })
+```
+
+2. To Find all documents where the title field contains any character followed by "Book".
+
+```js
+db.books.find({ "title": { $regex: /.Book/ } })
+```
+
+3. To Find all documents Author names end with s
+
+```js
+db.books.find({ "author": { $regex: /s$/ } })
+```
+
 **Logical Operators:**
 
 1. **`$or`**
@@ -422,6 +477,8 @@ db.books.find({
 
 // Returns documents where the rating is greater than or equal to 8 and the genre includes "genre1"
 ```
+
+
 
 ### Querying Nested Documents
 
@@ -463,6 +520,18 @@ db.books.replaceOne(
 );
 
 // Replaces the entire document with a new one having the specified title, author, and rating
+```
+
+### upsert
+
+In MongoDB, an upsert operation is a combination of "update" and "insert". The upsert option allows an update operation to insert a new document if no document matches the specified query criteria. If a matching document is found, it updates that document; if no matching document is found, it inserts a new document into the collection.
+
+```js
+db.collection.updateOne(
+  { <filter> },         // The filter criteria to find documents
+  { <update> },         // The update operation to apply
+  { upsert: true }      // The upsert option
+)
 ```
 
 ### Querying by Array Values
@@ -627,6 +696,8 @@ db.books.updateOne(
 // Adds "genre4" to the genre array and sorts the array in ascending order
 ```
 
+
+
 ### Field Update Operators
 
 Field update operators allow you to modify specific fields in documents. These operators are often used with update methods like `updateOne()` and `updateMany()`.
@@ -665,6 +736,16 @@ The $unset operator deletes a specified field from a document.
 ```js
 db.books.updateOne({ title: "Book1" }, { $unset: { rating: "" } });
 // Removes the "rating" field from the "Book1" document
+```
+
+5. **$exists**
+
+The $exists operator in MongoDB is used to query documents based on whether a specific field exists or not in the document
+
+```js
+db.books.find({ "author": { $exists: true } })
+
+//return all documents in the books collection where the author field exists
 ```
 
 ### Geospatial Queries
@@ -778,7 +859,85 @@ Output :
 "Index drop successful: title_1"
 ```
 
-### TTL (Time to Live) index
+## TYPES OF INDEXES
+
+### 1. Single-Field Index
+
+Indexes a single field in a document. It improves the efficiency of queries that match or sort by that specific field.
+
+Example:
+```js    
+db.collection.createIndex({ "fieldName": 1 })
+```
+
+The 1 indicates an ascending order; -1 would indicate a descending order
+
+### 2. Compound Index
+
+Indexes multiple fields within a document. It is beneficial for queries that filter on multiple fields.
+
+Example:
+```js
+db.collection.createIndex({ "field1": 1, "field2": -1 })
+```
+
+This creates an index on field1 in ascending order and field2 in descending order.
+
+### 3. Multikey Index
+
+Indexes fields that contain arrays. Each element of the array is indexed separately, which allows for efficient querying of documents that have array fields.
+
+Example:
+```js
+db.collection.createIndex({ "arrayField": 1 })
+```
+### 4. Text Index
+
+Indexes string content for text search. It supports queries using $text and provides capabilities like text search with operators such as `$search` and `$language`.
+
+Example:
+```js
+db.collection.createIndex({ "textField": "text" })
+```
+
+### 5. Hashed Index
+
+Hashes the value of the indexed field. It is useful for queries that involve equality checks (=). It is not suitable for range queries.
+
+Example:
+
+```js
+db.collection.createIndex({ "fieldName": "hashed" })
+```
+
+### 6. Wildcard Index
+
+Indexes all fields or a subset of fields within documents that match a specific pattern, particularly useful when working with documents containing unknown or varying fields.
+
+Example:
+```js
+db.collection.createIndex({ "$**": 1 })
+```
+
+### 7.  Partial Index
+
+Indexes only documents that meet a specific filter expression. It can be used to create smaller and more efficient indexes when not all documents are relevant for a given query.
+
+Example:
+```js
+db.collection.createIndex({ "fieldName": 1 }, { partialFilterExpression: { "status": "active" } })
+```
+
+### 8. Sparse Index
+
+Only indexes documents where the indexed field exists and has a non-null value. It can be used to reduce the size of an index by excluding documents that do not have the indexed field.
+
+Example:
+```js
+db.collection.createIndex({ "optionalField": 1 }, { sparse: true })
+```
+
+### 9. TTL (Time to Live) index
 
 A TTL (Time to Live) index in MongoDB is a special type of index that automatically removes documents from a collection after a certain period of time. This is particularly useful for managing collections that store temporary or time-sensitive data, such as session information, logs, or cached data.
 
@@ -811,7 +970,7 @@ db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
 
 - **Temporary Data:** Clean up temporary or cache data that is no longer needed.
 
-### Geospatial Index
+### 10. Geospatial Index
 
 MongoDB provides robust support for geospatial data and queries, allowing you to store and query data that represents locations on the Earth. This is particularly useful for applications involving location-based services, mapping, and geographical data analysis
 
@@ -1000,6 +1159,16 @@ db.locations.find({
 
 This query finds all locations within a circle centered at [50, 30] with a radius of 10 units.
 
+
+### 11. Unique Index
+
+Ensures that the indexed field(s) do not contain duplicate values across documents. It's often used to enforce uniqueness for fields like email addresses or usernames.
+
+Example:
+```js
+db.collection.createIndex({ "email": 1 }, { unique: true })
+```
+
 ## Grid FS
 
 GridFS is a feature in MongoDB used for storing and retrieving large files (like images, videos, and audio files). It works like a file system within MongoDB, breaking down large files into smaller pieces called "chunks" and storing them in a database.
@@ -1073,6 +1242,19 @@ Fixed-size collections that maintain insertion order and automatically remove th
 - **High-Performance:** Provides fast insertion and retrieval, ideal for scenarios where the latest data is of primary importance.
 
 **Use Case:** Logging, caching, real-time data streams, and other scenarios where only the most recent data is relevant.
+
+```js
+
+db.createCollection(
+  "logs", // collection name
+  {
+    capped: true, //enable capped
+    size: 1048576,  // 1 MB /-- size of collection
+    max: 10000      // Optional: Maximum of 10,000 documents 
+  }
+)
+
+```
 
 ### Time Series Collections
 
@@ -1419,3 +1601,28 @@ Isolation ensures that the operations within a transaction are invisible to othe
 4. **Durability**
 
 Durability ensures that once a transaction is committed, its changes are permanently stored in the database, even in the event of a system failure. This means that the data is safe and will survive crashes or power outages.
+
+
+## Materialized View
+
+A view in MongoDB is a virtual collection that represents the results of an aggregation pipeline query on one or more existing collections. It does not hold any data itself.
+
+**A materialized view is a database object that contains the results of a query, a materialized view is physically stored in the database and needs to be explicitly refreshed when the underlying data changes.**
+
+In MongoDB, materialized views are not natively supported as a built-in feature like they are in some relational databases..
+
+you can achieve a materialized view-like functionality in MongoDB using the $out stage in an aggregation pipeline. The $out stage allows you to write the results of an aggregation pipeline to a new collection or overwrite an existing collection. This effectively materializes the result set of your query, making it available for future queries without recomputing the results each time.
+
+| **Feature**        |                       **Regular View (MongoDB)**                       |          **Materialized View-Like Collection (Using $out)**         |
+|--------------------|:----------------------------------------------------------------------:|:-------------------------------------------------------------------:|
+| **Storage**        | No physical storage (virtual, only the aggregation pipeline is stored) | Physically stored in a new collection                               |
+| **Data Freshness** | Always up-to-date; data fetched dynamically                            | Stale after creation; requires manual or scheduled refreshes        |
+| **Performance**    | May impact performance for complex or frequent queries                 | Faster for repeated access; data is precomputed                     |
+| **Use Cases**      | Real-time data presentation                                            | Reporting, analytics, and dashboards where fast access is necessary |
+| **Read/Write**     | Read-only                                                              | Can be read and written like a regular collection                   |
+
+## Query Routing
+
+Query routing in MongoDB refers to the process of directing client queries to the appropriate shard or replica set member within a sharded or replicated MongoDB cluster. This process is crucial for ensuring that queries are efficiently executed and that the data is retrieved from the correct location
+
+
