@@ -33,7 +33,8 @@ let myVariable;
 
 ## SCOPE
 
-In JavaScript Scope refers to the context in which variables and functions are accessible
+In JavaScript Scope refers to the context in which variables and functions are accessible.
+
 JS has two main type of scope , `Global Scope` and `Local Scope`
 
 ### Global Scope
@@ -55,6 +56,7 @@ console.log(globalVariable); // Accessible
 Local scope refers to variables that are accessible only with in specific part of the code , such as function or block;
 
 **Function Scope**
+
 Variables declared inside a function using `var`, `let`, or `const` are in function scope. They are not accessible outside the function.
 
 ```js
@@ -68,6 +70,7 @@ console.log(functionScoped); // Not accessible, ReferenceError
 ```
 
 **Block Scope**
+
 Variables declared inside a block (e.g., inside `{}`) using `let` or `const` are block-scoped. They are accessible only within that block.
 
 ```js
@@ -81,7 +84,7 @@ console.log(blockScoped); // Not accessible, ReferenceError
 
 ### Lexical Scope
 
-JavaScript uses lexical scoping, meaning the scope of a variable is determined by its position within the source code. Nested functions have access to variables declared in their outer scope.
+Lexical scope refers to the ability of a function to access variables from its outer (enclosing) functions. The scope of a variable is determined by its position in the code, not by where it is used..
 
 ```js
 function outerFunction() {
@@ -98,7 +101,8 @@ outerFunction();
 ```
 
 **LEXICAL ENVIRONMENT**
-A lexical environment in JavaScript refers to the structure that holds variables, function declarations, and the scope in which they exist.
+
+A lexical environment in JavaScript refers to the structure that holds variables, function declarations, and the scope in which they exist..
 
 ### Scope Chain
 
@@ -119,14 +123,39 @@ function shadowTest() {
 shadowTest();
 console.log(shadowVar); // Logs "Global"
 ```
+### Illegal Shadowing
+
+If you create a variable in a global scope with the let keyword and another variable with the var keyword in a block scope but the exact same name, it will throw an error. This is called illegal shadowing
+
+```js
+let name = "Prabir";
+
+if (true) {
+  var name = "kumar";
+  console.log(name);
+}
+
+console.log(name);
+
+//uncaught syntax error
+//it will give error
+```
+
 
 ## HOISTING IN JS
 
-In JavaScript, hoisting is a behavior in which variable and function declarations are moved, or "hoisted," to the top of their containing scope (either global or function scope) during the compile phase before the code is executed. This means that you can use functions and variables before you declare them in the code
+In JavaScript, hoisting is a behavior in which variable and function declarations are moved, or "hoisted," to the top of their containing scope (either global or function scope) during the compile phase, before the code is executed. This means that you can use functions and variables before you declare them in the code
+
+```js
+console.log(myVariable); // Output: undefined
+
+var myVariable = "Hello, world!";
+```
 
 ### VARIABLE HOISTING
 
 When variables are hoisted, only the declarations are hoisted to the top, not the initializations. If you try to access a variable before it is initialized, it will be `undefined`.
+
 **Example with var:**
 
 ```js
@@ -145,6 +174,7 @@ console.log(hoistedVar); // Output: "I am hoisted"
 ```
 
 **Example with let and const:**
+
 Variables declared with `let` and `const` are also hoisted, but they are not initialized. Accessing them before the declaration results in a `ReferenceError`.
 
 ```js
@@ -155,9 +185,10 @@ console.log(hoistedConst); // ReferenceError: Cannot access 'hoistedConst' befor
 const hoistedConst = "I am hoisted";
 ```
 
-**Check functions section before for better understanding**
 
-## FUNCTION HOISTING
+### FUNCTION HOISTING 
+
+**Learn functions in JavaScript first for a better understanding, then come back.**
 
 Function declaration are fully hoisted meaning name and it's body are moved to the top of their containing scope. This allow you to call function before its declaration
 
@@ -182,6 +213,7 @@ hoistedFunction(); // Output: "I am hoisted"
 ```
 
 **Example with Function Expressions:**
+
 Function expressions, including those created with `var`, `let`, or `const`, are not hoisted in the same way. Only the variable declaration is hoisted, not the function assignment.
 
 ```js
@@ -211,7 +243,7 @@ In JS `let` , `var` , `const` used to declare variables. but they have different
 - Variables declared with var are hoisted to the top of their scope and initialized with undefined
   \*Variables declared with var can be re-declared within the same scope.
 
-### LETNot Defined
+### LET
 
 - let is block-scoped, meaning it is only accessible within the block it is declared in (e.g., within {}).
 - Variables declared with let are hoisted but not initialized, leading to a Temporal Dead Zone (TDZ) until the declaration is encountered
@@ -287,7 +319,7 @@ try {
 }
 ```
 
-### UNDEFINED VS NOT DEFINED
+## UNDEFINED VS NOT DEFINED
 
 A variable is said to be `undefined` if it has been declared but not yet assigned a value. This means the variable exists in the current scope but does not have an initialized values
 
@@ -296,9 +328,7 @@ this leads into reference errors
 
 ## Nan
 
-`notdefined` means Th
-`notdefined` means Th
-In JS Nan stands "for Not a Number" , and means by computational results cant be expressed as a meaningful Number
+In JS Nan stands for "Not a Number" , and means by computational results cant be expressed as a meaningful Number
 
 **isNan function** -- this function convert the value to a number and checks if it is a `Nan`
 
@@ -311,6 +341,22 @@ console.log(isNaN(123)); // Output: false
 ## Strict mode
 
 Strict mode is introduced in es5 in JS it is a way to opt into a restricted variant of JS , which help you to catch common coding mistakes and "unsafe" actions such as defining a global variable unintentionally.
+
+In strict mode, defining a variable without using the var, let, or const keywords will throw an error, preventing accidental creation of global variables.
+
+```js
+
+"use strict";
+
+a=10;
+console.log(a);
+console.log('hello');
+
+// gives a reference error
+
+```
+
+without `strict` mode the above code will print `10` following `hello`
 
 ## OPERATORS
 
@@ -363,8 +409,21 @@ Comparison operators are used to compare two values and return a boolean result.
 Logical operators are used to combine or invert boolean values
 
 - **Logical AND (&&):** Returns true if both operands are true.
+
 - **Logical OR (||):** Returns true if at least one operand is true.
+
 - **Logical NOT (!):** Inverts the boolean value.
+
+- **Nullish Coalescing (??):**  returns the right-hand side operand when the left-hand side operand is null or undefined
+
+ex: 
+```js
+const userDefinedValue = null;
+const defaultValue = 'Default Value';
+
+const result = userDefinedValue ?? defaultValue;
+console.log(result); // Output: 'Default Value'
+```
 
 ### BITWISE OPERATORS
 
@@ -441,7 +500,8 @@ typeof 5; // "number"
 
 Conditional statements allow you to perform different actions based on different conditions.
 
-1. **IF ELSE Statements**
+1. ### IF ELSE Statements
+
    The `if...else` statement allows you to execute code based on a condition. You can chain multiple conditions using `else if`
 
 ```js
@@ -458,7 +518,8 @@ if (num > 10) {
 }
 ```
 
-2. **SWITCH Statements**
+2. ### SWITCH Statements
+
    The `switch` statement is another way to handle multiple conditions. It's useful when you have many conditions based on the same variable.
 
 ```js
@@ -483,7 +544,7 @@ switch (fruit) {
 
 Loops allow you to repeat a block of code multiple times.
 
-1. **FOR Loop**
+1. ### FOR Loop
    The `for` loop is the most common type of loop in JavaScript
 
 ```js
@@ -492,7 +553,8 @@ for (let i = 0; i < 5; i++) {
 }
 ```
 
-2. **WHILE LOOP**
+2. ### WHILE LOOP
+
    The `while` loop executes a block of code as long as a specified condition is true.
 
 ```js
@@ -503,7 +565,8 @@ while (i < 5) {
 }
 ```
 
-3. **DO WHILE LOOP**
+3. ### DO WHILE LOOP
+
    The `do...while` loop is similar to the while loop, but it guarantees that the block of code is executed at least once, even if the condition is false.
 
 ```js
@@ -514,7 +577,7 @@ do {
 } while (j < 5);
 ```
 
-4. **FOR IN LOOP**
+4. ### FOR IN LOOP
    The `for...in` loop is used to iterate over the properties of an object.
 
 ```js
@@ -523,9 +586,31 @@ let person = { name: "John", age: 30, city: "New York" };
 for (let key in person) {
   console.log(key + ": " + person[key]);
 }
+
+//output will be
+// name: John
+// age: 30
+// city: New York
 ```
 
-5. **FOR OF LOOP**
+in case of `array` , **for in** loop will iterate through the index of the array ,
+
+ex:
+
+```js
+
+let array = [1,2,3,4];
+
+
+for (let x in array){
+    console.log(x);
+}
+
+// output will be 0,1,2,3
+
+```
+
+5. ### FOR OF LOOP
    The `for...of` loop is used to iterate over iterable objects like arrays, strings, and Node Lists.
 
 ```js
@@ -534,22 +619,26 @@ let numbers = [1, 2, 3, 4, 5];
 for (let num of numbers) {
   console.log(num);
 }
+//output will be 1,2,3,4,5
 ```
 
 ## ERRORS in JS
 
 In errors are categorized into different types , each represent specific kind of problems occurring during the execution of the code
 The main Types are
-**Syntax Errors** - Occur when code does not conform to the syntax of the language
-**Reference Errors** - Occur when try to reference a variable that does not exist or initialized in the current scope
-**Type Error** -Occur when the value is not a expected type
-**Range Error** Occur when a value is not with in the set or range of allowed values , ex: passing an invalid length to array like -1
+
+- **Syntax Errors** - Occur when code does not conform to the syntax of the language
+- **Reference Errors** - Occur when try to reference a variable that does not exist or initialized in the current scope
+- **Type Error** -Occur when the value is not a expected type
+- **Range Error** Occur when a value is not with in the set or range of allowed values , ex: passing an invalid length to array like -1
 
 ## CLOSURE in JS
 
-Closure is the combination of function bundled together with references to its lexical environment . in other words a closure gives you access to an outer function scope from inner function
+Closure is the combination of function bundled together with references to its lexical environment . 
 
-ex:
+ This means that the function has access to variables and functions defined in its outer scope, even after the outer scope has finished executing
+
+**ex:**
 
 ```js
 function x() {
@@ -567,11 +656,17 @@ z(); // This will output 7
 
 ```
 
-## STRINGS
+# STRINGS
 
-### STRING METHODS
+JavaScript are sequences of characters enclosed within quotation marks. They can be defined using either single quotes (') or double quotes (").
 
-1. **charAt(index)**
+```js
+let name = 'Alice';
+```
+
+## STRING METHODS
+
+1. ### charAt(index)
    Returns the character at the specified index
 
 ```js
@@ -579,28 +674,28 @@ let str = "Hello, World!";
 console.log(str.charAt(0)); // "H"
 ```
 
-2. **includes(searchString, position)**
+2. ### includes(searchString, position)
    Checks if a string contains another string.
 
 ```js
 console.log(str.includes("World")); // true
 ```
 
-3. **indexOf(searchValue, fromIndex)**
+3. ### indexOf(searchValue, fromIndex)
    Returns the index of the first occurrence of a specified value.
 
 ```js
 console.log(str.indexOf("o")); // 4
 ```
 
-4. **replace(searchValue, newValue)**
+4. ### replace(searchValue, newValue)
    Replaces a specified value with another value in a string.
 
 ```js
 console.log(str.replace("World", "JavaScript")); // "Hello, JavaScript!"
 ```
 
-5.**trim()**
+5. ### trim()
 Removes whitespace from both ends of a string.
 
 ```js
@@ -608,25 +703,55 @@ let strWithSpaces = "   Hello, World!   ";
 console.log(strWithSpaces.trim()); // "Hello, World!"
 ```
 
-6. **toUpperCase()**
+6. ### toUpperCase()
    Converts a string to uppercase.
 
 ```js
 console.log(str.toUpperCase()); // "HELLO, WORLD!"
 ```
 
-7. **toLowerCase()**
+7. ### toLowerCase()
    Converts a string to lowercase.
 
 ```js
 console.log(str.toLowerCase()); // "hello, world!"
 ```
+8. ### split()
+Splits a string into an array of substrings based on a specified separator.
+```js
+let str = "apple,banana,orange";
+let fruits = str.split(",");
+console.log(fruits); // ["apple", "banana", "orange"]
+```
+9. ### slice()
+Extracts a part of a string and returns a new string.
 
-## FUNCTIONS IN JS
+```js
+let str = "hello world";
+let substring = str.slice(6);
+console.log(substring); // "world"
+```
+10. ### substring()
+Similar to `slice()`, but handles negative indices differently.
+
+```js
+let str = "hello world";
+
+// Using slice()
+let substring1 = str.slice(6, 11); // "world"
+let substring2 = str.slice(-5, -1); // "world"
+
+// Using substring()
+let substring3 = str.substring(6, 11); // "world"
+let substring4 = str.substring(-5, -1); // "world" (same as substring3)
+
+```
+
+# FUNCTIONS IN JS
 
 A JavaScript function is a block of code designed to perform a particular task.It encapsulates a set of instructions that can be reused throughout a program. Functions can take parameters, execute statements, and return values, enabling code organization, modularity, and reusability in JavaScript programming.
 
-### Function Declaration
+## Function Declaration
 
 A function declaration defines a named function in JavaScript
 
@@ -637,7 +762,7 @@ function greet() {
 greet(); // "Hello!"
 ```
 
-### Function Expressions
+## Function Expressions
 
 A function expression is when a function is assigned to a variable. This contrasts with function declarations, which are standalone functions
 
@@ -651,6 +776,7 @@ greet(); // "Hello!"
 **Key Differences:**
 
 - **Hoisting**: Function declarations are hoisted, meaning they can be called before they are defined in the code. Function expressions are not hoisted.
+
 - **Naming:** Function declarations must have a name, whereas function expressions can be anonymous.
 
 ## ARROW FUNCTION
@@ -663,7 +789,9 @@ const functionName = (parameter1, parameter2, ...) => {
 };
 ```
 
-One of the most significant features of arrow functions is that they do not have their own this context. Instead, they inherit this from the parent scope at the time they are defined. This behavior is known as lexical scoping.
+One of the most significant features of arrow functions is that they do not have their own this context. Instead, they inherit this from the parent scope at the time they are defined (Lexical scoping)
+
+Arrow functions cannot be used as constructors. You cannot create new objects using the new keyword with an arrow function.
 
 ```js
 function Person() {
@@ -676,9 +804,10 @@ function Person() {
 }
 
 const person = new Person();
+
 ```
 
-### HIGHER ORDER FUNCTIONS
+## HIGHER ORDER FUNCTIONS
 
 Higher order functions are functions that operate on other functions by taking them as arguments , returning them or both
 
@@ -688,7 +817,26 @@ Higher order functions are functions that operate on other functions by taking t
 
 examples : `map` , `filter` , `reduce`
 
-### Eval Functions
+```js
+function applyOperation(a, b, operation) {
+    return operation(a, b);
+}
+
+// Define two simple functions: add and multiply
+function add(x, y) {
+    return x + y;
+}
+
+function multiply(x, y) {
+    return x * y;
+}
+
+// Using applyOperation with different functions
+console.log(applyOperation(5, 3, add)); // Output: 8
+console.log(applyOperation(5, 3, multiply)); // Output: 15
+```
+
+## Eval Functions
 
 The Eval function in JS is able to read strings which must be an expression or formula . It basically reads and evaluate if tng might be a calculation
 In strict mode, declaring a variable named eval or re-assigning eval is a SyntaxError
@@ -699,19 +847,17 @@ console.log(eval("2 + 2"));
 // Expected output: 4
 ```
 
-### Pure Functions
+## Pure Functions
 
 Its is a function that does not have side effects and a function that return exact same thing every time that function invoked with same input
 
 ```js
-const array = [1, 2, 3];
-
-function addElementToArray(a, element) {
-  return [...a, element];
+function numberToString(num) {
+  return num.toString();
 }
 ```
 
-### IIFE (Immediately Invoked Function Expressions)
+## IIFE (Immediately Invoked Function Expressions)
 
 IIFE is a JS function that run as soon as the function declared
 
@@ -722,22 +868,19 @@ IIFE is a JS function that run as soon as the function declared
 })();
 ```
 
-### Generator Functions
+## Generator Functions
 
 Regular function only return only once ,Generator function can return multiple values , one after another on demand
 To create generator function use special syntax `function*`
 
 ```js
-function* generatorFunction(){
-    yeild 10;
-    yeild 20;
-    yeild 30;
+function* generatorFunction(a,b){
+    yield a+b;
+    yield a-b ;
 }
-//Calling generate Function
 
-let gen = generatorFunction();
+let gen = generatorFunction(6,5);
 
-console.log(gen.next().value);
 console.log(gen.next().value);
 console.log(gen.next().value);
 
@@ -749,7 +892,36 @@ console.log(gen.next().value);
 1. `value` : the yielded (returned) value
 2. `done` : if the function is completely completed it will be `true` else `false`
 
-### Factory Function
+**COUNTER USING GENERATOR FUNCTION**
+
+```js
+function* countGenerator(){
+    let count = 1;
+   for(let i=0;i<3;i++){
+    yield count++
+   }
+}
+
+
+let count = countGenerator();
+
+console.log(count.next());
+console.log(count.next());
+console.log(count.next());
+console.log(count.next());
+
+```
+output will be
+
+```js
+{ value: 1, done: false }
+{ value: 2, done: false }
+{ value: 3, done: false }
+{ value: undefined, done: true }
+```
+
+
+## Factory Function
 
 Its just a function create an object and return that object , They offer a flexible way to create objects without using `class` or `new`. They can encapsulate private variables and functions.
 
@@ -797,7 +969,23 @@ person1.sayHello(); // Output: Hello, my name is Alice
 person2.sayHello(); // Output: Hello, my name is Bob
 ```
 
-### Prototype
+## Default parameters
+Default parameters in JavaScript allow you to specify default values for function parameters. If a caller does not provide a value for a parameter, the function uses the default value instead. This feature simplifies function definitions and helps avoid undefined or null values.
+
+ex:
+
+```js
+function createUser(name = "Anonymous", age = 18) {
+  return `Name: ${name}, Age: ${age}`;
+}
+
+console.log(createUser());                  // Output: "Name: Anonymous, Age: 18"
+console.log(createUser("Bob"));             // Output: "Name: Bob, Age: 18"
+console.log(createUser("Charlie", 25));    // Output: "Name: Charlie, Age: 25"
+```
+
+
+# Prototype
 
 In JavaScript, the prototype property is used to add properties and methods to a constructor function's prototype. This allows all instances created by the constructor function to share the same methods, which is more memory-efficient and helps with code organization.
 
@@ -827,11 +1015,11 @@ person1.sayHello(); // Output: Hello, my name is Alice
 person2.sayHello(); // Output: Hello, my name is Bob
 ```
 
-## Inheritance In JS
+# Inheritance In JS
 
 Inheritance in JavaScript is a concept that allows one object to inherit properties and methods from another object.
 
-### Prototype-Based Inheritance
+## Prototype-Based Inheritance
 
 In JavaScript, every `object` has a prototype property (except Object.prototype). When you access a property or method on an object, JavaScript will first look for it on that object. If it doesn't find it, it will look for it on the object's prototype. If it still doesn't find it, it will continue up the prototype chain until it reaches `Object.prototype`. If the property or method isn't found anywhere in the chain, undefined is returned.
 
@@ -867,7 +1055,7 @@ dog1.speak(); // Output: Buddy makes a sound.
 dog1.bark(); // Output: Buddy barks.
 ```
 
-## OBJECTS
+# OBJECTS
 
 Objects is one of the data types in JS , it used to store values in **key:value** pairs , Objects are mutable in JS
 
@@ -894,7 +1082,7 @@ The `delete` keyword delete property from an object in above case
 
 `delete person.id ;`
 
-### Object Methods
+## Object Methods
 
 Object methods are actions that can performed on objects
 
@@ -1067,11 +1255,11 @@ let user = {
 };
 ```
 
-## CALL APPLY BIND
+# CALL APPLY BIND
 
 These methods are powerful tools in JavaScript for function borrowing and ensuring that functions execute in the desired context.
 
-1. **CALL**
+1. ## CALL
    Using `call` method, we can borrow a function from one object and use it for another object.
 
 Consider an object
@@ -1119,7 +1307,7 @@ let printFullname = function (hometown) {
 printFullname.call(name, "Kannur");
 ```
 
-2. **APPLY**
+2. ## APPLY
 
 The `apply` method works similarly to `call`. The only difference is that instead of passing arguments individually in the `apply` method, you pass them as an array.
 
@@ -1141,7 +1329,7 @@ let printFullname = function (hometown, state, country) {
 printFullname.apply(name, ["Kannur", "Kerala", "India"]);
 ```
 
-3. **BIND**
+3. ## BIND
    The `bind` method creates a copy of the function and binds it with the object. It doesn't invoke the function directly; instead, it stores the function in a variable so you can call it later.
 
 ```js
@@ -1154,7 +1342,7 @@ let printName = printFullname.bind(name, "Kannur");
 printName(); // This will invoke the function
 ```
 
-## CURRYING
+# CURRYING
 
 Currying transforms a function that takes multiple arguments into a series of functions that each take a single argument.
 
@@ -1183,7 +1371,7 @@ console.log(multiplyBy2(3)); // Outputs: 6
 
 Currying improves reusability, readability, and flexibility of the code.
 
-## CLASSES
+# CLASSES
 
 In JavaScript Classes are the blue print to create an object
 
@@ -1212,7 +1400,7 @@ const person1 = new Person("Alice", 30);
 console.log(person1.describe()); // Output: Alice is 30 years old.
 ```
 
-### Inheritance
+## Inheritance
 
 Classes can inherit from other classes using the `extends` keyword. This allows a class to inherit properties and methods from another class.
 
@@ -1244,7 +1432,7 @@ dog1.speak(); // Output: Buddy makes a sound.
 dog1.bark(); // Output: Buddy barks.
 ```
 
-### Getters and Setters
+## Getters and Setters
 
 Getters and setters allow you to define methods that get and set the value of an object’s properties.
 
@@ -1282,7 +1470,7 @@ person3.age = 45;
 console.log(person3.age); // Output: 45
 ```
 
-### Private Fields and Methods
+## Private Fields and Methods
 
 Private fields and methods are defined using the # prefix and can only be accessed within the class.
 
@@ -1310,7 +1498,7 @@ console.log(person4.name); // Output: Eve
 console.log(person4.age); // Output: 35
 ```
 
-## ARRAYS
+# ARRAYS
 
 You can create an array in a few different ways:
 
@@ -1326,9 +1514,9 @@ let fruits = ["Apple", "Banana", "Cherry"];
 let fruits = new Array("Apple", "Banana", "Cherry");
 ```
 
-### COMMON ARRAY METHODS
+## COMMON ARRAY METHODS
 
-1. **push()**
+1. ### push()
    Adds one or more elements to the end of an array and returns the new length of the array.
 
 ```js
@@ -1336,7 +1524,7 @@ fruits.push("Date");
 console.log(fruits); // Output: ["Apple", "Blueberry", "Cherry", "Date"]
 ```
 
-2. **pop**
+2. ### pop()
    Removes the last element from an array and returns that element.
 
 ```js
@@ -1345,7 +1533,7 @@ console.log(lastFruit); // Output: Date
 console.log(fruits); // Output: ["Apple", "Blueberry", "Cherry"]
 ```
 
-3. **unshift()**
+3. ### unshift()
    Adds one or more elements to the beginning of an array and returns the new length of the array.
 
 ```js
@@ -1353,7 +1541,7 @@ fruits.unshift("Apricot");
 console.log(fruits); // Output: ["Apricot", "Apple", "Blueberry", "Cherry"]
 ```
 
-4. **shift()**
+4. ### shift()
    Removes the first element from an array and returns that element.
 
 ```js
@@ -1362,14 +1550,14 @@ console.log(firstFruit); // Output: Apricot
 console.log(fruits); // Output: ["Apple", "Blueberry", "Cherry"]
 ```
 
-5. **length**
+5. ### length
    Returns the number of elements in an array.
 
 ```js
 console.log(fruits.length); // Output: 3
 ```
 
-6. **forEach()**
+6. ### forEach()
    Creates a new array with the results of calling a function for every array element.
 
 ```js
@@ -1379,7 +1567,7 @@ let upperCaseFruits = fruits.map(function (fruit) {
 console.log(upperCaseFruits); // Output: ["APPLE", "BLUEBERRY", "CHERRY"]
 ```
 
-7. **join()**
+7. ### join()
    Joins all elements of an array into a string, separated by a specified separator.
 
 ```js
@@ -1388,7 +1576,7 @@ console.log(fruitString);
 // Output: "Apple, Banana, Cherry"
 ```
 
-8. **map()**
+8. ### map()
    Creates a new array with the results of calling a function for every array element.
 
 ```js
@@ -1398,7 +1586,7 @@ let upperCaseFruits = fruits.map(function (fruit) {
 console.log(upperCaseFruits); // Output: ["APPLE", "BLUEBERRY", "CHERRY"]
 ```
 
-9. **filter()**
+9. ### filter()
    Creates a new array with all elements that pass a test implemented by a function.
 
 ```js
@@ -1408,7 +1596,7 @@ let longNamedFruits = fruits.filter(function (fruit) {
 console.log(longNamedFruits); // Output: ["Blueberry", "Cherry"]
 ```
 
-10. **reduce()**
+10. ### reduce()
     Executes a reducer function on each element of the array, resulting in a single output value.
 
 ```js
@@ -1419,7 +1607,7 @@ let sum = numbers.reduce(function (total, num) {
 console.log(sum); // Output: 10
 ```
 
-11. **sort()**
+11. ### sort()
     Sorts the elements of an array in place and returns the sorted array. By default, it sorts elements as strings.
 
 ```js
@@ -1427,7 +1615,7 @@ fruits.sort();
 console.log(fruits); // Output: ["Apple", "Banana", "Cherry"]
 ```
 
-12. **indexOf()**
+12. ### indexOf()
     Returns the first index at which a given element can be found in the array, or -1 if it is not present.
 
 ```js
@@ -1435,7 +1623,7 @@ let index = fruits.indexOf("Banana");
 console.log(index); // Output: 1
 ```
 
-13. **reverse()**
+13. ### reverse()
     Reverses the order of the elements in an array in place.
 
 ```js
@@ -1443,7 +1631,7 @@ fruits.reverse();
 console.log(fruits); // Output: ["Cherry", "Banana", "Apple"]
 ```
 
-14. **slice()**
+14. ### slice()
     Returns a shallow copy of a portion of an array into a new array. It does not modify the original array
     `array.slice(start, end)`
 
@@ -1454,7 +1642,7 @@ console.log(slicedFruits); // Output: ["Banana", "Cherry"]
 console.log(fruits); // Output: ["Apple", "Banana", "Cherry", "Date"]
 ```
 
-14. **splice()**
+14. ### splice()
     Changes the contents of an array by removing, replacing, or adding elements. It modifies the original array
     `array.splice(start, deleteCount, item1, item2, ...)`
 
@@ -1464,17 +1652,17 @@ fruits.splice(1, 2, "Kiwi", "Mango"); // Removes "Banana" and "Cherry", adds "Ki
 console.log(fruits); // Output: ["Apple", "Kiwi", "Mango", "Date"]
 ```
 
-## SPREAD AND REST OPERATORS
+# SPREAD AND REST OPERATORS
 
-### SPREAD OPERATOR
+## SPREAD OPERATOR
 
 The spread operator is used to expand an iterable (like an array or object) into individual elements. It's represented by three dots ( ... ).Spread operator expands elements.
 
-### REST OPERATOR
+## REST OPERATOR
 
 The rest operator collects multiple elements into a single array. It's also represented by three dots ( ... ) but is used in function parameters.Rest operator collects elements into an array.
 
-## DESTRUCTURING
+# DESTRUCTURING
 
 ## OBJECT DESTRUCTURING
 
@@ -1493,7 +1681,7 @@ console.log(firstName); // Output: John
 console.log(lastName); // Output: Doe
 ```
 
-### ARRAY DESTRUCTURING
+## ARRAY DESTRUCTURING
 
 Array destructuring is a syntax that allows you to unpack elements from an array into distinct variables. It provides a concise way to assign values from an array to variables.
 
@@ -1506,7 +1694,7 @@ console.log(second); // Output: 2
 console.log(third); // Output: 3
 ```
 
-## SHALLOW COPY AND DEEP COPY
+# SHALLOW COPY AND DEEP COPY
 
 ### SHALLOW COPY
 
@@ -1521,14 +1709,14 @@ Deep copies are safer but more expensive in terms of performance
 
 `JSON.parse(JSON.stringify())` used for perform deep copy
 
-## SET
+# SET
 
 A `set` is a collection of unique values .It allows you to store any type of values primitive or object reference
 
 - A `set` cannot contain duplicate values
 - Values are ordered by insertion order
 
-### Methods ad Properties of SET
+## Methods ad Properties of SET
 
 - **new Set():** Create new set object
 - **set.add(value):** Add values to the set . Returns the Set object.
@@ -1556,14 +1744,14 @@ set.clear();
 console.log(set); // Set {}
 ```
 
-## WEAK SET
+# WEAK SET
 
 A `WeakSet` is similar to a Set, but it can only contain objects, and the references to the objects are weak. This means that if there are no other references to an object stored in the `WeakSet`, it can be garbage collected.
 
 - Can only store object references, not primitive values.
 - Objects in a WeakSet can be garbage collected if there are no other references to them.
 
-### Methods and properties of WEAK SET
+## Methods and properties of WEAK SET
 
 - **new WeakSet([iterable]):** Creates a new WeakSet object. Optionally accepts an iterable object (e.g., array of objects) to initialize the set with.
 - **weakSet.add(value):** Adds an object to the WeakSet. Returns the WeakSet object.
@@ -1589,14 +1777,14 @@ obj2 = null; // Remove the reference to the object
 // The object { name: 'Jane' } can now be garbage collected
 ```
 
-## MAP
+# MAP
 
 A `Map` is a collection of key-value pairs where keys can be of any type, including objects, functions, and primitives.
 
 - Keys can be of any type.
 - Keys are ordered by insertion order.
 
-### Methods and Properties of MAP
+## Methods and Properties of MAP
 
 - **new Map([iterable]):** Creates a new Map object. Optionally accepts an iterable object (e.g., an array of key-value pairs) to initialize the map.
 - **map.set(key, value):** Adds or updates an element with the specified key and value. Returns the Map object.
@@ -1627,14 +1815,14 @@ map.clear();
 console.log(map.size); // 0
 ```
 
-## WEAK MAP
+# WEAK MAP
 
 A `WeakMap` is a collection of key-value pairs where the keys are weakly referenced, and must be objects.
 
 - Keys must be objects.
 - Keys are weakly referenced, meaning if there are no other references to the key object, it can be garbage collected.
 
-### Methods and properties of WEAK MAP
+## Methods and properties of WEAK MAP
 
 - **new WeakMap([iterable]):** Creates a new WeakMap object. Optionally accepts an iterable object (e.g., an array of key-value pairs) to initialize the weak map.
 - **weakMap.set(key, value):** Adds or updates an element with the specified key and value. Returns the WeakMap object.
@@ -1661,7 +1849,7 @@ obj2 = null; // Remove the reference to the object
 // The object { name: 'Bob' } can now be garbage collected
 ```
 
-## CALLBACK FUNCTION IN JAVASCRIPT
+# CALLBACK FUNCTION IN JAVASCRIPT
 
 A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
 
@@ -1705,13 +1893,13 @@ doSomething(function (result1) {
 });
 ```
 
-### INVERSION OF CONTROL
+## INVERSION OF CONTROL
 
 Inversion of control in JS is function or method does not control the flow of execution directly. Instead, it delegates control to another function that is passed as an argument. This is commonly seen in asynchronous programming and event handling.
 
-## HOW JAVASCRIPT WORKS
+# HOW JAVASCRIPT WORKS
 
-### EXECUTION CONTEXT
+## EXECUTION CONTEXT
 
 Everything in Js happened inside a execution Context
 Execution context have 2 phases
@@ -1728,23 +1916,23 @@ Execution context have 2 phases
 - in this phase JS allocate original value of variables to them
 - Whenever a new function is invoked a brand new execution context is created
 
-### CALL STACK
+## CALL STACK
 
 The call stack in JavaScript is a mechanism for managing the execution context of code. It keeps track of function calls, allowing the JavaScript engine to know what function is currently being executed and what function called it. When a function is called, a new execution context is created and pushed onto the stack. When the function completes, its execution context is popped off the stack.
 
-### WEB API
+## WEB API
 
 Functions like `setTimeout`, `fetch`, `console`, and `event listeners` are provided by the browser and run in the background. These APIs are not part of the JavaScript runtime but are available in the environment (browser or Node.js).
 
-### CALLBACK QUEUE
+## CALLBACK QUEUE
 
 When an asynchronous operation completes, its callback function is placed in the callback queue.
 
-### EVENT LOOP
+## EVENT LOOP
 
 This is a constantly running process that checks the call stack and the callback queue. If the call stack is empty, the event loop moves the first function from the callback queue to the call stack to be executed.
 
-### MICRO TASK
+## MICRO TASK
 
 Micro tasks are high priority tasks like `Promise Callback` , and `MutationObserver Callbacks`
 Microtasks include:
@@ -1753,11 +1941,11 @@ Microtasks include:
 2. **MutationObserver callbacks:** These are triggered by changes to the DOM.
 3. **queueMicrotask:** A function that explicitly adds a microtask to the queue.
 
-### MICRO TASK QUEUE
+## MICRO TASK QUEUE
 
 The micro tasks are stored in micro task queue,the event loop checks the microtask queue before moving to the callback queue.
 
-## PROMISES
+# PROMISES
 
 A promise in JavaScript is an object that represents the eventual completion or failure of an asynchronous operation and its resulting value. It provides a cleaner and more manageable way to handle asynchronous tasks compared to traditional callbacks.
 A Promise contain 3 states
@@ -1796,13 +1984,14 @@ myPromise
 
 Promises help manage asynchronous operations by providing `.then()` for success, `.catch()` for errors, and `.finally()` for cleanup.
 
-### PROMISE CHAINING
+## PROMISE CHAINING
 
 Promise chaining is a technique in JavaScript where multiple promises are linked together in a sequence, with each promise starting after the previous one has been fulfilled. This is accomplished by returning a new promise from the .then() method, which allows subsequent .then() methods to handle the new promise's fulfillment or rejection. This makes handling a sequence of asynchronous operations more manageable and readable.
 
-#### How Promise Chaining Works
+### How Promise Chaining Works
 
 1. **Each .then() returns a new promise:**
+
    When you call .then() on a promise, it returns a new promise that resolves with the value returned from the .then() callback or rejects with an error thrown in the .then() callback. 2.**Next .then() waits for the previous promise:**
    The next .then() in the chain will wait for the previous promise to settle (either resolve or reject) before executing.
 
@@ -1963,11 +2152,11 @@ Promise.any([promise1, promise2]).catch((error) => {
 });
 ```
 
-## ASYNC AWAIT IN JAVASCRIPT
+# ASYNC AWAIT IN JAVASCRIPT
 
 `async` and `await` are built-in keywords in JavaScript that provide a cleaner and more intuitive way to work with asynchronous code, especially promises. They allow you to write asynchronous code in a synchronous-like manner, making it easier to understand and maintain.
 
-### async Functions
+## async Functions
 
 An async function is a function declared with the async keyword. This makes the function automatically return a promise, even if it doesn't explicitly return a promise. If the function returns a value, the promise resolves with that value. If the function throws an error, the promise is rejected with that error.
 
@@ -1979,7 +2168,7 @@ async function fetchData() {
 fetchData().then((result) => console.log(result)); // Output: "Data received"
 ```
 
-### await Keyword
+## await Keyword
 
 The `await` keyword can only be used inside an async function. It makes JavaScript wait until the promise it’s called on settles (either resolved or rejected). It pauses the execution of the async function and resumes when the promise resolves, returning the resolved value. If the promise is rejected, await throws the rejected value.
 
@@ -1996,7 +2185,7 @@ async function fetchData() {
 fetchData();
 ```
 
-### Handling Errors with try/catch
+# Handling Errors with try/catch
 
 Errors in asynchronous code handled with `async/await` can be caught using `try/catch` blocks, just like synchronous code. This makes error handling straightforward and consistent.
 
@@ -2017,13 +2206,43 @@ async function fetchData() {
 fetchData();
 ```
 
-## POLYFILLS
+# POLYFILLS
 
 A polyfill is a piece of code that provides a feature in older browsers or environments that do not natively support it.
 
 In simpler terms, it's like a patch or workaround that lets you use modern JavaScript features in older browsers.
 
-## JSON
+**Polyfill for filtering even numbers from an array**
+
+```js
+
+if (!Array.prototype.filterEvenNumbers) { // checking this function already exist in prototype of array
+  Array.prototype.filterEvenNumbers = function () {
+    const result = [];
+    
+    // Iterate over the array
+    for (let i = 0; i < this.length; i++) {
+      if (this[i] % 2 === 0) {
+        result.push(this[i]);
+      }
+    }
+
+    return result;
+  };
+}
+
+// Usage of filterEvenNumbers
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Filter even numbers
+const evenNumbers = numbers.filterEvenNumbers();
+
+console.log(evenNumbers); // Output: [2, 4, 6, 8, 10]
+```
+
+Now You can call filterEvenNumbers directly on any array to filter out only the even numbers . 
+
+# JSON
 
 JSON stands for JavaScript Object Notation. It's a lightweight data-interchange format that's easy for humans to read and write, and easy for machines to parse and generate
 JSON is based on two structures:
@@ -2061,7 +2280,7 @@ const jsonString2 = JSON.stringify(person2);
 console.log(jsonString2); // Output: {"name":"Bob","age":30}
 ```
 
-## DOM MANIPULATION
+# DOM MANIPULATION
 
 The DOM is a hierarchical representation of a web page, where each element, such as headers, paragraphs, links, and images, is a node in this structure. By manipulating the DOM, you can dynamically change the content, structure, and style of a web page.
 
@@ -2102,11 +2321,11 @@ The DOM is a hierarchical representation of a web page, where each element, such
 - `element.removeChild(childElement):` Removes a child element from a parent element.
 - `element.remove():` Removes the element itself from the DOM.
 
-## EVENTS
+# EVENTS
 
 Events in JavaScript are actions or occurrences that happen in the browser, such as clicking a button, pressing a key, or loading a page. These events can trigger specific functions, allowing you to create interactive web experiences
 
-### EVENT PROPAGATION
+## EVENT PROPAGATION
 
 Event propagation is how events travel through the DOM tree. When an event is triggered on a particular element, it doesn't just stay on that element; it can move up or down the DOM tree. There are two main phases of event propagation:
 
@@ -2129,13 +2348,175 @@ document.getElementById("child").addEventListener("click", function (event) {
 });
 ```
 
-### Event Delegation
+## Event Delegation
 
 Event delegation is a technique where you attach a single event listener to a parent element instead of multiple listeners to each child element. This is useful when you have many elements, like a list of items, and want to handle events for all of them.
 
-//Toics to cover
-##MEMOIZATION
-##DEBOUNCING
-##THROTLING
+
+# Type Casting
+Type casting in JavaScript refers to the process of converting a value from one data type to another.
+
+## Implicit Type Casting (Type Coercion)
+Implicit type casting, also known as type coercion, occurs automatically when JavaScript converts a value from one type to another as needed. This happens when performing operations between different types, and JavaScript tries to make sense of the operation by converting types automatically
+
+ex:
+
+```js
+let result = '5' + 3;
+console.log(result); // Output: '53'
+```
+Here number `3` is implicitly converted to a string and concatenated with `'5'`, resulting in `'53'`.
+
+## Explicit Type Casting (Type Conversion)
+Explicit type casting occurs when you manually convert a value from one type to another using JavaScript functions or methods. This gives you more control over how the conversion is performed.
+
+ex:
+
+```js
+let str = '456';
+let num = Number(str);
+console.log(num); // Output: 456
+```
+
+Here string `'456'` explicitly converted to a number using `Number` method.
+
+
+# MEMOIZATION
+Memoization is an optimization technique used to improve the performance of functions by caching their results. It avoids redundant calculations by storing previously computed values and reusing them when the same inputs occur again.
+
+## How Memoization Works
+
+1. **Cache Results:** When a function is called with a particular set of arguments, the result is stored in a cache (e.g., an object or Map).
+
+2. **Check Cache:** On subsequent calls with the same arguments, the function checks the cache for a stored result instead of recalculating it.
+3. **Return Cached Value:** If a cached result is found, it is returned immediately. If not, the function computes the result, stores it in the cache, and then returns it.
+
+## BENEFITS
+
+* **Performance Improvement:** Reduces the time complexity of functions with repetitive calculations by avoiding redundant work
+
+* **Efficiency:** Especially useful for functions with expensive or time-consuming operations, such as recursive algorithms or API calls
+
+ex:
+
+**Memoization for a function that calculates the Fibonacci sequence**
+
+```js
+function memoize(fn) {
+  const cache = new Map();
+  
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    const result = fn(...args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+// Fibonacci function without memoization
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+// Memoized Fibonacci function
+const memoizedFibonacci = memoize(fibonacci);
+
+console.log(memoizedFibonacci(10)); // Calculates and caches results
+console.log(memoizedFibonacci(10)); // Returns cached result
+```
+
+# DEBOUNCING 
+
+Debouncing is a way of delaying the execution of a function until a certain amount of time has passed since the last time it was called. This can be useful for scenarios where we want to avoid unnecessary or repeated function calls that might be expensive or time-consuming.
+
+ex:
+
+```js
+const debounce = (mainFunction, delay) => {
+  // Declare a variable called 'timer' to store the timer ID
+  let timer;
+
+  // Return an anonymous function that takes in any number of arguments
+  return function (...args) {
+    // Clear the previous timer to prevent the execution of 'mainFunction'
+    clearTimeout(timer);
+
+    // Set a new timer that will execute 'mainFunction' after the specified delay
+    timer = setTimeout(() => {
+      mainFunction(...args);
+    }, delay);
+  };
+};
+```
+
+## Benefits of Debouncing
+
+* **Performance Improvement:** Reduces the number of function executions by grouping multiple rapid triggers into a single execution.
+
+* **Resource Efficiency:** Helps avoid unnecessary computations or API calls, improving overall application performance.
+
+# THROTTLING
+Throttling is a technique that limits how often a function can be called in a given period of time. It is useful for improving the performance and responsiveness of web pages that have event listeners that trigger heavy or expensive operations, such as animations, scrolling, resizing, fetching data, etc.
+
+Throttling can improve the performance and user experience of web pages by reducing the number of unnecessary or redundant operations. It can also prevent some issues such as:
+
+* Overloading the server or the browser with too many requests or calculations
+* Exceeding the rate limits or quotas of APIs or services
+* Wasting bandwidth or resources on operations that are not visible or relevant to the user
+* Creating janky or laggy animations or interactions
+
+ex:
+
+```js
+// Define a function that fetches some data from an API
+function fetchData() {
+  console.log("Fetching data...");
+  // Simulate an API call with a random delay
+  setTimeout(() => {
+    console.log("Data fetched!");
+  }, Math.random() * 1000);
+}
+
+// Throttle the fetchData function with a delay of 5000 ms
+const throttledFetchData = throttle(fetchData, 5000);
+
+// Add an event listener to the window scroll event that calls the throttledFetchData function
+window.addEventListener("scroll", throttledFetchData);
+```
+
+Use Throttling when :
+
+* Fetching data from an API or a database when the user scrolls, resizes, or types
+* Updating or animating elements on the page when the user scrolls, resizes, or moves the mouse
+* Logging or tracking user actions or events when they occur frequently
+
 ##Lazy loading
-##PWA (Progressive Web Apps)
+
+# 
+**Please also refer to these topics to master JavaScript also practice practice more...** ,
+
+*Composition*
+
+*flat & flat-map* 
+
+*Babel and Webpack*
+
+*enum*
+
+*Promisify*
+
+*Progressive Web Apps (PWAs)*
+
+*Circular References in JavaScript Objects*
+
+*Decorators*
+
+*Starvation in JavaScript*
+
+*Memory Heap*
+
+*Just-In-Time (JIT) Compilation*

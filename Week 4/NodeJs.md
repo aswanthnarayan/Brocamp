@@ -1,34 +1,39 @@
 # Node.js
 
-Node.js is an open-source, cross-platform JavaScript runtime environment that allows you to build end-to-end JavaScript applications.
+**Node.js** is a popular, open-source platform that enables developers to build scalable and efficient applications using JavaScript. Unlike traditional JavaScript, which is primarily used in web browsers, Node.js allows you to execute JavaScript code outside the browser environment.
 
-With Node.js, you can run JavaScript code outside the browser. However, in the Node.js environment, you don't have access to some Web APIs like fetch .
+## Key Features of Node.js
 
-Node.js provides lower-level computing capabilities, such as accessing the file system, through C++ bindings using the V8 engine.which is the same engine that powers Google Chrome. This engine compiles JavaScript directly to native machine code, which is part of why Node.js is so fast.
+* **Cross-Platform Compatibility:** Node.js can run on various operating systems, including Windows, macOS, and Linux.
 
-Node.js consists of C++ files that form the core features, and JavaScript files that expose some common utilities and C++ features for easier use.
+* **Event-Driven Architecture:** It employs an asynchronous, non-blocking I/O model, making it ideal for handling concurrent tasks efficiently.
+
+* **Package Manager (npm):** Node.js comes with npm, a powerful package manager that simplifies the process of installing and managing third-party modules.
+
+* **V8 Engine:** Leveraging the V8 JavaScript engine (also used by Google Chrome), Node.js delivers high performance and efficient code execution.
+
+* **Lower-Level Capabilities:** Node.js provides access to lower-level system functionalities, such as file system operations and network communication, through C++ bindings.
+
+## How Node.js Works:
+
+* **JavaScript Code Execution:** When you run a Node.js application, the JavaScript code is parsed and executed by the V8 engine.
+
+* **Asynchronous Operations:** Node.js uses an event-driven model to handle asynchronous operations efficiently. Instead of blocking the main thread, it schedules callbacks to be executed when the operation is complete.
+
+* **C++ Bindings:** For tasks that require direct interaction with the operating system or hardware, Node.js utilizes C++ bindings to provide access to lower-level APIs.
+
+## Benefits of Using Node.js:
+
+**Scalability:** Node.js's event-driven architecture and non-blocking I/O make it well-suited for handling high-traffic applications.
+
+* **Performance:** The V8 engine's efficient compilation and execution of JavaScript code contribute to Node.js's performance.
+
+* **Large Ecosystem:** The extensive npm ecosystem offers a vast collection of reusable modules, saving developers time and effort.
+
+* **Full-Stack Development:** Node.js can be used for both the front-end and back-end of web applications, enabling consistent development workflows.
 
 ![NodeJS Runtime](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/NodeJS_Runtime.png)
 
-## HOW THE WEB WORKS
-
-- Computers connected to internet called clients and servers.
-- Clients are internet-connected devices such as computers or mobile along with web-accessing software available on those devices such as web browsers
-- Servers on the other hand are computers that store web pages, sites , or apps
-
-![client-server-model](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/client-server-model.png)
-
-### HTTP (Hypertext Transfer Protocol)
-
-- A protocol that defines a format for clients and servers to speak to each other.
-- A client sends an HTTP request and the server responds with an HTTP response
-
-### HTTP and Node.js
-
-- We can create a web server using Node.js
-- Node.js has access to operating system functionality like networking
-- Node has an event loop to run tasks asynchronously and its perfect for creating web servers that can simultaneously handle large volume of request
-- Node server we create should still respect HTTP format
 
 ## JavaScript Engine
 
@@ -42,43 +47,43 @@ A JavaScript runtime is an environment that provides all the necessary component
 
 In the browser, most of the time, we interact with the DOM or other Web Platform APIs like Cookies. In contrast, Node.js provides APIs through its modules, such as filesystem access, which are not available in the browser.
 
-**EVENT - DRIVEN - ARCHITECTURE**
+# EVENT - DRIVEN - ARCHITECTURE
 
 Event-Driven Architecture (EDA) is a software design pattern where applications react to events rather than following a predefined flow. 
 
-### How it Works:
+## How it Works:
 
 * **Event Occurs**: A system generates an event, such as a product purchase or a sensor reading change.   
 * **Event Published**: The event producer sends the event to an event broker.   
 * **Event Distributed**: The event broker routes the event to interested consumers based on predefined subscriptions.
 * **Event Consumed**: Consumers process the event and perform actions accordingly.
 
-**Benefits of EDA**
+## Benefits of EDA
 
 * **Decoupling**: Systems become independent, improving scalability and resilience.
 * **Real-time Processing**: Events can be processed immediately, enabling faster responses.   
 * **Scalability**: EDA can handle high volumes of events efficiently.   
 * **Flexibility**: New systems can be easily added or removed without affecting existing ones.
-* ***Improved Efficiency**: By focusing on events, systems can optimize resource utilization.
+* **Improved Efficiency**: By focusing on events, systems can optimize resource utilization.
 
-## MODULE VIEW CONTROLLER (MVC)
+# MODULE VIEW CONTROLLER (MVC)
 
 MVC is a software architecture pattern commonly used for developing user interfaces.
 It divides the related program logic into three interconnected parts:
 
-### Model
+## Model
 
 * Represents the data and business logic.
 * Handles data access, validation, and business rules.   
 * Independent of the user interface.   
 
-### View
+## View
 
 * Responsible for presenting the data to the user.   
 * Defines the visual representation of the data.   
 * Updates the display based on changes in the model.
 
-### Controller
+## Controller
 
 * Handles user interactions and updates the model accordingly.   
 * Acts as an intermediary between the model and the view.   
@@ -96,72 +101,19 @@ In Node Js each file is treated as a separate modules
 * Make your code more modular and maintainable by breaking it down into smaller and simpler units
 * Enable code reuse by allowing you to import and export functionality from other modules
 
-**TYPES OF MODULES**
-
-1. **LOCAL MODULE:** Custom Modules that are created in our application
-2. **BUILT-IN-MODULES** Modules that come with the Node.js installation
-3. **THIRD PARTY MODULES:** These are modules that are developed by other developers and published on npm, the Node.js package manager
-
-## LOCAL MODULES
-
-These are custom modules that you create in your Node.js application. You can load them by using the **require()** function with the relative or absolute path to the module file as the argument.
-
-1. 
-
-```js
-//index.js
-
-console.log("Hello world");
-```
-
-2. 
-
-```js
-//add.js
-
-const add = (a, b) => {
-  return a + b;
-};
-
-const sum = add(1, 2);
-
-console.log(sum);
-```
-
-Consider these two as a separate module , we can access the `add.js` inside the `index.js` using inbuilt `**require()**` function by Node.js.
-
-3. 
-
-```js
-//index.js
-
-require("./add.js"); //or require("./add")
-
-console.log("Hello world");
-```
-
-the output of executing `index.js` will be
-
-```js
-//output
-
-Hello world
-
-```
-
 ## CommonJS
 
 CommonJS is a module standard used in Node.js that defines how modules should be structured and shared. It allows developers to break down code into reusable components by exporting and importing functions, objects, or variables from one module to another.
 
-### Exporting Using CommonJS
 
-#### module.exports
+## module.exports
 
 `module.exports` is an in build object that allows to export functions , objects or variable from one module to another
 we can export multiple thing as properties of object or a single item directly
 other modules can access these export using `require` function
 
-```js// add.js
+```js
+// add.js
 
 const add = (a, b) => {
   return a + b;
@@ -169,13 +121,6 @@ const add = (a, b) => {
 
 module.exports = add;  // Exports the `add` function
 
-//add.js
-
-const add = (a, b) => {
-  return a + b;
-};
-
-module.exports = add;
 ```
 
 ```js
@@ -251,7 +196,7 @@ console.log(math.add(5, 3)); // Outputs: 8
 console.log(math.subtract(5, 3)); // Outputs: 2
 ```
 
-#### exports
+## exports
 
 `exports` is a short hand or ails to `module.exports` . You can use it to add properties or methods to the `module.exports` object.
 
@@ -304,10 +249,10 @@ In the example above, exports is reassigned, so it no longer points to the same 
 
 Each module in Node.js has its own scope. Before a module code is executed Node.js will wrap it inside a function Wrapper that provide a module scope
 
-This method help to avoid conflicts while running code
+This method help to avoid conflicts while running code,
 Also the proper encapsulation and reusability is guaranteed with it
 
-To create the module scope, Node.js uses an Immediately Invoked Function Expression (IIFE) method internally.
+To create the module scope, Node.js uses an **Immediately Invoked Function Expression (IIFE)** method internally.
 
 **example:**
 
@@ -441,12 +386,12 @@ ES modules (ECMAScript modules) in Node.js represent a modern and standardized w
 To use ES6 Module in your Node.js code you must set `"type":"module"` in your `package.json` or use `mjs` as your file extension 
 
 
-### IMporting &  Exporting Using ES MODULES
+## IMporting &  Exporting Using ES MODULES
 
 ES modules use `import` to bring in dependencies and `export` to expose functions, objects, or values from a module.
 This module system is supported natively in modern browsers and Node.js
 
-#### Basic Named Exports and Imports
+### Basic Named Exports and Imports
 
 With named exports, you can export multiple functions, objects, or variables from a module. When importing, you must use the same names as those used in the export.
 
@@ -466,7 +411,7 @@ console.log(add(2, 3)); // Output: 5
 console.log(subtract(5, 3)); // Output: 2
 ```
 
-#### Default Exports
+### Default Exports
 
 Each module can have one default export. A default export can be imported without using curly braces and can be given any name.
 
@@ -488,7 +433,7 @@ console.log(calculator.add(2, 3)); // Output: 5
 console.log(calculator.subtract(5, 3)); // Output: 2
 ```
 
-#### Named Exports
+### Named Exports
 
 Named exports allow you to export multiple values from a module, which can be selectively imported using the exact name as in the export statement
 
@@ -538,7 +483,61 @@ console.log(data);
 
 while importing json file always use `.json` notation , because if there a `js` file with same name in the folder the nod will give precedence to `.js` file .
 
-## BUILT IN MODULES
+
+# TYPES OF MODULES
+
+1. **LOCAL MODULE:** Custom Modules that are created in our application
+2. **BUILT-IN-MODULES** Modules that come with the Node.js installation
+3. **THIRD PARTY MODULES:** These are modules that are developed by other developers and published on npm, the Node.js package manager
+
+# LOCAL MODULES
+
+These are custom modules that you create in your Node.js application. You can load them by using the **require()** function with the relative or absolute path to the module file as the argument.
+
+1. 
+
+```js
+//index.js
+
+console.log("Hello world");
+```
+
+2. 
+
+```js
+//add.js
+
+const add = (a, b) => {
+  return a + b;
+};
+
+const sum = add(1, 2);
+
+console.log(sum);
+```
+
+Consider these two as a separate module , we can access the `add.js` inside the `index.js` using inbuilt `**require()**` function by Node.js.
+
+3. 
+
+```js
+//index.js
+
+require("./add.js"); //or require("./add")
+
+console.log("Hello world");
+```
+
+the output of executing `index.js` will be
+
+```js
+//output
+3
+Hello world
+
+```
+
+# BUILT IN MODULES
 
 Built-in Modules are modules Node.js ships with . It also referred as Core modules .
 You need to import built-in modules before use
@@ -551,7 +550,7 @@ There are many Built-in modules but these are the 5 essential
 4. stream
 5. http
 
-### PATH MODULE
+## PATH MODULE
 
 Path module provides utilities for working with fie and directory paths
 To use the path module, you need to require item
@@ -564,7 +563,7 @@ const path = require("node:path");
 
 Even though it is not necessary to use `node` specifier while import Built-in modules , but it considered as a good practice
 
-#### Methods of Path Modules
+### Methods of Path Modules
 
 1. **path.basename(path):**
    Returns the last portion of a path (the file name or directory name).
@@ -649,13 +648,13 @@ const formattedPath = path.format(pathObject);
 console.log(formattedPath); // Output: '/user/local/bin/file.txt'
 ```
 
-### EVENTS MODULE
+## EVENTS MODULE
 
 The events modules allow us to work with events in Node.js
 An event is an action or an occurrence that happened in our application that we can respond to
 Using events module , we can dispatch our own custom events and respond to those custom events in a non blocking manner
 
-#### Event Emitter
+### Event Emitter
 
 Event module returns a class called EventEmitter which encapsulate functionality to emit events and respond to events Event emitter is an object
 
@@ -682,7 +681,7 @@ emitter.emit("greet", "Aswanth");
 // Output: Hello, Aswanth!
 ```
 
-#### Major Methods of EventEmitter
+### Major Methods of EventEmitter
 
 1. **emitter.on(eventName, listener):**
    Adds a listener function that will be called whenever the specified event is emitted.
@@ -747,7 +746,7 @@ console.log(emitter.getMaxListeners()); // Output: 20 (after using setMaxListene
 console.log(emitter.listenerCount("greet")); // Output: 1 (as one listener was added)
 ```
 
-#### Extending from EventEmitter
+### Extending from EventEmitter
 
 In Node.js, we can extend the EventEmitter class to create custom classes that can emit and listen to events. This allows you to define your own event-driven logic while inheriting the capabilities of `EventEmitter`.
 
@@ -798,6 +797,12 @@ Current order Number = 1
 
 ```
 
+
+## FS MODULE
+
+The File System (`fs`) module allows you to work with the file system on your computer. The fs module has methods that perform both synchronously and asynchronously. Synchronous methods will block (wait) until the file operation is completed before moving to the next line. That's why you should always consider asynchronous methods.
+
+
 **CHARACTER SET**
 
 Character sets are predefined lists of characters represented by numbers
@@ -808,12 +813,7 @@ Popular characters sets are UNICODE and ASCII
 Character encoding dictates how to represent a number in a character set as binary data before it can be stored in a computer. It also determines how many bits are used to represent these numbers.
 Example: UTF-8
 
-
-### FS MODULE
-
-The File System (`fs`) module allows you to work with the file system on your computer. The fs module has methods that perform both synchronously and asynchronously. Synchronous methods will block (wait) until the file operation is completed before moving to the next line. That's why you should always consider asynchronous methods.
-
-#### METHODS OF FS MODULE
+### METHODS OF FS MODULE
 
 1. **Read (`readFileSync / ) :**
    Used to read the contents of a file.
@@ -1047,198 +1047,32 @@ Directory contents (async): [ 'NewDirectory', 'index.js' ]
 ```
 
 
-### STREAM MODULE
-
-A stream is a sequence of data that is being moved from one point to another over time
-
-**Ex:**
-
-- A stream of data being transferred from one file to another with the same computer
-- A stream of data being transferred from one file to another file within the same computer
-
-In the context of `Node.js`, the idea is to process streams of data in chunks as they arrive instead of waiting for the entire data to be available before processing.
-
-ex : Watching a video on Youtube
-
-Stream principle allow to prevent unnecessary data downloads and memory usage 
-
-
-#### BUFFERS
-
-Node.js cannot control the pace at which data arrives in a stream. It can only decide when to send data for processing. If data is already processed or there’s too little data to process, Node.js places the arriving data in a `buffer`.
-
-A `buffer` is an intentionally small area that Node.js maintains in the runtime to temporarily hold stream data before it’s processed.
-
-ex: When you are streaming the video on youtube
-
-- If the connection is fast enough, the stream's speed will fill up the buffer quickly, and it will send the data for processing. This repeats until the stream is finished.
-
-- If the connection is slow, after processing the first chunk of data, YouTube might show a spinner. This spinner indicates that it is waiting for more data to arrive. Once the buffer is filled with the next chunk of data, it sends it for processing, and the video resumes playing.
-
-As the video continues to play, more data is stored in the `buffer` until the stream of data is completed.
-
-
-#### TYPES OF STREAMS
-
-streams are a powerful mechanism for handling reading and writing data. They allow data to be processed piece by piece, which is particularly useful for handling large files or data that is being received in chunks, such as from a network.
-
-1. **Readable Streams**
-   Readable streams are used to read data from a source in chunks. Examples include reading from files or network sockets. You can listen to events like `data`, `end`, and `error` to handle the data as it is received, detect when the stream has finished, or catch any errors that occur.
-
-```js
-const fs = require("node:fs");
-
-const readableStream = fs.createReadStream("input.txt", { encoding: "utf8" });
-
-readableStream.on("data", (chunk) => {
-  console.log("New chunk received:");
-  console.log(chunk);
-});
-
-readableStream.on("end", () => {
-  console.log("No more data to read.");
-});
-
-readableStream.on("error", (err) => {
-  console.error("An error occurred:", err);
-});
-```
-
-In this example if the `input.txt` contains "Hello World," the above code will read it in chunks and log each chunk to the console.
-
-2. **Writable Streams**
-   A Writable stream is used to write data to a destination, such as a file, network socket, or another output. You can write data to the stream in chunks using the `write` method, and end the stream using the `end` method.
-
-```js
-const fs = require("node:fs");
-
-const writableStream = fs.createWriteStream("output.txt", { encoding: "utf8" });
-
-writableStream.write("Hello, ");
-writableStream.write("World!");
-writableStream.end();
-
-writableStream.on("finish", () => {
-  console.log("All data has been written to the file.");
-});
-
-writableStream.on("error", (err) => {
-  console.error("Error writing to the file:", err);
-});
-```
-
-In this example using we can create chunks of data inside the output.txt using writable stream
-
-
-3. **Duplex Streams**
-A Duplex stream is a stream that is both readable and writable. This means it can be used for both reading and writing data. A common example of a duplex stream is a network socket, which allows data to be both sent and received
-
-```js 
-const { Duplex } = require('stream');
-
-const duplexStream = new Duplex({
-    write(chunk, encoding, callback) {
-        console.log(`Writing: ${chunk.toString()}`);
-        callback();
-    },
-    read(size) {
-        this.push('Some data');
-        this.push(null); // No more data
-    }
-});
-
-duplexStream.write('Hello, World!');
-duplexStream.on('data', chunk => {
-    console.log(`Reading: ${chunk.toString()}`);
-});
-```
-4. **Transform Streams**
-A Transform stream is a type of duplex stream where the output is computed based on the input. It is both readable and writable, but the data is modified or transformed as it passes through the stream. An example is a zlib stream for compressing data, where input data is compressed before being output.
-
-```js
-
-const { Transform } = require('stream');
-
-const transformStream = new Transform({
-    transform(chunk, encoding, callback) {
-        const transformedChunk = chunk.toString().toUpperCase();
-        this.push(transformedChunk);
-        callback();
-    }
-});
-
-transformStream.write('hello');
-transformStream.write(' world');
-transformStream.end();
-
-transformStream.on('data', chunk => {
-    console.log(chunk.toString()); // Outputs: 'HELLO WORLD'
-});
-
-```
-
-
-
-#### PIPES
-
-In Node.js, pipes are a mechanism that allows you to connect the output of one stream (usually a readable stream) to the input of another stream (usually a writable stream). This process of connecting streams is called "piping.
-
-![NodeJS Pipes](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/pipes.png)
-
-Pipes in Node.js are created using the pipe() method, which is available on all readable streams. When you call pipe() on a readable stream, it automatically handles the flow of data from the readable stream to the writable stream,including handling **backpressure** to prevent overwhelming the writable stream ,making it simpler to work with streams.
-
-**Backpressure** is a mechanism in Node.js that deals with the flow of data between a readable stream and a writable stream to ensure that the writable stream isn't overwhelmed by the data coming from the readable stream.
-
-```js
-const fs = require("node:fs");
-
-// Create a readable stream for the source file
-const readableStream = fs.createReadStream("source.txt", { encoding: "utf8" });
-
-// Create a writable stream for the destination file
-const writableStream = fs.createWriteStream("destination.txt", {
-  encoding: "utf8",
-});
-
-// Pipe the readable stream into the writable stream
-readableStream.pipe(writableStream);
-
-writableStream.on("finish", () => {
-  console.log("File has been copied successfully.");
-});
-
-writableStream.on("error", (err) => {
-  console.error("An error occurred:", err);
-});
-```
-
-In the above example, if the `source.txt` file contains the text "Hello World," it will be passed to `destination.txt` in chunks using the pipe() method. This process ensures efficient and straightforward file copying while handling backpressure automatically.
-
-
-### PROMISE MODULE
-
-The Promise module in Node.js provides a way to handle asynchronous operations more elegantly, avoiding the so-called "callback hell" or "pyramid of doom.
-
-```js
-const fs = require("fs").promises; // Using the built-in promise version of fs
-
-// Reading a file using Promises
-fs.readFile("example.txt", "utf8")
-  .then((data) => {
-    console.log("File content:", data);
-  })
-  .catch((error) => {
-    console.error("Error reading file:", error);
-  });
-```
-
-
-
-### HTTP MODULE
+## HTTP MODULE
 
 The HTTP module in Node.js allows you to create web servers that can handle HTTP requests and send responses. It's the core module used for building web applications in Node.js.
 
-#### FIRST NODE SERVER
+### HOW THE WEB WORKS
+
+- Computers connected to internet called clients and servers.
+- Clients are internet-connected devices such as computers or mobile along with web-accessing software available on those devices such as web browsers
+- Servers on the other hand are computers that store web pages, sites , or apps
+
+![client-server-model](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/client-server-model.png)
+
+### HTTP (Hypertext Transfer Protocol)
+
+- A protocol that defines a format for clients and servers to speak to each other.
+- A client sends an HTTP request and the server responds with an HTTP response
+
+### HTTP and Node.js
+
+- We can create a web server using Node.js
+- Node.js has access to operating system functionality like networking
+- Node has an event loop to run tasks asynchronously and its perfect for creating web servers that can simultaneously handle large volume of request
+- Node server we create should still respect HTTP format
+
+
+### FIRST NODE SERVER
 
 ```js
 const http = require("node:http");
@@ -1262,7 +1096,7 @@ server.listen(3000, () => {
 - The server listens on port 3000 and responds with "Hello World" to any incoming HTTP request.
 - The `server.listen()` method is correctly closed with a callback that logs the server's status.
 
-#### PASS OBJECT INTO SERVER
+### PASS OBJECT INTO SERVER
 
 In Node.js, you cannot send an object directly in the response. The server expects a string format, so if you want to send an object, you must first convert it to a JSON string using `JSON.stringify()`
 
@@ -1291,7 +1125,7 @@ server.listen(3000, () => {
 
 - Setting the Content-Type to "application/json" tells the client that the response is in JSON format, which is important for the client to correctly interpret the data.
 
-#### PASS OBJECT INTO SERVER
+### PASS OBJECT INTO SERVER
 
 ```js
 const http = require("node:http");
@@ -1336,7 +1170,7 @@ server.listen(3000, () => {
 });
 ```
 
-#### HTTP ROUTING
+### HTTP ROUTING
 
 In this Node.js application, we set up a basic HTTP server with simple routing to handle different URL paths. The server listens for incoming requests on port 3000 and responds with different content based on the URL path requested by the client.
 
@@ -1409,6 +1243,193 @@ server.listen(3000, () => {
 });
 
 ```
+
+## PROMISE MODULE
+
+The Promise module in Node.js provides a way to handle asynchronous operations more elegantly, avoiding the so-called "callback hell" or "pyramid of doom.
+
+```js
+const fs = require("fs").promises; // Using the built-in promise version of fs
+
+// Reading a file using Promises
+fs.readFile("example.txt", "utf8")
+  .then((data) => {
+    console.log("File content:", data);
+  })
+  .catch((error) => {
+    console.error("Error reading file:", error);
+  });
+```
+
+
+
+
+## STREAM MODULE
+
+A stream is a sequence of data that is being moved from one point to another over time
+
+**Ex:**
+
+- A stream of data being transferred from one file to another with the same computer
+- A stream of data being transferred from one file to another file within the same computer
+
+In the context of `Node.js`, the idea is to process streams of data in chunks as they arrive instead of waiting for the entire data to be available before processing.
+
+ex : Watching a video on Youtube
+
+Stream principle allow to prevent unnecessary data downloads and memory usage 
+
+
+### TYPES OF STREAMS
+
+streams are a powerful mechanism for handling reading and writing data. They allow data to be processed piece by piece, which is particularly useful for handling large files or data that is being received in chunks, such as from a network.
+
+1. **Readable Streams**
+
+   Readable streams are used to read data from a source in chunks. Examples include reading from files or network sockets. You can listen to events like `data`, `end`, and `error` to handle the data as it is received, detect when the stream has finished, or catch any errors that occur.
+
+```js
+const fs = require("node:fs");
+
+const readableStream = fs.createReadStream("input.txt", { encoding: "utf8" });
+
+readableStream.on("data", (chunk) => {
+  console.log("New chunk received:");
+  console.log(chunk);
+});
+
+readableStream.on("end", () => {
+  console.log("No more data to read.");
+});
+
+readableStream.on("error", (err) => {
+  console.error("An error occurred:", err);
+});
+```
+
+In this example if the `input.txt` contains "Hello World," the above code will read it in chunks and log each chunk to the console.
+
+2. **Writable Streams**
+
+   A Writable stream is used to write data to a destination, such as a file, network socket, or another output. You can write data to the stream in chunks using the `write` method, and end the stream using the `end` method.
+
+```js
+const fs = require("node:fs");
+
+const writableStream = fs.createWriteStream("output.txt", { encoding: "utf8" });
+
+writableStream.write("Hello, ");
+writableStream.write("World!");
+writableStream.end();
+
+writableStream.on("finish", () => {
+  console.log("All data has been written to the file.");
+});
+
+writableStream.on("error", (err) => {
+  console.error("Error writing to the file:", err);
+});
+```
+
+In this example using we can create chunks of data inside the output.txt using writable stream
+
+
+3. **Duplex Streams**
+A Duplex stream is a stream that is both readable and writable. This means it can be used for both reading and writing data. A common example of a duplex stream is a network socket, which allows data to be both sent and received
+
+```js 
+const { Duplex } = require('stream');
+
+const duplexStream = new Duplex({
+    write(chunk, encoding, callback) {
+        console.log(`Writing: ${chunk.toString()}`);
+        callback();
+    },
+    read(size) {
+        this.push('Some data');
+        this.push(null); // No more data
+    }
+});
+
+duplexStream.write('Hello, World!');
+duplexStream.on('data', chunk => {
+    console.log(`Reading: ${chunk.toString()}`);
+});
+```
+4. **Transform Streams**
+
+A Transform stream is a type of duplex stream where the output is computed based on the input. It is both readable and writable, but the data is modified or transformed as it passes through the stream. An example is a zlib stream for compressing data, where input data is compressed before being output.
+
+```js
+
+const { Transform } = require('stream');
+
+const transformStream = new Transform({
+    transform(chunk, encoding, callback) {
+        const transformedChunk = chunk.toString().toUpperCase();
+        this.push(transformedChunk);
+        callback();
+    }
+});
+
+transformStream.write('hello');
+transformStream.write(' world');
+transformStream.end();
+
+transformStream.on('data', chunk => {
+    console.log(chunk.toString()); // Outputs: 'HELLO WORLD'
+});
+
+```
+
+# PIPES
+
+In Node.js, pipes are a mechanism that allows you to connect the output of one stream (usually a readable stream) to the input of another stream (usually a writable stream). This process of connecting streams is called "piping.
+
+![NodeJS Pipes](https://raw.githubusercontent.com/aswanthnarayan/Brocamp/main/Daigrams/pipes.png)
+
+Pipes in Node.js are created using the pipe() method, which is available on all readable streams. When you call pipe() on a readable stream, it automatically handles the flow of data from the readable stream to the writable stream,including handling **backpressure** to prevent overwhelming the writable stream ,making it simpler to work with streams.
+
+**Backpressure** is a mechanism in Node.js that deals with the flow of data between a readable stream and a writable stream to ensure that the writable stream isn't overwhelmed by the data coming from the readable stream.
+
+```js
+const fs = require("node:fs");
+
+// Create a readable stream for the source file
+const readableStream = fs.createReadStream("source.txt", { encoding: "utf8" });
+
+// Create a writable stream for the destination file
+const writableStream = fs.createWriteStream("destination.txt", {
+  encoding: "utf8",
+});
+
+// Pipe the readable stream into the writable stream
+readableStream.pipe(writableStream);
+
+writableStream.on("finish", () => {
+  console.log("File has been copied successfully.");
+});
+
+writableStream.on("error", (err) => {
+  console.error("An error occurred:", err);
+});
+```
+
+In the above example, if the `source.txt` file contains the text "Hello World," it will be passed to `destination.txt` in chunks using the pipe() method. This process ensures efficient and straightforward file copying while handling backpressure automatically.
+
+# BUFFERS
+
+Node.js cannot control the pace at which data arrives in a stream. It can only decide when to send data for processing. If data is already processed or there’s too little data to process, Node.js places the arriving data in a `buffer`.
+
+A `buffer` is an intentionally small area that Node.js maintains in the runtime to temporarily hold stream data before it’s processed.
+
+ex: When you are streaming the video on youtube
+
+- If the connection is fast enough, the stream's speed will fill up the buffer quickly, and it will send the data for processing. This repeats until the stream is finished.
+
+- If the connection is slow, after processing the first chunk of data, YouTube might show a spinner. This spinner indicates that it is waiting for more data to arrive. Once the buffer is filled with the next chunk of data, it sends it for processing, and the video resumes playing.
+
+As the video continues to play, more data is stored in the `buffer` until the stream of data is completed.
 
 # LIBUV
 
@@ -1561,7 +1582,7 @@ fs.readFile("example.txt", () => console.log("I/O Callback"));
 
 Execution Order: The I/O Callbacks Queue is processed after the Timers phase and before the Poll phase, dealing with I/O events that were not completed in the Poll phase.
 
-##### Poll Phase
+**Poll Phase**
 
 - During the Poll phase, Node.js processes I/O events, executes their callbacks, and fetches new I/O events.
   If there are no timers scheduled, the Event Loop can stay in this phase, waiting for I/O events to occur
@@ -1663,7 +1684,7 @@ example :
 
 - **DevDependencies:** Lists the packages needed only for development, such as testing or build tools.
 
-### Versioning in NPM
+## Versioning in NPM
 
 NPM uses **Semantic Versioning (SemVer)** to manage versions of packages. Versions follow the format MAJOR.MINOR.PATCH.
 
@@ -1725,11 +1746,10 @@ npm run start
 
 # Concurrency & Parallelism
 
-* **Concurrency:** 
-
+## Concurrency
 The ability to handle multiple tasks at once by interleaving their execution. It's about managing multiple tasks over time.   
 
-* **Parallelism:**
+## Parallelism
 
  The ability to execute multiple tasks simultaneously on different processors or cores. It's about executing multiple tasks at the same time.   
 
@@ -1751,13 +1771,11 @@ Event Loop and Callback Queue: The event loop continuously checks the callback q
 * **Simplicity:** Easier to reason about and debug compared to multi-threaded systems.   
 
 
-
-
 # PROCESS IN Node Js
 
  A process represents an instance of a running program. In Node.js, a process can run in the background and execute tasks independently. Each process has its own memory space and resources, such as CPU time, and operates independently of other processes. In Node.js, the process object provides information about the current Node.js process and provides methods to interact with it.
 
- ## CHILD PROCESS IN Node Js
+# CHILD PROCESS IN Node Js
 
  Node.js uses the child_process module to create and manage child processes. This is useful for executing long-running tasks, leveraging multi-core systems, or running shell commands from within a Node.js application. The module provides four main methods to create child processes:
 
@@ -1789,7 +1807,7 @@ This is particularly useful for cases where you need to share data between the m
 
 This method is more suitable for running shell commands or other non-Node.js processes from within a Node.js application.
 
-## Environment Variables
+# Environment Variables
 
 Environment variables are dynamic values that can affect the way running processes behave on a computer. They are used to store configuration settings and information that multiple processes can access, such as
 
@@ -1873,101 +1891,64 @@ if (cluster.isMaster) {
 
  `worker-threads` module, which allows you to create threads and execute multiple JavaScript tasks in parallel. Once a thread finishes a task, it sends a message to the main thread that contains the result of the operation so that it can be used with other parts of the code. The advantage of using worker threads is that CPU-bound tasks don’t block the main thread and you can divide and distribute a task to multiple workers to optimize it.
 
+## Key Features of worker-threads
 
-# Concurrency & Parallelism
+* **Parallel Execution:** Allows running multiple JavaScript tasks simultaneously, leveraging multi-core processors to improve performance for heavy computational tasks.
+* **Non-blocking:** By delegating tasks to worker threads, the main thread remains non-blocking, which is crucial for maintaining application responsiveness.
+* **Inter-thread Communication:** Once a worker thread completes its task, it sends a message back to the main thread with the result, allowing for the synchronization and coordination of tasks across different parts of the application.
+* **Task Distribution:** Tasks can be divided among multiple worker threads to achieve optimized and faster execution.
 
-* **Concurrency:** 
+We can create worker threads using the Worker class.
 
-The ability to handle multiple tasks at once by interleaving their execution. It's about managing multiple tasks over time.   
+ex:
 
-* **Parallelism:**
+```js
+const { Worker, isMainThread, parentPort } = require('worker_threads');
 
- The ability to execute multiple tasks simultaneously on different processors or cores. It's about executing multiple tasks at the same time.   
+if (isMainThread) {
+  // Main thread logic
+  const worker = new Worker(__filename); // Create a new worker thread
 
-**Node.js and Concurrency**
+  // Listen for messages from the worker thread
+  worker.on('message', (result) => {
+    console.log(`Result from worker: ${result}`);
+  });
 
-Node.js is primarily a single-threaded environment. This means it can only execute one piece of code at a time. However, it achieves concurrency through an event-driven, non-blocking I/O model.   
+  // Error handling
+  worker.on('error', (err) => {
+    console.error(`Worker error: ${err}`);
+  });
 
-**How it Works:**
+  // Terminate handling
+  worker.on('exit', (code) => {
+    if (code !== 0) {
+      console.error(`Worker stopped with exit code ${code}`);
+    }
+  });
 
-* **Event Loop:** The core of Node.js's concurrency model. It continuously checks for new events and processes them.   
-* **Non-blocking I/O**: When a Node.js application performs an I/O operation (like reading a file or making a network request), it doesn't block the main thread. Instead, it registers a callback function and continues executing other code.   
-* **Callback Queue:** When the I/O operation completes, the callback is added to a callback queue.
-Event Loop and Callback Queue: The event loop continuously checks the callback queue. Once the call stack is empty, it takes the first callback from the queue and executes it.   
+  // Sending data to the worker thread
+  worker.postMessage('Start task');
+} else {
+  // Worker thread logic
+  parentPort.on('message', (message) => {
+    if (message === 'Start task') {
+      const result = heavyComputation(); // Perform a CPU-bound task
+      parentPort.postMessage(result); // Send the result back to the main thread
+    }
+  });
 
-**Benefits of Node.js's Concurrency Model:**
+  // Sample function for CPU-bound task
+  function heavyComputation() {
+    let count = 0;
+    for (let i = 0; i < 1e9; i++) {
+      count += i;
+    }
+    return count;
+  }
+}
+```
 
-* **High Performance:** Efficiently handles a large number of concurrent connections.   
-* **Scalability:** Can handle increasing loads without requiring additional threads.
-* **Simplicity:** Easier to reason about and debug compared to multi-threaded systems.   
+**Main Thread:** Creates a new Worker instance by passing the current script (__filename). Listens for messages from the worker, handles errors, and terminates gracefully.
 
-
-
-
-
- `worker-threads` module, which allows you to create threads and execute multiple JavaScript tasks in parallel. Once a thread finishes a task, it sends a message to the main thread that contains the result of the operation so that it can be used with other parts of the code. The advantage of using worker threads is that CPU-bound tasks don’t block the main thread and you can divide and distribute a task to multiple workers to optimize it.
-
-
-# Concurrency & Parallelism
-
-* **Concurrency:** 
-
-The ability to handle multiple tasks at once by interleaving their execution. It's about managing multiple tasks over time.   
-
-* **Parallelism:**
-
- The ability to execute multiple tasks simultaneously on different processors or cores. It's about executing multiple tasks at the same time.   
-
-**Node.js and Concurrency**
-
-Node.js is primarily a single-threaded environment. This means it can only execute one piece of code at a time. However, it achieves concurrency through an event-driven, non-blocking I/O model.   
-
-**How it Works:**
-
-* **Event Loop:** The core of Node.js's concurrency model. It continuously checks for new events and processes them.   
-* **Non-blocking I/O**: When a Node.js application performs an I/O operation (like reading a file or making a network request), it doesn't block the main thread. Instead, it registers a callback function and continues executing other code.   
-* **Callback Queue:** When the I/O operation completes, the callback is added to a callback queue.
-Event Loop and Callback Queue: The event loop continuously checks the callback queue. Once the call stack is empty, it takes the first callback from the queue and executes it.   
-
-**Benefits of Node.js's Concurrency Model:**
-
-* **High Performance:** Efficiently handles a large number of concurrent connections.   
-* **Scalability:** Can handle increasing loads without requiring additional threads.
-* **Simplicity:** Easier to reason about and debug compared to multi-threaded systems.   
-
-
-
-
-
- `worker-threads` module, which allows you to create threads and execute multiple JavaScript tasks in parallel. Once a thread finishes a task, it sends a message to the main thread that contains the result of the operation so that it can be used with other parts of the code. The advantage of using worker threads is that CPU-bound tasks don’t block the main thread and you can divide and distribute a task to multiple workers to optimize it.
-
-
-# Concurrency & Parallelism
-
-* **Concurrency:** 
-
-The ability to handle multiple tasks at once by interleaving their execution. It's about managing multiple tasks over time.   
-
-* **Parallelism:**
-
- The ability to execute multiple tasks simultaneously on different processors or cores. It's about executing multiple tasks at the same time.   
-
-**Node.js and Concurrency**
-
-Node.js is primarily a single-threaded environment. This means it can only execute one piece of code at a time. However, it achieves concurrency through an event-driven, non-blocking I/O model.   
-
-**How it Works:**
-
-* **Event Loop:** The core of Node.js's concurrency model. It continuously checks for new events and processes them.   
-* **Non-blocking I/O**: When a Node.js application performs an I/O operation (like reading a file or making a network request), it doesn't block the main thread. Instead, it registers a callback function and continues executing other code.   
-* **Callback Queue:** When the I/O operation completes, the callback is added to a callback queue.
-Event Loop and Callback Queue: The event loop continuously checks the callback queue. Once the call stack is empty, it takes the first callback from the queue and executes it.   
-
-**Benefits of Node.js's Concurrency Model:**
-
-* **High Performance:** Efficiently handles a large number of concurrent connections.   
-* **Scalability:** Can handle increasing loads without requiring additional threads.
-* **Simplicity:** Easier to reason about and debug compared to multi-threaded systems.   
-
-
+**Worker Thread:** Listens for messages from the main thread, executes a CPU-intensive task (heavyComputation), and sends the result back to the main thread.
 

@@ -87,25 +87,57 @@ MongoDB's Aggregation Framework is a powerful tool that allows you to perform op
 
 ## Common Aggregation Stages
 
-1. **$match:** Filters documents based on a condition.
-2. **$group:** Groups documents by a specified field and can perform operations on the grouped data.
-3. **$sort:** Sorts the documents.
-4. **$project:** Shapes the documents by including, excluding, or adding new fields.
-5. **$limit:** Limits the number of documents passed to the next stage.
-6. **$unwind:** Deconstructs an array field from the input documents to output a document for each element.
+1. **$match:**
 
-In MongoDB Atlas, you can run aggregation pipelines directly in the Aggregation tab of a collection.
+ Filters documents based on a condition.
 
-In the MongoDB Shell `(mongosh)`, you can run the aggregation pipeline using the db.collection.aggregate() method. Here's an example:
+2. **$group:** 
+
+Groups documents by a specified field and can perform operations on the grouped data.
+
+3. **$sort:** 
+
+Sorts the documents.
+
+4. **$project:** 
+
+Shapes the documents by including, excluding, or adding new fields.
+
+5. **$limit:** 
+
+Limits the number of documents passed to the next stage.
+
+6. **$unwind:**
+
+ Deconstructs an array field from the input documents to output a document for each element.
+
+**In MongoDB Atlas, you can run aggregation pipelines directly in the Aggregation tab of a collection.**
+
+**In the MongoDB Shell `(mongosh)`, you can run the aggregation pipeline using the db.collection.aggregate() method. Here's an example:**
 
 ```
-
 db.users.aggregate([
   { $match: { isActive: true } },
   { $count: "ActiveUser" }
 ])
 
 ```
+
+## Common Aggregation Operators
+
+1. **$sum:** 
+
+Calculates the sum of numeric values. Used within stages like `$group` or `$project`.
+
+2. **$avg:** 
+
+Computes the average of numeric values. Used within stages like `$group`.
+
+3. **$add:**
+
+Adds numbers, dates, or expressions together. Used within stages like `$project` or `$addFields`.
+
+
 
 | **Aggregation Type**                   |                                               **Description**                                               |                               **Use Case**                               |
 |----------------------------------------|:-----------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------:|

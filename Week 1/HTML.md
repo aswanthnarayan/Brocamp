@@ -45,8 +45,8 @@ HTML is a markup language that tells web browsers how to structure the web pages
 </html>
 ```
 
-## HTML Elements
-HTML elements are the building blocks of HTML documents. They consist of a start tag, content, and an end tag. Here's a comprehensive list of HTML elements:
+# HTML Elements
+HTML elements are the building blocks of HTML documents. They consist of a start tag, content, and an end tag.
 
 ## Basic HTML Elements
 
@@ -157,7 +157,7 @@ HTML elements are the building blocks of HTML documents. They consist of a start
 - `<template>`: Defines a template for client-side content.
 - `<slot>`: Acts as a placeholder inside web components.
 
-## Semantic HTML Elements
+### Semantic HTML Elements
 Semantic elements provide meaning to the web content they enclose. They describe the type of content they contain and help browsers and search engines understand the structure and significance of the content. This improves accessibility and SEO (Search Engine Optimization).
 example:
 - `<header>`
@@ -165,7 +165,7 @@ example:
 - `<nav>`
 - `<article>`
 
-## HTML Attributes
+# HTML Attributes
 HTML attributes provide additional information about HTML elements. They are always included in the opening tag and usually come in name/value pairs like `name="value"`.
 
 ## Common HTML Attributes
@@ -240,8 +240,6 @@ These attributes help define the behavior and presentation of HTML elements, mak
 
 The `<head>` tag in an HTML document contains metadata, links to external resources, and other information that isn't displayed directly on the webpage. The metadata can include things like the title of the document, character set declarations, style sheets, scripts, and other meta-information.
 
-## The `<head>` Tag
-
 The `<head>` tag typically includes:
 
 ### Document Title
@@ -274,7 +272,7 @@ Metadata is data that describes other data. In HTML, metadata is information abo
 - **Browser Behavior**: Affects how the browser handles and displays the content.
 - **Document Information**: Provides essential details about the document such as character encoding and author information.
 
-### Key Metadata Elements
+## Key Metadata Elements
 
 - **`<meta charset="UTF-8">`**: Specifies the character encoding for the document.
 - **`<meta name="description" content="Description of the page">`**: Provides a brief description of the page for search engines.
@@ -293,11 +291,11 @@ Example:
 ```html
 <a href="https://www.mozilla.org/en-US/">the Mozilla homepage</a>
 ```
-## `<iframe>` Element Documentation
+# `<iframe>` Element
 
 The `<iframe>` element in HTML is used to embed another HTML document within the current document. It creates an inline frame, allowing you to display content from another source, such as a different webpage, within a specific area of your page. This is useful for including external content, such as videos, maps, or other web pages, without requiring users to navigate away from your page.
 
-## Attributes
+## Attributes of iframe
 
 ### `src`
 - **Description**: Specifies the URL of the page to display within the iframe.
@@ -474,7 +472,7 @@ Here’s a complete example of a form with various controls:
 
 # HTML TABLE
 
-HTML tables are used to display tabular data in rows and columns. The <table> element is the container for all table-related elements. Here’s a detailed explanation of HTML tables, including the most common elements and attributes.
+HTML tables are used to display tabular data in rows and columns. The `<table>` element is the container for all table-related elements. Here’s a detailed explanation of HTML tables, including the most common elements and attributes.
 
 ## Basic Structure of an HTML Table
 
@@ -485,9 +483,9 @@ A basic HTML table includes the following elements:
 - `<th>`: Defines a header cell in the table.
 - `<td>`: Defines a standard data cell in the table.
 
-### Table Attributes
+## Table Attributes
 
-#### 1. border
+### 1. border
 The border attribute specifies the width of the border around the table.
 
 example:
@@ -496,7 +494,7 @@ example:
     <!-- Table content -->
 </table>
 ```
-#### 2. cellpadding and cellspacing
+### 2. cellpadding and cellspacing
 The cellpadding attribute specifies the space between the cell content and the cell border, while cellspacing specifies the space between cells.
 
 example:
@@ -506,7 +504,7 @@ example:
 </table>
 ```
 
-#### 3. width and height
+### 3. width and height
 The width and height attributes specify the width and height of the table.
 
 example:
@@ -541,7 +539,7 @@ example:
 ```
 
 
-example:
+**example:**
 
 ```html
 <!DOCTYPE html>
@@ -603,3 +601,22 @@ example:
 </body>
 </html>
 ```
+# DEFER attribute
+The `defer` attribute is used to load a script asynchronously but ensures that the script is executed only after the HTML document has been completely parsed.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="script1.js" defer></script>
+  <script src="script2.js" defer></script>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+</body>
+</html>
+```
+Both `script1.js` and `script2.js` will be fetched in parallel, but `script1.js` will execute before `script2.js` once the HTML parsing is complete.

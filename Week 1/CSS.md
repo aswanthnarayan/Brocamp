@@ -1,6 +1,7 @@
 # CSS
 
 CSS (Cascading Style Sheets) is used to style HTML elements. The basic syntax of a CSS rule consists of a selector and a declaration block.
+
 **example**:
 
 ```css
@@ -10,11 +11,11 @@ selector {
 }
 ```
 
-### CSS Selectors
+# CSS Selectors
 
 CSS selectors are used to target HTML elements that you want to style. Here are some common types of selectors
 
-#### 1. Universal Selector
+### 1. Universal Selector
 
 Selects all elements on the page.
 
@@ -25,7 +26,7 @@ Selects all elements on the page.
 }
 ```
 
-#### 2.Element Selector
+### 2.Element Selector
 
 Selects all elements of a specified type.
 
@@ -35,7 +36,7 @@ h1 {
 }
 ```
 
-#### 3. Class Selector
+### 3. Class Selector
 
 Selects all elements with a specified class attribute.
 
@@ -45,7 +46,7 @@ Selects all elements with a specified class attribute.
 }
 ```
 
-#### 4. ID Selector
+### 4. ID Selector
 
 Selects the element with the specified ID
 
@@ -55,7 +56,7 @@ header {
 }
 ```
 
-#### 5. Attribute Selector
+### 5. Attribute Selector
 
 Selects elements based on an attribute or attribute value.
 
@@ -65,7 +66,7 @@ a[target="_blank"] {
 }
 ```
 
-#### 6. Descendant Selector
+### 6. Descendant Selector
 
 Selects elements that are descendants of another element.
 
@@ -75,7 +76,7 @@ div p {
 }
 ```
 
-#### 7. Child Selector
+### 7. Child Selector
 
 Selects elements that are direct children of another element.
 
@@ -85,7 +86,7 @@ ul > li {
 }
 ```
 
-#### 8. Sibling Selectors
+### 8. Sibling Selectors
 
 **_Adjacent Sibling Selector_**: Selects an element that is immediately preceded by a specified element.
 
@@ -103,7 +104,7 @@ color: gray;
 }
 ```
 
-#### 9. Pseudo-class Selector
+### 9. Pseudo-class Selector
 
 Selects elements based on their state or position.
 
@@ -113,7 +114,7 @@ a:hover {
 }
 ```
 
-#### 10. Pseudo-element Selector
+### 10. Pseudo-element Selector
 
 Selects a part of an element.
 
@@ -123,7 +124,7 @@ p::first-line {
 }
 ```
 
-#### 11.Combining Selectors
+### 11.Combining Selectors
 
 You can combine multiple selectors to target more specific elements.
 
@@ -135,7 +136,7 @@ div.intro,
 ```
 
 
-## CSS BOX MODEL
+# CSS BOX MODEL
 
 The CSS Box Model is a fundamental concept that describes how elements on a web page are structured and how space is allocated around them. It consists of four main components:
 
@@ -144,10 +145,10 @@ The CSS Box Model is a fundamental concept that describes how elements on a web 
 - `Border`
 - `Margin`
 
-#### 1. Content
+### 1. Content
 This is the actual content of the box, such as text or an image. It's the innermost part of the box.
 
-#### 2. Padding
+### 2. Padding
 Padding is the space between the content and the border. It creates a transparent area inside the box around the content. You can set different padding values for each side of the box.
 
 Example:
@@ -156,7 +157,7 @@ div {
   padding: 10px; /* Applies 10px padding to all sides */
 }
 ```
-#### 3. Border
+### 3. Border
 The border surrounds the padding (if any) and the content. It can have various styles, widths, and colors.
 
 Example:
@@ -166,7 +167,7 @@ div {
   border: 1px solid black; /* 1px solid black border around the box */
 }
 ```
-#### 4. Margin
+### 4. Margin
 Margin is the space outside the border. It creates a transparent area outside the box, separating it from other elements.
 
 Example:
@@ -195,7 +196,7 @@ div {
 
 ```
 
-### Box Sizing
+# Box Sizing
 
 By default, the width and height properties apply to the content box. You can change this behavior using the box-sizing property.
 
@@ -258,7 +259,7 @@ p {
 }
 ```
 
-### Text Color
+## Text Color
 
 **color**: Sets the color of the text.
 ```css
@@ -267,7 +268,7 @@ p {
 }
 ```
 
-### Text Alignment
+## Text Alignment
 
 **text-align**: Aligns the text within its container (left, right, center, justify).
 ```css
@@ -276,7 +277,7 @@ p {
 }
 ```
 
-### Text Decoration
+## Text Decoration
 
 **text-decoration**: Adds decorations like underline, overline, or line-through.
 ```css
@@ -285,7 +286,7 @@ a {
 }
 ```
 
-### Text Transform
+## Text Transform
 
 **text-transform**: Controls the capitalization of text (uppercase, lowercase, capitalize).
 ```css
@@ -294,7 +295,7 @@ p {
 }
 ```
 
-### Text Indentation
+## Text Indentation
 
 **text-indent**: Sets the indentation of the first line of text.
 ```css
@@ -303,7 +304,7 @@ p {
 }
 ```
 
-### Line Height
+## Line Height
 
 **line-height**: Sets the amount of space between lines of text.
 ```css
@@ -312,7 +313,7 @@ p {
 }
 ```
 
-### Letter Spacing
+## Letter Spacing
 
 **letter-spacing**: Adjusts the spacing between characters.
 ```css
@@ -321,7 +322,7 @@ p {
 }
 ```
 
-### Word Spacing
+## Word Spacing
 
 **word-spacing**: Adjusts the spacing between words.
 ```css
@@ -330,7 +331,7 @@ p {
 }
 ```
 
-### Text Shadow
+## Text Shadow
 
 **text-shadow**: Adds shadow effects to text.
 ```css
@@ -339,7 +340,7 @@ h1 {
 }
 ```
 
-### White Space
+## White Space
 
 **white-space**: Controls how whitespace inside an element is handled (normal, nowrap, pre, pre-wrap, pre-line).
 ```css
@@ -348,7 +349,7 @@ p {
 }
 ```
 
-### Text Overflow
+## Text Overflow
 
 **text-overflow**: Controls how overflowed text is displayed (clip, ellipsis).
 ```css
@@ -359,8 +360,8 @@ p {
 }
 ```
 
-## FLEX BOX
-Flexbox is a layout model that allows you to design complex layouts with ease, aligning items horizontally or vertically.
+# FLEX BOX
+Flex-box is a layout model that allows you to design complex layouts with ease, aligning items horizontally or vertically.
 
 ```css
 .container {
@@ -373,7 +374,7 @@ Flexbox is a layout model that allows you to design complex layouts with ease, a
   flex: 1; /* Grow and shrink items as needed */
 }
 ```
-## GRID 
+# GRID 
 CSS Grid Layout provides a two-dimensional grid-based layout system, allowing for more complex designs.
 
 ```css
@@ -388,10 +389,10 @@ CSS Grid Layout provides a two-dimensional grid-based layout system, allowing fo
 }
 ```
 
-## CSS POSITIONING
+# CSS POSITIONING
 CSS positioning allows you to control the exact position of elements on a page.
 
-### Types of Positioning
+## Types of Positioning
 **`Static`**: Default positioning, flow of the document.
 **`Relative`**: Positioned relative to its normal position.
 **`Absolute`**: Positioned relative to its nearest positioned ancestor.
@@ -418,7 +419,7 @@ CSS positioning allows you to control the exact position of elements on a page.
 }
 ```
 
-## CSS Variables
+# CSS Variables
 CSS Variables (Custom Properties) allow you to define reusable values in your stylesheets.
 
 ```css
@@ -431,10 +432,10 @@ CSS Variables (Custom Properties) allow you to define reusable values in your st
 }
 ```
 
-## CSS TRANSITIONS
+# CSS TRANSITIONS
 CSS transitions and animations are used to create dynamic visual effects and enhance the user experience by animating changes to CSS properties. Here’s a breakdown of each:
 
-### Properties
+## Properties
 - `property`: The CSS property you want to animate (e.g., background-color, width).
 - `duration`: How long the transition takes (e.g., 0.5s, 200ms).
 - `timing-function`: The speed curve of the transition (e.g., linear, ease, ease-in, ease-out, ease-in-out).
@@ -502,7 +503,7 @@ a, b, c, d, e, f: Values for the matrix transformation.
 
 
 
-## ANIMATION
+# ANIMATION
 
 CSS animations provide more control and complexity compared to transitions, allowing you to create keyframe-based animations.
 
@@ -516,7 +517,7 @@ CSS animations provide more control and complexity compared to transitions, allo
   }
 }
 ```
-### Properties
+## Properties
 - `animation-name`: The name of the @keyframes animation.
 - `animation-duration`: The duration of the animation (e.g., 2s, 500ms).
 - `animation-timing-function`: The speed curve of the animation (e.g., linear, ease, ease-in, ease-out, ease-in-out).
@@ -544,7 +545,7 @@ example:
   animation: fadeIn 2s ease-in-out;
 }
 ```
-## Z-INDEX
+# Z-INDEX
 The z-index property in CSS controls the stacking order of positioned elements (those with a position value other than static). It determines which elements appear on top of others when they overlap.
 
 ```css
@@ -552,16 +553,19 @@ selector {
   z-index: value;
 }
 ```
-### Values
+## Values
+
 **Integer Values**:
 - `Positive integers` (e.g., 1, 2, 10) bring the element closer to the front.
 - `Negative integers` (e.g., -1, -10) push the element further behind other elements.
 **Auto**:
 The default value, which means the element will stack according to the document order and other positioning properties.
 
-### Important Considerations
+## Important Considerations
+
 **Positioning**: For z-index to work, the element must have a position property set to relative, absolute, fixed, or sticky.
 **Stacking Context**: z-index only affects stacking within the same stacking context. A new stacking context is created by elements with certain properties, such as position with a z-index value other than auto, opacity less than 1, transform, and others.
+
 
 
 

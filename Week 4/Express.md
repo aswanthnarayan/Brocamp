@@ -19,7 +19,7 @@ app.listen(port, () => {
 
 ```
 
-### PORT
+## PORT
 In Express.js, you can set up the port your application will run on using environment variables. Environment variables allow you to configure your application based on different environments (development, production, etc.) without hardcoding values directly into your code. This practice makes your application more flexible and secure.
 
 ```js
@@ -112,8 +112,9 @@ app.patch('/users/:id', (req, res) => {
 });
 
 ```
-## Idempotency
-Idempotency in HTTP methods refers to the property of certain HTTP methods where making multiple identical requests has the same effect as making a single request. In other words, an idempotent operation can be performed multiple times without changing the result beyond the initial application
+
+## Idempotence
+Idempotence in HTTP methods refers to the property of certain HTTP methods where making multiple identical requests has the same effect as making a single request. In other words, an idempotent operation can be performed multiple times without changing the result beyond the initial application
 
 ### Idempotent Methods:
 
@@ -208,8 +209,11 @@ In an Express app, middleware functions are executed sequentially, forming a mid
 ### Types of Middleware in Express.js
 
 #### Application-Level Middleware
+
 **Definition:** Middleware that is bound to an instance of the Express app object. It can be used across all routes or limited to specific routes.
+
 **Usage:**
+
 It can be used to perform operations like logging, authentication, or any other processing that needs to be applied to all or specific routes.
 
 Example:
@@ -239,8 +243,11 @@ In this example, the middleware logs the request URL for every incoming request.
 #### Router-Level Middleware
 
 **Definition:** Middleware that is bound to an instance of the Express router object. It is used in the same way as application-level middleware, except that it is applied only to the routes within that router.
+
 **Usage:**
+
 Useful for grouping routes together with specific middleware that should only apply to those routes.
+
 Example:
 ```js
 const express = require('express');
@@ -268,7 +275,9 @@ This middleware applies only to routes that start with /info.
 #### Error-Handling Middleware
 
 **Definition:** Middleware that handles errors that occur during the processing of requests. Error-handling middleware is defined with four arguments: err, req, res, and next.
+
 **Usage:**
+
 To catch and handle errors that occur during request processing. It can send error responses to the client or log the error details.
 
 Example:
@@ -295,7 +304,9 @@ Here, if an error occurs, it is caught by the error-handling middleware, which s
 
 #### Built-in Middleware
 **Definition:** Express provides some built-in middleware functions that can be used directly without needing to write custom middleware.
+
 **Common Built-in Middleware:**
+
 1. **express.static:** Serves static files, such as HTML, CSS, and JavaScript.
 2. **express.json:** Parses incoming JSON requests and makes the payload available on req.body.
 3. **express.urlencoded:** Parses incoming requests with URL-encoded payloads (from HTML forms) and makes the data available on req.body.
@@ -456,33 +467,16 @@ npm install express-session
 
 ```
 
-## Node.js process.exitCode Property
-There are two ways that are generally used to terminate a Node.js program which is using process.exit() or process.exitCode variable 
-process.exit code variable is an integer that represents the code passed to the process.exit() function or when the process exits on its own. It allows the Node.js program to exit naturally and avoids the Node program to do additional work around event loop scheduling, and it is much safer than passing exit code to process.exit().
+### Authentication
+Authentication is the process of verifying the identity of a user or system. It's about confirming who someone is.
 
-```js
-const express = require('express')
-const app = express()
- 
-let a = 10;
-let b = 20;
- 
-if (a == 10) {
-    console.log(a)
-    process.exitCode(1);
-}
- 
-console.log(b);
- 
-app.listen(3000, () => console.log('Server ready'))
+### Authorization
+Authorization is the process of determining what an authenticated user is allowed to do. It involves checking permissions or access levels.
 
-
-// output 10
-
-```
 
 
 ## Cross-Origin Resource Sharing (CORS)
+
 CORS is a security feature implemented in web browsers to control how resources (like images, scripts, or APIs) from one origin (domain) can be shared or accessed by another origin. It plays a crucial role in web security by preventing malicious websites from making unauthorized requests to your web server
 
 ```js
@@ -511,6 +505,7 @@ app.listen(3000, () => {
 ```
 
 ## REST API
+
  A REST API (Representational State Transfer Application Programming Interface) is a software architectural style for creating web services. It defines a set of constraints for how the architecture of a distributed, internet-scale hypermedia system, such as the web, should behave.
 
 ### Key Characteristics of REST APIs:
@@ -522,7 +517,7 @@ app.listen(3000, () => {
 * **Layered System:** Multiple layers of servers can be used to improve scalability and security.
 * **Code on Demand (Optional):** Clients can download executable code to extend functionality.
 
-#### Core HTTP Methods in REST APIs
+### Core HTTP Methods in REST APIs
 
 **GET:** Retrieves data from a specified resource.
 **POST:** Creates a new resource.
@@ -531,3 +526,28 @@ app.listen(3000, () => {
 **OPTIONS:** Used to determine the supported HTTP methods for a resource.
 
 
+## Node.js process.exitCode Property
+
+There are two ways that are generally used to terminate a Node.js program which is using process.exit() or process.exitCode variable 
+process.exit code variable is an integer that represents the code passed to the process.exit() function or when the process exits on its own. It allows the Node.js program to exit naturally and avoids the Node program to do additional work around event loop scheduling, and it is much safer than passing exit code to process.exit().
+
+```js
+const express = require('express')
+const app = express()
+ 
+let a = 10;
+let b = 20;
+ 
+if (a == 10) {
+    console.log(a)
+    process.exitCode(1);
+}
+ 
+console.log(b);
+ 
+app.listen(3000, () => console.log('Server ready'))
+
+
+// output 10
+
+```
